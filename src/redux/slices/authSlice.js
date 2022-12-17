@@ -9,6 +9,7 @@ const initialState = {
     username: null,
   },
   accessToken: null,
+  isLogged: false,
 };
 
 const authSlice = createSlice({
@@ -29,7 +30,7 @@ const authSlice = createSlice({
       (state, action) => {
         const { token } = action.payload;
         const { userId, accountNumber, username } =
-          decode(token);
+          action.payload;
 
         state.loggedInUser = {
           userId,
@@ -37,6 +38,7 @@ const authSlice = createSlice({
           username,
         };
         state.accessToken = token;
+        state.isLogged = true;
       },
     );
   },
@@ -44,10 +46,4 @@ const authSlice = createSlice({
 
 export const { logout, setUser, setAccessToken } =
   authSlice.actions;
-export const selectToken = (state) =>
-  state.auth.accessToken;
-export const selectLoggedInUser = (state) =>
-  state.auth.loggedInUser;
-export const selectAccessToken = (state) =>
-  state.auth.accessToken;
 export default authSlice.reducer;

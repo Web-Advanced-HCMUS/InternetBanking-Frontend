@@ -10,12 +10,16 @@ import {
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Link as RouterLink } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {
+  Navigate,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useLoginMutation } from 'api/authApi';
 import Toastify from 'components/Toastify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import logoTimo from '../LoginForm/Logo-timo-V.png';
 
@@ -24,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   //     marginTop: 10,
   //     marginLeft: '12%',
   //   },
+
   eye: {
     position: 'absolute',
     top: 32,
@@ -43,9 +48,11 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm(props) {
   const classes = useStyles();
-  const [login, { isLoading: inProcessing }] =
-    useLoginMutation();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [login, { isLoading }] = useLoginMutation();
+  const { isLogged } = useSelector((state) => state.auth);
+  const { loggedInUser } = useSelector(
+    (state) => state.auth,
+  );
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [checked, setChecked] = useState(false);
@@ -59,15 +66,6 @@ function LoginForm(props) {
   const captchaRef = useRef(null);
 
   const canSubmit = username && password && checked;
-
-  useEffect(() => {
-    // đăng nhập thành công thì quay về trang trước đó
-    const prev = '/';
-    if (isLoggedIn) {
-      console.log(isLoggedIn);
-      navigate(prev);
-    }
-  }, [isLoggedIn]);
 
   const handleUsername = (event) => {
     setUsername(event.target.value);
@@ -87,12 +85,14 @@ function LoginForm(props) {
     const reCaptchaToken = captchaRef.current?.getValue();
 
     try {
-      await login({
-        username,
-        password,
-        reCaptchaToken,
-      }).unwrap();
-      setIsLoggedIn(true);
+      const body = { username, password };
+      await login(body)
+        .unwrap()
+        .then((data) => console.log({ data }))
+        .catch((error) => console.log(error));
+      if (isLogged) {
+        navigate('/');
+      }
     } catch (err) {
       setUsername('');
       setPassword('');
@@ -116,22 +116,19 @@ function LoginForm(props) {
   };
   return (
     <>
-      {
-        !isLoggedIn && error.length !== 0 && (
-          <Toastify
-            message={error}
-            hidden={isLoggedIn}
-            severity="error"
-          ></Toastify>
-        )
-        // ) : (
-        //   <Toastify
-        //     message="Đăng nhập thành công"
-        //     hidden={isLoggedIn}
-        //     severity="success"
-        //   ></Toastify>
-        // )
-      }
+      {!isLogged && error.length !== 0 ? (
+        <Toastify
+          message={error}
+          hidden={isLogged}
+          severity="error"
+        ></Toastify>
+      ) : (
+        <Toastify
+          message="Đăng nhập thành công"
+          hidden={isLogged}
+          severity="success"
+        ></Toastify>
+      )}
       <Box
         sx={{
           display: 'flex',
@@ -151,11 +148,14 @@ function LoginForm(props) {
               alignItems: 'center',
             }}
           >
-            <img
-              src={logoTimo}
-              alt="logoTimo"
-              className={classes.logoTimo}
-            />
+            <Link href="/" underline="hover">
+              <img
+                src={logoTimo}
+                alt="logoTimo"
+                className={classes.logoTimo}
+              />
+            </Link>
+
             <Box
               component="form"
               onSubmit={handleSubmit}
@@ -210,9 +210,10 @@ function LoginForm(props) {
               <LoadingButton
                 type="submit"
                 fullWidth
+                color="secondary"
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                loading={inProcessing}
+                loading={isLoading}
                 disabled={!canSubmit}
               >
                 Đăng nhập
