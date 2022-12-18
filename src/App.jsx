@@ -1,9 +1,5 @@
 import './App.css';
-import {
-  Routes,
-  Route,
-  useLocation,
-} from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import LoginForm from 'containers/LoginForm';
 import { useDispatch } from 'react-redux';
 import AuthLayout from 'layouts/AuthLayout';
