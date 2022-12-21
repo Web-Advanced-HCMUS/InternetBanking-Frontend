@@ -3,10 +3,7 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 import config from 'config/config';
-import {
-  setAccessToken,
-  logout,
-} from 'redux/slices/authSlice';
+import { logout } from 'redux/slices/authSlice';
 
 const RTKQuery = fetchBaseQuery({
   baseUrl: config.path.REACT_APP_SERVER_PATH,
@@ -21,11 +18,7 @@ const RTKQuery = fetchBaseQuery({
   },
 });
 
-const RTKQueryExprired = async (
-  args,
-  api,
-  extraOptions,
-) => {
+const RTKQueryExpired = async (args, api, extraOptions) => {
   let result = await RTKQuery(args, api, extraOptions);
 
   //access token expired after 7 days
@@ -37,7 +30,7 @@ const RTKQueryExprired = async (
 };
 
 export const baseApi = createApi({
-  baseQuery: RTKQueryExprired,
+  baseQuery: RTKQueryExpired,
   tagTypes: [],
   endpoints: (builder) => ({}),
 });

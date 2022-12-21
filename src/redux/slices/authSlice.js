@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { authApi } from 'api/authApi';
-import decode from 'jwt-decode';
 
 const initialState = {
   loggedInUser: {
@@ -17,20 +16,14 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => initialState,
-    setUser: (state, action) => {
-      state.loggedInUser = action.payload;
-    },
-    setAccessToken: (state, action) => {
-      state.accessToken = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       authApi.endpoints.login.matchFulfilled,
-      (state, action) => {
-        const { token } = action.payload;
+      (state, { payload }) => {
+        const { token } = payload.payload;
         const { userId, accountNumber, username } =
-          action.payload;
+          payload.payload.userData;
 
         state.loggedInUser = {
           userId,

@@ -67,6 +67,12 @@ function LoginForm(props) {
 
   const canSubmit = username && password && checked;
 
+  useEffect(() => {
+    if (isLogged) {
+      navigate('/');
+    }
+  }, [isLogged]);
+
   const handleUsername = (event) => {
     setUsername(event.target.value);
   };
@@ -90,9 +96,6 @@ function LoginForm(props) {
         .unwrap()
         .then((data) => console.log({ data }))
         .catch((error) => console.log(error));
-      if (isLogged) {
-        navigate('/');
-      }
     } catch (err) {
       setUsername('');
       setPassword('');
