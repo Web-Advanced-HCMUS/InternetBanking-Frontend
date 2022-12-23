@@ -36,7 +36,7 @@ function App() {
   ];
 
   return (
-    <Box>
+    <Box color={"black"}>
       <Box
         display={"flex"}
         flexDirection={"row"}
