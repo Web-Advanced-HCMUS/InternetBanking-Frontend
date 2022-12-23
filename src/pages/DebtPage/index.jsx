@@ -1,6 +1,6 @@
 import CustomerSideBar from 'layouts/HomeLayout/Sidebar/CustomerSideBar';
 import CustomerTopBar from 'layouts/HomeLayout/Topbar/CustomerTopBar';
-import UserAccount from 'containers/UserAccount'
+import DebtPage from 'containers/DebtReminder'
 import { useProSidebar } from 'react-pro-sidebar';
 
 
@@ -13,7 +13,7 @@ const CustomerHome = () => {
       <CustomerTopBar collapseSidebar={collapseSidebar} />
       <CustomerSideBar />
       </div>
-      <UserAccount/>
+      <DebtPage/>
     </div>
   );
 };

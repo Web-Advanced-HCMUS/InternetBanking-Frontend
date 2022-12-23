@@ -11,6 +11,9 @@ import { ThemeProvider } from '@mui/material';
 import { theme } from './constants/theme';
 import Homepage from 'pages/HomePage';
 import HomeLayout from 'layouts/HomeLayout';
+import DebtPage from 'pages/DebtPage';
+import CustomerHome from 'pages/CustomerHome';
+
 
 function App() {
   return (
@@ -34,7 +37,21 @@ function App() {
                 </AuthLayout>
               }
             />
+             <Route
+              path="debt"
+              element={
+                <DebtPage />
+              }
+            />
+            <Route
+              path="home"
+              element={
+                <CustomerHome />
+              }
+            />
+            
           </Route>
+          
         </Routes>
       </ThemeProvider>
     </div>
