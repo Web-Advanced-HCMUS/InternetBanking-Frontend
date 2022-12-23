@@ -6,6 +6,7 @@ import AuthLayout from 'layouts/AuthLayout';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './constants/theme';
 import { Homepage } from 'pages';
+import CustomerHome from 'pages/CustomerHome';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/" element={<Homepage />}></Route>
+          <Route path="/home" element={<CustomerHome />} />
           <Route
             exact
             path="/login"
