@@ -5,25 +5,34 @@ import { useDispatch } from 'react-redux';
 import AuthLayout from 'layouts/AuthLayout';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './constants/theme';
-import { Homepage } from 'pages';
-import CustomerHome from 'pages/CustomerHome';
+import Homepage from 'pages/HomePage';
+import HomeLayout from 'layouts/HomeLayout';
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <Routes>
-          <Route path="/" element={<Homepage />}></Route>
           <Route path="/home" element={<CustomerHome />} />
-          <Route
-            exact
-            path="/login"
-            element={
-              <AuthLayout>
-                <LoginForm />
-              </AuthLayout>
-            }
-          />
+          <Route path="/">
+            <Route
+              index
+              element={
+                <HomeLayout>
+                  <Homepage />
+                </HomeLayout>
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <AuthLayout>
+                  <LoginForm />
+                </AuthLayout>
+              }
+            />
+          </Route>
+
         </Routes>
       </ThemeProvider>
     </div>

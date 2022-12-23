@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-const authBg = '/img/1.jpg';
+const authBg = '/img/30719.jpg';
 
 const useStyles = makeStyles((theme) => ({
   backgroundImage: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  bgBlueColor: {
+  bgWhiteColor: {
     backgroundImage:
       'linear-gradient(to bottom,#FFFFFF, #FFFFFF)',
     width: 500,
@@ -59,7 +59,7 @@ export default function AuthLayout(props) {
 
   return (
     <div className={classes.backgroundImage}>
-      <div className={classes.bgBlueColor}>
+      <div className={classes.bgWhiteColor}>
         {props.children}
       </div>
     </div>
