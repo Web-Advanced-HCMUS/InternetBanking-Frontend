@@ -14,7 +14,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
-const CustomerTopBar = ({ collapseSidebar }) => {
+const CustomerTopBar = ({ collapse, setCollapse }) => {
   return (
     <Box
       display={'flex'}
@@ -24,7 +24,7 @@ const CustomerTopBar = ({ collapseSidebar }) => {
       p={1.25}
     >
       <Box>
-        <IconButton onClick={() => collapseSidebar()}>
+        <IconButton onClick={() => setCollapse(!collapse)}>
           <MenuIcon sx={{ color: '#f3f3f3', cursor: 'pointer' }} fontSize="large" />
         </IconButton>
       </Box>

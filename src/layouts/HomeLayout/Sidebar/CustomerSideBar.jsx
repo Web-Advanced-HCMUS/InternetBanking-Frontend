@@ -1,14 +1,26 @@
 import { Box } from '@mui/material';
 import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
-import { CreditCard, EditOutlined, Security, Subject } from '@mui/icons-material';
+import {
+  CreditCard,
+  EditOutlined,
+  HomeOutlined,
+  Security,
+  Subject,
+} from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const pages = [
   {
+    title: 'Trang chủ',
+    icon: <HomeOutlined />,
+    url: '/home',
+    active: false,
+  },
+  {
     title: 'Thông tin tài khoản',
     icon: <Subject />,
     url: '/bank-',
-    active: true,
+    active: false,
   },
   {
     title: 'Quản lý thẻ',
@@ -27,10 +39,14 @@ const pages = [
   },
 ];
 
-const CustomerSideBar = () => {
+const CustomerSideBar = ({ collapse }) => {
   return (
     <Box display={'flex'} height="100%" position={'fixed'}>
-      <Sidebar backgroundColor="#ffffff" collapsedWidth="57.5px">
+      <Sidebar
+        backgroundColor="#ffffff"
+        collapsedWidth="57.5px"
+        defaultCollapsed={collapse}
+      >
         <Menu
           menuItemStyles={{
             button: { textDecoration: 'none !important', ':hover': { color: 'inherit' } },

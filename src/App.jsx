@@ -9,13 +9,14 @@ import Homepage from 'pages/HomePage';
 import HomeLayout from 'layouts/HomeLayout';
 import DebtPage from 'pages/DebtPage';
 import CustomerHome from 'pages/CustomerHome';
+import CustomerLayout from 'layouts/CustomerLayout';
+import TransactionPage from 'pages/TransactionPage';
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <Routes>
-          <Route path="/home" element={<CustomerHome />} />
           <Route path="/">
             <Route
               index
@@ -33,8 +34,9 @@ function App() {
                 </AuthLayout>
               }
             />
+            <Route path="/home" element={<CustomerHome />} />
+            <Route path="/transaction" element={<TransactionPage />} />
             <Route path="debt" element={<DebtPage />} />
-            <Route path="home" element={<CustomerHome />} />
           </Route>
         </Routes>
       </ThemeProvider>
