@@ -11,15 +11,23 @@ const TransactionForm = () => {
       justifyContent="center"
       alignItems="center"
       mx="auto"
+      p={3}
     >
-      <Typography variant="h5" component="h5" textAlign="center" fontWeight={550} mt={1}>
+      <Typography
+        variant="h5"
+        component="h5"
+        textAlign="center"
+        fontWeight={550}
+        mt={1}
+        borderRadius={5}
+      >
         CHUYỂN TIỀN CHO NGƯỜI THỤ HƯỞNG TẠI NGÂN HÀNG KHÁC
       </Typography>
-      <Box display="flex" flexDirection="column" width="100%" my={1}>
+      <Box display="flex" flexDirection="column" width="100%" my={2}>
         <Typography fontWeight={550} variant="h6">
           Thông tin người chuyển
         </Typography>
-        <Box bgcolor={'#efefef'} p={1}>
+        <Box bgcolor={'#efefef'} p={2} borderRadius={5}>
           <Box display="flex" justifyContent="space-around" width="70%" mx="auto">
             <Typography width="40%">Tài khoản chuyển:</Typography>
             <Typography width="60%">1855-3253-2535-2332</Typography>
@@ -30,11 +38,11 @@ const TransactionForm = () => {
           </Box>
         </Box>
       </Box>
-      <Box display="flex" flexDirection="column" width="100%" my={1}>
+      <Box display="flex" flexDirection="column" width="100%" my={2}>
         <Typography fontWeight={550} variant="h6">
           Thông tin người nhận
         </Typography>
-        <Box bgcolor={'#efefef'} p={1}>
+        <Box bgcolor={'#efefef'} p={2} borderRadius={5}>
           <Box display="flex" justifyContent="space-around" width="70%" mx="auto">
             <Typography width="40%">Tài khoản thụ hưởng:</Typography>
             <Typography width="60%">1855-2312-123</Typography>
@@ -51,11 +59,11 @@ const TransactionForm = () => {
           </Box>
         </Box>
       </Box>
-      <Box display="flex" flexDirection="column" width="100%" my={1}>
+      <Box display="flex" flexDirection="column" width="100%" my={2}>
         <Typography fontWeight={550} variant="h6">
           Thông tin giao dịch
         </Typography>
-        <Box bgcolor={'#efefef'} p={1}>
+        <Box bgcolor={'#efefef'} p={2} borderRadius={5} lineHeight={2}>
           <Box display="flex" justifyContent="space-around" width="70%" mx="auto">
             <Typography width="40%">Số tiền chuyển:</Typography>
             <Typography width="60%">180,000,000 VNĐ</Typography>
@@ -72,15 +80,11 @@ const TransactionForm = () => {
             <Typography width="40%">Số tiền phí:</Typography>
             <Typography width="60%">3,300 VNĐ</Typography>
           </Box>
-          {/* <Box display="flex" justifyContent="space-around" width="70%" mx="auto">
-            <Typography width="40%">Số tiền phí:</Typography>
-            <Typography width="60%">3,300 VNĐ</Typography>
-          </Box> */}
           <Box display="flex" justifyContent="space-around" width="70%" mx="auto">
             <Typography width="40%">Mã kiểm tra giao dịch:</Typography>
             <Typography width="60%">343043024343240</Typography>
           </Box>
-          <Box p={1} px={5}>
+          <Box py={2} px={5}>
             <Alert severity="info">
               <AlertTitle sx={{ fontWeight: 550 }}>Thông báo</AlertTitle>
               Quý khách hãy kiểm trả tài khoản Email để nhận vào nhập mã OTP vào ô bên
@@ -89,22 +93,27 @@ const TransactionForm = () => {
           </Box>
 
           <Box display="flex" width="70%" mx="auto" alignItems="center">
-            <Typography width="40%" textAlign="right" mr={3}>
+            <Typography width="40%" textAlign="right" mr={3} fontWeight={550}>
               Nhập mã OTP
             </Typography>
             <TextField
               width="60%"
               variant="outlined"
               type="number"
-              sx={{ '& .MuiOutlinedInput-root': { borderRadius: `0` } }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#fefefe',
+                  borderRadius: `0`,
+                },
+              }}
               placeholder="######"
               size="small"
             />
           </Box>
         </Box>
       </Box>
-      <Box mb={1} display="flex" gap={5}>
-        <Button sx={{ p: 1 }} variant="contained" startIcon={<ArrowLeft />}>
+      <Box my={2} display="flex" gap={5}>
+        <Button sx={{ p: 1 }} variant="contained">
           Quay lại
         </Button>
         <Button sx={{ p: 1 }} variant="contained" endIcon={<SendOutlined />}>

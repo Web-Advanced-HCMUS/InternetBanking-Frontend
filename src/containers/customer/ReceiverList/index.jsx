@@ -22,10 +22,18 @@ function PrevArrow(props) {
 }
 
 const recentItems = [
-  { name: 'Kha', account_no: '1' },
-  { name: 'Nam', account_no: '3' },
-  { name: 'Huỳnh', account_no: '2' },
-  { name: 'Viên', account_no: '4' },
+  { name: 'Nguyễn Văn A', account_no: '1' },
+  { name: 'Nguyễn Văn B', account_no: '3' },
+  { name: 'Huỳnh Nguyễn Ngọc Lan', account_no: '2' },
+  { name: 'Trần Nguyễn Lâm Viên', account_no: '4' },
+  { name: 'Nguyễn Văn A', account_no: '1' },
+  { name: 'Nguyễn Văn B', account_no: '3' },
+  { name: 'Huỳnh Nguyễn Ngọc Lan', account_no: '2' },
+  { name: 'Trần Nguyễn Lâm Viên', account_no: '4' },
+  { name: 'Nguyễn Văn A', account_no: '1' },
+  { name: 'Nguyễn Văn B', account_no: '3' },
+  { name: 'Huỳnh Nguyễn Ngọc Lan', account_no: '2' },
+  { name: 'Trần Nguyễn Lâm Viên', account_no: '4' },
 ];
 
 const ReceiverList = ({ collapse }) => {
@@ -40,7 +48,6 @@ const ReceiverList = ({ collapse }) => {
 
   return (
     <>
-      {/* Receiver List Slider*/}
       <Box p={1} bgcolor="#e9e8f3" overflow={'hidden'}>
         <Box display={'flex'} justifyContent="space-between">
           <Typography mx={1}>Recents</Typography>
@@ -51,34 +58,35 @@ const ReceiverList = ({ collapse }) => {
         <Box px={4}>
           <Slider {...settings} slidesToShow={collapse ? 12 : 8}>
             {recentItems.map((item, idx) => (
-              <>
-                <Box
-                  display={'flex'}
-                  flexDirection="column"
-                  alignItems={'center'}
-                  mt={0.5}
-                  sx={{
-                    ':hover': {
-                      cursor: 'pointer',
-                      WebkitTransition: 'all 200ms ease-in',
-                      WebkitTransform: 'scale(1.1)',
-                      msTransition: 'all 200ms ease-in',
-                      msTransform: 'scale(1.1)',
-                      MozTransition: 'all 200ms ease-in',
-                      MozTransformOrigin: 'scale(1.1)',
-                      transition: 'all 200ms ease-in',
-                      transform: 'scale(1.1) 200ms',
-                    },
-                  }}
-                  key={item.account_no}
-                  // onClick={(item) => handleReceiverClick(item)}
-                >
-                  <Avatar sx={{ width: 52, height: 52 }}>{item.name.slice(0, 1)}</Avatar>
-                  <Typography component={'span'} variant={'h6'} fontWeight={550}>
-                    {item.name}
-                  </Typography>
-                </Box>
-              </>
+              <Box
+                display={'flex !important'}
+                flexDirection="column"
+                alignItems={'center'}
+                justifyContent="center"
+                mt={0.5}
+                gap={1}
+                columnGap={2}
+                sx={{
+                  ':hover': {
+                    cursor: 'pointer',
+                    WebkitTransition: 'all 200ms ease-in',
+                    WebkitTransform: 'scale(1.1)',
+                    msTransition: 'all 200ms ease-in',
+                    msTransform: 'scale(1.1)',
+                    MozTransition: 'all 200ms ease-in',
+                    MozTransformOrigin: 'scale(1.1)',
+                    transition: 'all 200ms ease-in',
+                    transform: 'scale(1.1) 200ms',
+                  },
+                }}
+                key={idx}
+                // onClick={(item) => handleReceiverClick(item)}
+              >
+                <Avatar sx={{ width: 48, height: 48 }}>{item.name.slice(0, 1)}</Avatar>
+                <Typography component={'span'} fontWeight={550} textAlign="center">
+                  {item.name}
+                </Typography>
+              </Box>
             ))}
           </Slider>
         </Box>

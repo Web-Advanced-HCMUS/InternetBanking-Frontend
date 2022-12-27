@@ -8,8 +8,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import BankSelection from 'containers/customer/BankSelection';
 
-const TransferForm = ({ sender, setShowModal, showModal }) => {
+const TransferForm = ({ isExt, sender, setShowModal, showModal }) => {
   return (
     <Box
       height={'100%'}
@@ -28,6 +29,11 @@ const TransferForm = ({ sender, setShowModal, showModal }) => {
         mx="auto"
         sx={{ '& .MuiTextField-root': { m: 1 } }}
       >
+        {isExt && (
+          <Box display={'flex'} flexDirection="column" mx={1}>
+            <BankSelection />
+          </Box>
+        )}
         <Box display={'flex'} flexDirection="column">
           <TextField id="account_no" label="Số tài khoản" variant="standard" />
           {sender.name && <Typography mx={1}>{sender.name}</Typography>}

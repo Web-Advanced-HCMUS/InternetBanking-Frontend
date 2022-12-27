@@ -11,12 +11,7 @@ const TransactionPage = () => {
     <div style={{ height: '100%' }}>
       <CustomerTopBar setCollapse={setCollapse} collapse={collapse} />
       <CustomerSideBar collapse={collapse} />
-      <Box
-        ml={!collapse ? 31 : 7}
-        height="calc(100vh - 71px)"
-        width={`calc(100% - ${!collapse ? '248px' : '56px'})`}
-        sx={{ backgroundColor: '#f7fafe' }}
-      >
+      <Box ml={!collapse ? 31 : 7} width={`calc(100% - ${!collapse ? '248px' : '56px'})`}>
         <TransactionForm />
       </Box>
     </div>
