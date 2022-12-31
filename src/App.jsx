@@ -13,6 +13,9 @@ import Homepage from 'pages/HomePage';
 import HomeLayout from 'layouts/HomeLayout';
 import DebtPage from 'pages/DebtPage';
 import CustomerHome from 'pages/CustomerHome';
+import EmployeePage from 'containers/employee/MainPage'
+import CreateUser from 'containers/employee/CreateUser'
+import TopUp from 'containers/employee/TopUp'
 
 
 function App() {
@@ -49,7 +52,24 @@ function App() {
                 <CustomerHome />
               }
             />
-            
+            <Route
+              path="employee"
+              element={
+                <EmployeePage />
+              }
+            />
+            <Route
+              path="employee/create"
+              element={
+                <CreateUser />
+              }
+            />
+             <Route
+              path="employee/topup"
+              element={
+                <TopUp />
+              }
+            />
           </Route>
           
         </Routes>
