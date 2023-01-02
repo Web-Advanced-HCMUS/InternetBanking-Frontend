@@ -13,6 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import { ArrowBack } from '@mui/icons-material';
 
 import { styled } from '@mui/material/styles';
 
@@ -20,64 +21,10 @@ import Paper from '@mui/material/Paper';
 
 import { visuallyHidden } from '@mui/utils';
 
-import { useNavigate } from 'react-router-dom';
-
-function createData(id, userid, name, balance, status) {
-  return {
-    id,
-    userid,
-    name,
-    balance,
-    status,
-  };
-}
-
-const rows = [
-  createData(
-    1,
-    '6371289839s1fa90fas',
-    'Lionel Messi',
-    '2,000,000',
-    '',
-  ),
-  createData(
-    2,
-    '6371289839s1fa90oas',
-    'Thiago Messi',
-    '2,000,000,000',
-    '',
-  ),
-  createData(
-    3,
-    '6371289839s1fa90aas',
-    'Bartomeli Messi',
-    '52,000,000',
-    '',
-  ),
-  createData(
-    4,
-    '6371289839s1fa90sas',
-    'Cristiano Ronaldo',
-    '12,000,000',
-    '',
-  ),
-  createData(
-    5,
-    '6371289839s1fa90tas',
-    'Malang Sarr',
-    '441,000,000',
-    '',
-  ),
-  createData(
-    6,
-    '6371289839s1fa90qas',
-    'Kali Koulibaly',
-    '123,000,000',
-    '',
-  ),
-];
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function descendingComparator(a, b, orderBy) {
+
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -99,7 +46,8 @@ function stableSort(array, comparator) {
     index,
   ]);
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
+    const order = comparator(a[0], b[0])
+
     if (order !== 0) {
       return order;
     }
@@ -110,40 +58,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: 'id',
+    id: 'date',
     disablePadding: true,
     sort: true,
-    label: 'ID',
+    label: 'Ngày giao dịch',
   },
   {
-    id: 'name',
-    disablePadding: false,
-    sort: true,
-    label: 'Họ tên',
-  },
-  {
-    id: 'balance',
-    disablePadding: false,
-    sort: true,
-    label: 'Số dư',
-  },
-  {
-    id: 'accountid',
+    id: 'amount',
     disablePadding: false,
     sort: false,
-    label: 'Số tài khoản',
+    label: 'Số tiền',
   },
   {
-    id: 'infor',
+    id: 'type',
     disablePadding: false,
     sort: false,
-    label: '',
+    label: 'Loại giao dịch',
   },
   {
-    id: 'topup',
+    id: 'account',
     disablePadding: false,
     sort: false,
-    label: '',
+    label: 'Tài khoản đến',
+  },
+  {
+    id: 'bank',
+    disablePadding: false,
+    sort: false,
+    label: 'Ngân hàng đến',
+  },
+  {
+    id: 'status',
+    disablePadding: false,
+    sort: false,
+    label: 'Trạng thái',
   },
 ];
 
@@ -193,59 +141,64 @@ function EnhancedTableHead(props) {
   );
 }
 
-const CreateButton = styled(Button)(({ theme }) => ({
-  color: 'white',
-  backgroundColor: '#56408a',
-  '&:hover': {
-    backgroundColor: '#866DC1',
-    color: 'white',
-  },
-}));
-
-const InforButton = styled(Button)(({ theme }) => ({
-  color: '#66DB44',
-  borderBlockColor: '#66DB44',
-  '&:hover': {
-    backgroundColor: '#7AD85F',
-    color: 'white',
-  },
-}));
-
-const TopUpButton = styled(Button)(({ theme }) => ({
-  color: '#EF922F',
-  borderBlockColor: '#EF922F',
-  '&:hover': {
-    backgroundColor: '#FFA545',
-    color: 'white',
-  },
-}));
-
-export default function EnhancedTable() {
+export default function UserTransaction() {
   const navigate = useNavigate();
+  const {state} = useLocation();
+  console.log(state)
+
+
+  const data = [
+    {
+      date: '24/10/2022',
+      amount: '2000000',
+      type: 'Thanh toán nợ',
+      account: '288138945959',
+      bank: 'Agribank',
+      status: 'success',
+    },
+    {
+      date: '14/10/2022',
+      amount: '1000000',
+      type: 'Chuyển khoản',
+      account: '348421995959',
+      bank: 'Sacombank',
+      status: 'success',
+    },
+    {
+      date: '01/12/2021',
+      amount: '2420000',
+      type: 'Nhận tiền',
+      account: '797908508923',
+      bank: 'Agribank',
+      status: 'success',
+    },
+    {
+      date: '01/10/2022',
+      amount: '44230000',
+      type: 'Nhận tiền',
+      account: '797908508923',
+      bank: 'Agribank',
+      status: 'success',
+    },
+    {
+      date: '11/10/2022',
+      amount: '184230000',
+      type: 'Chuyển khoản',
+      account: '797908508923',
+      bank: 'Agribank',
+      status: 'error',
+    },
+  ];
 
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('id');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [buttonClick, setButtonClicked] = React.useState(
-    {},
-  );
   const [term, setTerm] = React.useState('');
 
-  React.useEffect(() => {
-    if (buttonClick.type === 'topup')
-      navigate('/employee/topup', { state: buttonClick });
-    if (buttonClick.type === 'trans-infor')
-      navigate('/employee/user-transaction', { state: buttonClick });
-  }, [buttonClick]);
-
-  const toCreateUser = () => {
-    navigate('/employee/create');
+  const handleBack = () => {
+    navigate('/employee');
   };
-
-  // const handleTopUpClicked = () => {
-  //   navigate('/employee/create');
-  // };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -269,7 +222,7 @@ export default function EnhancedTable() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0
-      ? Math.max(0, (1 + page) * rowsPerPage - rows.length)
+      ? Math.max(0, (1 + page) * rowsPerPage - data.length)
       : 0;
 
   return (
@@ -278,7 +231,6 @@ export default function EnhancedTable() {
         display={'flex'}
         flexDirection="column"
         alignItems="center"
-        mt={5}
       >
         <Box
           display={'flex'}
@@ -287,15 +239,20 @@ export default function EnhancedTable() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <CreateButton
-            variant="contained"
-            onClick={toCreateUser}
-          >
-            Tạo người dùng mới
-          </CreateButton>
-          <Typography variant="h4" color="#56408a">
-            DANH SÁCH NGƯỜI DÙNG
+          <ArrowBack
+            sx={{
+              cursor: 'pointer',
+            }}
+            onClick={handleBack}
+          />
+          <Box>
+          <Typography variant="h5" color="#56408a">
+            {state.username}
           </Typography>
+          <Typography>
+            Số tài khoản: {state.userid}
+          </Typography>
+          </Box>
           <TextField
             margin="normal"
             width="30%"
@@ -306,6 +263,7 @@ export default function EnhancedTable() {
             onChange={changeTerm}
           />
         </Box>
+
         <Box sx={{ width: '80%' }}>
           <Paper sx={{ width: '100%', mb: 2 }}>
             <TableContainer>
@@ -318,17 +276,20 @@ export default function EnhancedTable() {
                   order={order}
                   orderBy={orderBy}
                   onRequestSort={handleRequestSort}
-                  rowCount={rows.length}
+                  rowCount={data.length}
                 />
                 <TableBody>
                   {stableSort(
-                    rows,
+                    data,
                     getComparator(order, orderBy),
                   )
                     .filter(function (item) {
                       return (
-                        item.name.includes(term) ||
-                        item.userid.includes(term)
+                        item.account.includes(term) ||
+                        item.bank.includes(term) || 
+                        item.date.includes(term) || 
+                        item.status.includes(term) || 
+                        item.type.includes(term) 
                       );
                     })
                     .slice(
@@ -337,47 +298,39 @@ export default function EnhancedTable() {
                     )
                     .map((row, index) => {
                       return (
-                        <TableRow key={index}>
-                          <TableCell align="left">
-                            {row.id}
-                          </TableCell>
-                          <TableCell align="left">
-                            {row.name}
-                          </TableCell>
-                          <TableCell align="left">
-                            {row.balance}
-                          </TableCell>
-                          <TableCell align="left">
-                            {row.userid}
-                          </TableCell>
-
-                          <TableCell align="left">
-                            <InforButton variant="outlined"
-                            onClick={() => {
-                              setButtonClicked({
-                                type: 'trans-infor',
-                                userid: row.userid,
-                                username: row.name,
-                              });
-                            }}>
-                              Xem thông tin
-                            </InforButton>
-                          </TableCell>
-                          <TableCell align="left">
-                            <TopUpButton
-                              variant="outlined"
-                              onClick={() => {
-                                setButtonClicked({
-                                  type: 'topup',
-                                  userid: row.userid,
-                                  username: row.name,
-                                });
-                              }}
-                            >
-                              Nạp tiền
-                            </TopUpButton>
-                          </TableCell>
-                        </TableRow>
+                     
+                        (
+                          <TableRow key={index}>
+                            <TableCell align="left">
+                              {row.date}
+                            </TableCell>
+                            <TableCell align="left">
+                              {row.amount}
+                            </TableCell>
+                            <TableCell align="left">
+                                {row.type === "Chuyển khoản"
+                                ? <Typography color="orange" fontWeight={"bold"}> {row.type} </Typography>
+                                : <>
+                                    {row.type === "Nhận tiền"
+                                    ? <Typography color="lightgreen" fontWeight={"bold"}> {row.type} </Typography>
+                                : <Typography color="purple" fontWeight={"bold"}> {row.type} </Typography>}
+                                </>}
+                              
+                            </TableCell>
+                            <TableCell align="left">
+                              {row.account}
+                            </TableCell>
+                            <TableCell align="left">
+                              {row.bank}
+                            </TableCell>
+                            <TableCell align="left">
+                            {row.status === "success"
+                                ? <Typography color="#00cc00" fontWeight={"bold"}> {row.status} </Typography>
+                                : <Typography color="red" fontWeight={"bold"}> {row.status} </Typography>
+                            }
+                            </TableCell>
+                          </TableRow>
+                        )
                       );
                     })}
                   {emptyRows > 0 && (
@@ -395,7 +348,7 @@ export default function EnhancedTable() {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={rows.length}
+              count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

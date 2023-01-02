@@ -16,6 +16,8 @@ import CustomerHome from 'pages/CustomerHome';
 import EmployeePage from 'containers/employee/MainPage'
 import CreateUser from 'containers/employee/CreateUser'
 import TopUp from 'containers/employee/TopUp'
+import UserTransaction from 'containers/employee/UserTransaction'
+
 
 
 function App() {
@@ -52,24 +54,33 @@ function App() {
                 <CustomerHome />
               }
             />
+          </Route>
+          
+          <Route path="/employee">
             <Route
-              path="employee"
-              element={
-                <EmployeePage />
-              }
-            />
-            <Route
-              path="employee/create"
-              element={
-                <CreateUser />
-              }
-            />
-             <Route
-              path="employee/topup"
-              element={
-                <TopUp />
-              }
-            />
+                index
+                element={
+                  <EmployeePage />
+                }
+              />
+              <Route
+                path="create"
+                element={
+                  <CreateUser />
+                }
+              />
+              <Route
+                path="topup"
+                element={
+                  <TopUp />
+                }
+              />
+              <Route
+                path="user-transaction"
+                element={
+                  <UserTransaction />
+                }
+              />
           </Route>
           
         </Routes>
