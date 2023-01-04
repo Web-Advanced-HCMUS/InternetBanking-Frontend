@@ -1,19 +1,9 @@
 import Header from 'admin/components/Header';
-import Sidebar from '../global/Sidebar';
-import TopBar from '../global/Topbar';
 import { tokens } from '../../theme.js';
 import { mockDataTeam } from '../../mockData.js';
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import {
-  AddOutlined,
-  DeleteOutline,
-  EditOutlined,
-  LinkOffOutlined,
-} from '@mui/icons-material';
+import { AddOutlined, LinkOffOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const BankDetails = () => {
@@ -88,75 +78,65 @@ const BankDetails = () => {
   ];
 
   return (
-    <main className="content">
-      <Box display="flex">
+    <Box m="20px">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="BANKS DETAIL" subtitle="Banks management and cooperations" />
         <Box>
-          <Sidebar />
-        </Box>
-        <Box display="flex" flexDirection="column" flexGrow={1} height="100%">
-          <TopBar />
-          <Box m="20px">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <Header title="BANKS DETAIL" subtitle="Banks management and cooperations" />
-              <Box>
-                <Link to="/admin/banks/add">
-                  <Button
-                    variant="primary"
-                    sx={{
-                      color: `${colors.primary[400]} !important`,
-                      bgcolor: `${colors.greenAccent[500]} !important`,
-                      fontWeight: 550,
-                      fontSize: '1.05rem',
-                    }}
-                    startIcon={<AddOutlined />}
-                  >
-                    REQUEST LINK A BANK
-                  </Button>
-                </Link>
-              </Box>
-            </Box>
-
-            <Box
-              m="1.5rem 0"
-              height="75vh"
+          <Link to="/admin/banks/add">
+            <Button
+              variant="primary"
               sx={{
-                '& .MuiDataGrid-root': {
-                  border: 'none',
-                },
-                '& .MuiDataGrid-cell': {
-                  borderBottom: 'none',
-                },
-                '& .name-column--cell': {
-                  color: colors.greenAccent[300],
-                },
-                '& .MuiDataGrid-columnHeaders': {
-                  backgroundColor: colors.blueAccent[700],
-                  borderBottom: 'none',
-                },
-                '& .MuiDataGrid-virtualScroller': {
-                  backgroundColor: colors.primary[400],
-                },
-                '& .MuiDataGrid-footerContainer': {
-                  borderTop: 'none',
-                  backgroundColor: colors.blueAccent[700],
-                },
-                '& .MuiCheckbox-root': {
-                  color: `${colors.greenAccent[200]} !important`,
-                },
-                '& .MuiTablePagination-selectLabel': {
-                  marginBottom: '0 !important',
-                },
-                '& .MuiTablePagination-displayedRows': {
-                  marginBottom: '0 !important',
-                },
+                color: `${colors.primary[400]} !important`,
+                bgcolor: `${colors.greenAccent[500]} !important`,
+                fontWeight: 550,
+                fontSize: '1.05rem',
               }}
+              startIcon={<AddOutlined />}
             >
-              <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
-            </Box>
-          </Box>
+              REQUEST LINK A BANK
+            </Button>
+          </Link>
         </Box>
       </Box>
-    </main>
+
+      <Box
+        m="1.5rem 0"
+        height="75vh"
+        sx={{
+          '& .MuiDataGrid-root': {
+            border: 'none',
+          },
+          '& .MuiDataGrid-cell': {
+            borderBottom: 'none',
+          },
+          '& .name-column--cell': {
+            color: colors.greenAccent[300],
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: colors.blueAccent[700],
+            borderBottom: 'none',
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            backgroundColor: colors.primary[400],
+          },
+          '& .MuiDataGrid-footerContainer': {
+            borderTop: 'none',
+            backgroundColor: colors.blueAccent[700],
+          },
+          '& .MuiCheckbox-root': {
+            color: `${colors.greenAccent[200]} !important`,
+          },
+          '& .MuiTablePagination-selectLabel': {
+            marginBottom: '0 !important',
+          },
+          '& .MuiTablePagination-displayedRows': {
+            marginBottom: '0 !important',
+          },
+        }}
+      >
+        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+      </Box>
+    </Box>
   );
 };
 

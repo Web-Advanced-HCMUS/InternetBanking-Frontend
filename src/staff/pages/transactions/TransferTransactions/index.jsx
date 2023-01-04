@@ -1,10 +1,10 @@
-import { tokens } from '../../theme.js';
-import { mockDataInvoices } from '../../mockData.js';
+import { tokens } from '../../../theme.js';
+import { mockDataInvoices } from '../../../mockData.js';
 import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import Header from '../../components/Header';
+import Header from '../../../components/Header';
 
-const Employees = () => {
+const TransferTransactions = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const columns = [
@@ -115,4 +115,4 @@ const Employees = () => {
   );
 };
 
-export default Employees;
+export default TransferTransactions;

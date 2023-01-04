@@ -1,10 +1,9 @@
 import { Box } from '@mui/material';
-import DashBoard from 'admin/pages/dashboard';
 import { useState } from 'react';
 import Sidebar from '../pages/global/Sidebar';
 import TopBar from '../pages/global/Topbar';
 
-const AdminLayout = ({ children }) => {
+const EmployeeLayout = ({ children }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   return (
     <main className="content">
@@ -25,4 +24,4 @@ const AdminLayout = ({ children }) => {
   );
 };
 
-export default AdminLayout;
+export default EmployeeLayout;
