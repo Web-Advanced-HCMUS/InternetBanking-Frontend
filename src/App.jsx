@@ -22,7 +22,10 @@ import LineAnalyst from 'admin/pages/chart/line';
 import PieAnalyst from 'admin/pages/chart/pie';
 import DashBoard from 'admin/pages/dashboard';
 import { default as EmployeeDashboard } from 'staff/pages/dashboard';
-
+import EmployeeMainPage from 'pages/EmployeePage/EmployeeMainPage'
+import CreateUser from 'pages/EmployeePage/CreateUser'
+import TopUp from 'pages/EmployeePage/TopUp'
+import UserTransaction from 'pages/EmployeePage/UserTransaction'
 import EmployeeLayout from 'staff/layout';
 import Profile from 'staff/pages/profile';
 import ChangePassword from 'staff/pages/password/change';
@@ -38,6 +41,7 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
+
         <CssBaseline />
         <ProSidebarProvider>
           <div className="App">
@@ -224,6 +228,66 @@ function App() {
             </Routes>
           </div>
         </ProSidebarProvider>
+        <Routes>
+          <Route path="/">
+            <Route
+              index
+              element={
+                <HomeLayout>
+                  <Homepage />
+                </HomeLayout>
+              }
+            />
+            <Route
+              path="login"
+              element={
+                <AuthLayout>
+                  <LoginForm />
+                </AuthLayout>
+              }
+            />
+             <Route
+              path="debt"
+              element={
+                <DebtPage />
+              }
+            />
+            <Route
+              path="home"
+              element={
+                <CustomerHome />
+              }
+            />
+          </Route>
+          
+          <Route path="/employee">
+            <Route
+                index
+                element={
+                  <EmployeeMainPage />
+                }
+              />
+              <Route
+                path="create"
+                element={
+                  <CreateUser />
+                }
+              />
+              <Route
+                path="topup"
+                element={
+                  <TopUp />
+                }
+              />
+              <Route
+                path="user-transaction"
+                element={
+                  <UserTransaction />
+                }
+              />
+          </Route>
+          
+        </Routes>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
