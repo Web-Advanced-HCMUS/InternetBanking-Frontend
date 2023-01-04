@@ -1,15 +1,10 @@
 import { tokens } from '../../theme.js';
 import { mockDataInvoices } from '../../mockData.js';
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import TopBar from '../global/Topbar';
 import Header from '../../components/Header';
 import Sidebar from '../global/Sidebar';
-import { AddOutlined, Delete, DeleteOutline, EditOutlined } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
 
 const Employees = () => {
   const theme = useTheme();
@@ -49,28 +44,14 @@ const Employees = () => {
   return (
     <main className="content">
       <Box display="flex">
-        <Sidebar />
+        <Box>
+          <Sidebar />
+        </Box>
         <Box display="flex" flexDirection="column" flexGrow={1} height="100%">
           <TopBar />
           <Box m="20px">
             <Box display="flex" justifyContent="space-between" alignItems="center">
               <Header title="TEAM" subtitle="Managing the Team Members" />
-              <Box>
-                <Link to="/admin/employees/add">
-                  <Button
-                    variant="primary"
-                    sx={{
-                      color: `${colors.primary[400]} !important`,
-                      bgcolor: `${colors.greenAccent[500]} !important`,
-                      fontWeight: 550,
-                      fontSize: '1.05rem',
-                    }}
-                    startIcon={<AddOutlined />}
-                  >
-                    ADD NEW
-                  </Button>
-                </Link>
-              </Box>
             </Box>
             <Box
               m="1.5rem 0"

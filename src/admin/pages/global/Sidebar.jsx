@@ -9,6 +9,8 @@ import {
   AccountBalanceOutlined,
   ReceiptLongOutlined,
   AnalyticsOutlined,
+  PersonAddOutlined,
+  AddBusinessOutlined,
 } from '@mui/icons-material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
@@ -58,10 +60,7 @@ const Sidebar = () => {
   return (
     <Box
       position="sticky"
-      height={'100vh'}
-      top={0}
-      left={0}
-      bottom={0}
+      height="100vh"
       sx={{
         overscrollBehaviorY: 'none',
         overflowY: `${!isCollapsed ? 'scroll' : 'hidden'}`,
@@ -72,13 +71,13 @@ const Sidebar = () => {
         <Menu
           rootStyles={{
             background: `${colors.primary[400]} !important`,
-            paddingBottom: `${isCollapsed ? '145px' : 0}`,
+            // paddingBottom: `${isCollapsed ? '145px' : 0}`,
           }}
         >
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{ margin: `${!isCollapsed ? '0 0 35px 0' : '0'}` }}
+            style={{ margin: `${!isCollapsed ? '0 0 20px 0' : '0'}` }}
             rootStyles={{
               'a:hover': {
                 color: colors.grey[100],
@@ -115,7 +114,7 @@ const Sidebar = () => {
                   variant="h2"
                   color={colors.grey[100]}
                   fontWeight="bold"
-                  sx={{ m: '10px 0 0 0' }}
+                  sx={{ m: '5px 0 0 0' }}
                 >
                   Ed Roh
                 </Typography>
@@ -138,7 +137,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: '15px 0 5px 20px' }}
+              sx={{ m: '10px 0 5px 15px' }}
             >
               Data
             </Typography>
@@ -172,22 +171,22 @@ const Sidebar = () => {
               Pages
             </Typography>
             <Item
-              title="Profile Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
+              title="Add Employee"
+              to="/admin/employees/add"
+              icon={<PersonAddOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Calendar"
-              to="/calendar"
-              icon={<CalendarTodayOutlinedIcon />}
+              title="Link A Bank"
+              to="/admin/banks/add"
+              icon={<AddBusinessOutlined />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="FAQ Page"
-              to="/faq"
+              to="/admin/faq"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -202,29 +201,22 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Bar Chart"
-              to="/bar"
+              to="/admin/analyst/bar"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Pie Chart"
-              to="/pie"
+              to="/admin/analyst/pie"
               icon={<PieChartOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Line Chart"
-              to="/line"
+              to="/admin/analyst/line"
               icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

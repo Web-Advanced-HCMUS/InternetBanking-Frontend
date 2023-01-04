@@ -8,7 +8,7 @@ import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import TopBar from '../global/Topbar';
 import Header from '../../components/Header';
 import Sidebar from '../global/Sidebar';
-import { AddOutlined, Delete, DeleteOutline, EditOutlined } from '@mui/icons-material';
+import { AddOutlined, DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 const Employees = () => {
@@ -106,7 +106,9 @@ const Employees = () => {
   return (
     <main className="content">
       <Box display="flex">
-        <Sidebar />
+        <Box>
+          <Sidebar />
+        </Box>
         <Box display="flex" flexDirection="column" flexGrow={1} height="100%">
           <TopBar />
           <Box m="20px">

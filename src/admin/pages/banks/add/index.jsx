@@ -52,7 +52,9 @@ const AddBank = () => {
   return (
     <main className="content">
       <Box display="flex">
-        <Sidebar />
+        <Box>
+          <Sidebar />
+        </Box>
         <Box display="flex" flexDirection="column" flexGrow={1} height="100%">
           <TopBar />
           <Box m="20px">
