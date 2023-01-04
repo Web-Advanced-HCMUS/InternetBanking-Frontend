@@ -13,10 +13,10 @@ import Homepage from 'pages/HomePage';
 import HomeLayout from 'layouts/HomeLayout';
 import DebtPage from 'pages/DebtPage';
 import CustomerHome from 'pages/CustomerHome';
-import EmployeePage from 'containers/employee/MainPage'
-import CreateUser from 'containers/employee/CreateUser'
-import TopUp from 'containers/employee/TopUp'
-import UserTransaction from 'containers/employee/UserTransaction'
+import EmployeeMainPage from 'pages/EmployeePage/EmployeeMainPage'
+import CreateUser from 'pages/EmployeePage/CreateUser'
+import TopUp from 'pages/EmployeePage/TopUp'
+import UserTransaction from 'pages/EmployeePage/UserTransaction'
 
 
 
@@ -60,7 +60,7 @@ function App() {
             <Route
                 index
                 element={
-                  <EmployeePage />
+                  <EmployeeMainPage />
                 }
               />
               <Route
