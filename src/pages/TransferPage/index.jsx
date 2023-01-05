@@ -7,7 +7,7 @@ import ScreenTitle from 'containers/customer/ScreenTitle/ScreenTitle';
 import ReceiverList from 'containers/customer/ReceiverList';
 import { ConfirmationForm, TransferForm } from 'containers/customer/Form';
 
-const CustomerHome = () => {
+const TransferPage = ({ isExt }) => {
   const [collapse, setCollapse] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -15,9 +15,13 @@ const CustomerHome = () => {
     <div style={{ height: '100%' }}>
       <CustomerTopBar setCollapse={setCollapse} collapse={collapse} />
       <CustomerSideBar collapse={collapse} />
-      <Box ml={!collapse ? 31 : 7} width={`calc(100% - ${!collapse ? '248px' : '56px'})`}>
-        {/* <TrackRouteBar />
-        <ScreenTitle title="Make a transaction" />
+      <Box
+        ml={!collapse ? 31 : 7}
+        width={`calc(100% - ${!collapse ? '248px' : '56px'})`}
+        sx={{ backgroundColor: '#f7fafe' }}
+      >
+        <TrackRouteBar />
+        <ScreenTitle title="" />
 
         <Box>
           <ReceiverList />
@@ -26,14 +30,15 @@ const CustomerHome = () => {
               sender={{ name: '' }}
               setShowModal={setShowModal}
               showModal={showModal}
+              isExt={isExt}
             />
           ) : (
             <ConfirmationForm setShowModal={setShowModal} showModal={showModal} />
           )}
-        </Box> */}
+        </Box>
       </Box>
     </div>
   );
 };
 
-export default CustomerHome;
+export default TransferPage;
