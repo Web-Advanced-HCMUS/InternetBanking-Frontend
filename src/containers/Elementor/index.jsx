@@ -66,7 +66,14 @@ const Elementor = () => {
               ))}
               <Box display="flex">
                 <Button
-                  sx={{ my: 1, p: 1, fontSize: 18, fontWeight: 550 }}
+                  sx={{
+                    my: 1,
+                    p: 1,
+                    fontSize: 18,
+                    fontWeight: 550,
+                    bgcolor: 'primary.dark',
+                    '&:hover': { bgcolor: 'primary.light' },
+                  }}
                   variant="contained"
                   color="primary"
                   href={about.url}

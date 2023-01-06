@@ -7,16 +7,22 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from 'redux/store';
 import { ProSidebarProvider } from 'react-pro-sidebar';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { theme } from './constants/theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
-    <BrowserRouter>
-      <ProSidebarProvider>
-        <App />
-      </ProSidebarProvider>
-    </BrowserRouter>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <ProSidebarProvider>
+            <App />
+          </ProSidebarProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </StyledEngineProvider>
   </Provider>,
   // </React.StrictMode>
 );
