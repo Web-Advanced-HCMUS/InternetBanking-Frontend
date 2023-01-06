@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import BarChart from 'admin/components/chart/BarChart';
-import Header from 'admin/components/Header';
+import Header from 'components/Header';
 
 const BarAnalyst = () => {
   return (

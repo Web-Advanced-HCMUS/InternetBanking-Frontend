@@ -1,38 +1,16 @@
-import CustomerSideBar from 'layouts/HomeLayout/Sidebar/CustomerSideBar';
-import CustomerTopBar from 'layouts/HomeLayout/Topbar/CustomerTopBar';
-import { useState } from 'react';
 import { Box } from '@mui/system';
-import TrackRouteBar from 'containers/customer/TrackRouteBar/TrackRouteBar';
-import ScreenTitle from 'containers/customer/ScreenTitle/ScreenTitle';
-import ReceiverList from 'containers/customer/ReceiverList';
-import { ConfirmationForm, TransferForm } from 'containers/customer/Form';
+import Header from 'components/Header';
+import UserAccount from 'containers/UserAccount';
 
 const CustomerHome = () => {
-  const [collapse, setCollapse] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-
   return (
-    <div style={{ height: '100%' }}>
-      <CustomerTopBar setCollapse={setCollapse} collapse={collapse} />
-      <CustomerSideBar collapse={collapse} />
-      <Box ml={!collapse ? 31 : 7} width={`calc(100% - ${!collapse ? '248px' : '56px'})`}>
-        {/* <TrackRouteBar />
-        <ScreenTitle title="Make a transaction" />
-
-        <Box>
-          <ReceiverList />
-          {!showModal ? (
-            <TransferForm
-              sender={{ name: '' }}
-              setShowModal={setShowModal}
-              showModal={showModal}
-            />
-          ) : (
-            <ConfirmationForm setShowModal={setShowModal} showModal={showModal} />
-          )}
-        </Box> */}
+    <Box m="20px">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="CUSTOMER HOMEPAGE" subtitle="Landing page of customer after logging in" />
       </Box>
-    </div>
+
+      <UserAccount />
+    </Box>
   );
 };
 

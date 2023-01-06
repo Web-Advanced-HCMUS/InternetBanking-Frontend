@@ -1,22 +1,13 @@
-import {
-  Box,
-  Button,
-  Typography,
-  TextField,
-  FormControl,
-} from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
-
 const TopUp = () => {
   const navigate = useNavigate();
-  const {state} = useLocation();
-  const {userid, username} = state;
+  const { state } = useLocation();
+  const { userid, username } = state;
   const [amount, setAmount] = useState('');
-
-
 
   const handleBack = () => {
     navigate('/employee');
@@ -61,8 +52,8 @@ const TopUp = () => {
         name="userid"
         label="ID người dùng"
         InputProps={{
-            readOnly: true,
-          }}
+          readOnly: true,
+        }}
       />
 
       <TextField
@@ -73,10 +64,9 @@ const TopUp = () => {
         name="name"
         label="Tên người dùng"
         InputProps={{
-            readOnly: true,
-          }}
+          readOnly: true,
+        }}
       />
-
 
       <TextField
         margin="normal"
@@ -93,16 +83,14 @@ const TopUp = () => {
           '& input[type=number]': {
             '-moz-appearance': 'textfield',
           },
-          '& input[type=number]::-webkit-outer-spin-button':
-            {
-              '-webkit-appearance': 'none',
-              margin: 0,
-            },
-          '& input[type=number]::-webkit-inner-spin-button':
-            {
-              '-webkit-appearance': 'none',
-              margin: 0,
-            },
+          '& input[type=number]::-webkit-outer-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0,
+          },
+          '& input[type=number]::-webkit-inner-spin-button': {
+            '-webkit-appearance': 'none',
+            margin: 0,
+          },
         }}
       />
 

@@ -1,35 +1,31 @@
 import { Button, TextField, useTheme } from '@mui/material';
 import { styled } from '@mui/styles';
 import { Box } from '@mui/system';
-import { ColorModeContext, tokens } from 'admin/theme';
+import { ColorModeContext, tokens } from 'theme';
 import { useContext, useState } from 'react';
-import Header from '../../../components/Header';
+import Header from 'components/Header';
 
-const CssTextField = styled(TextField)(
-  ({ theme, colorMode, colors, width, ...props }) => ({
-    '& label.Mui-focused': {
-      color: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
+const CssTextField = styled(TextField)(({ theme, colorMode, colors, width, ...props }) => ({
+  '& label.Mui-focused': {
+    color: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
     },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: `${
-        theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'
-      }`,
+    '&:hover fieldset': {
+      borderColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
     },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
-      },
-      '&:hover fieldset': {
-        borderColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
-      },
+    '&.Mui-focused fieldset': {
+      borderColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : '#202020'}`,
     },
-    width,
-    ...props,
-  }),
-);
+  },
+  width,
+  ...props,
+}));
 
 const AddBank = () => {
   const theme = useTheme();
@@ -44,64 +40,13 @@ const AddBank = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="REQUEST TO LINK A BANK" subtitle="Send request to new bank" />
       </Box>
-      <Box
-        m="10px 0"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        width="100%"
-        flexDirection="column"
-      >
-        <CssTextField
-          label="Name"
-          colors={colors}
-          colorMode={colorMode}
-          theme={theme}
-          width="40%"
-          margin="10px 0"
-        />
-        <CssTextField
-          label="Code"
-          colors={colors}
-          colorMode={colorMode}
-          theme={theme}
-          width="40%"
-          margin="10px 0"
-        />
-        <CssTextField
-          label="Secret Key"
-          colors={colors}
-          colorMode={colorMode}
-          theme={theme}
-          width="40%"
-          margin="10px 0"
-          type="password"
-        />
-        <CssTextField
-          label="Public Key"
-          colors={colors}
-          colorMode={colorMode}
-          theme={theme}
-          width="40%"
-          margin="10px 0"
-          type="password"
-        />
-        <CssTextField
-          label="Query API"
-          colors={colors}
-          colorMode={colorMode}
-          theme={theme}
-          width="40%"
-          margin="10px 0"
-        />
-        <CssTextField
-          label="Transfer API"
-          colors={colors}
-          colorMode={colorMode}
-          theme={theme}
-          width="40%"
-          margin="10px 0"
-        />
+      <Box m="10px 0" display="flex" alignItems="center" justifyContent="center" width="100%" flexDirection="column">
+        <CssTextField label="Name" colors={colors} colorMode={colorMode} theme={theme} width="40%" margin="10px 0" />
+        <CssTextField label="Code" colors={colors} colorMode={colorMode} theme={theme} width="40%" margin="10px 0" />
+        <CssTextField label="Secret Key" colors={colors} colorMode={colorMode} theme={theme} width="40%" margin="10px 0" type="password" />
+        <CssTextField label="Public Key" colors={colors} colorMode={colorMode} theme={theme} width="40%" margin="10px 0" type="password" />
+        <CssTextField label="Query API" colors={colors} colorMode={colorMode} theme={theme} width="40%" margin="10px 0" />
+        <CssTextField label="Transfer API" colors={colors} colorMode={colorMode} theme={theme} width="40%" margin="10px 0" />
         <Button
           variant="primary"
           sx={{

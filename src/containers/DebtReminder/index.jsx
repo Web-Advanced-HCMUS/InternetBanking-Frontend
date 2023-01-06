@@ -1,21 +1,9 @@
-import {
-  Box,
-  Divider,
-  Modal,
-  TextField,
-  Autocomplete,
-  Button,
-  FormControl,
-} from '@mui/material';
+import { Box, Divider, Modal, TextField, Autocomplete, Button, FormControl } from '@mui/material';
 import OwnDebt from 'containers/DebtReminder/OwnDebt';
 import DebtList from 'containers/DebtReminder/DebtList';
-
 import PaidIcon from '@mui/icons-material/Paid';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from 'react';
-
-import Toastify from 'components/Toastify';
- 
 
 const DebtInfor = [
   {
@@ -100,15 +88,9 @@ const DebtReminder = () => {
     // console.log(reason);
     // console.log(debt);
     // console.log(bankName);
-    if (
-      bankName == null ||
-      reason === '' ||
-      debt === '' ||
-      isNaN(debt)
-    ) {
+    if (bankName == null || reason === '' || debt === '' || isNaN(debt)) {
       setInputStatus({
-        message:
-          'Thông tin nhập chưa đúng. Vui lòng nhập lại',
+        message: 'Thông tin nhập chưa đúng. Vui lòng nhập lại',
         severity: 'error',
       });
     } else {
@@ -119,30 +101,17 @@ const DebtReminder = () => {
     }
   };
 
-  useEffect(()=>{
-    console.log(inputStatus)
-  },[inputStatus])
+  useEffect(() => {
+    console.log(inputStatus);
+  }, [inputStatus]);
 
   return (
     <>
-      <Box
-        display={'flex'}
-        flexDirection="column"
-        width={'100%'}
-        alignItems="center"
-      >
-        <Box
-          fontSize={'2.2rem'}
-          fontWeight="600"
-          m={'1rem'}
-        >
+      <Box display={'flex'} flexDirection="column" width={'100%'} alignItems="center">
+        <Box fontSize={'2.2rem'} fontWeight="600" m={'1rem'}>
           Nhắc nợ
         </Box>
-        <Box
-          display={'flex'}
-          gap="0.3rem"
-          fontWeight={'300'}
-        >
+        <Box display={'flex'} gap="0.3rem" fontWeight={'300'}>
           Số dư khả dụng:{' '}
           <Box fontWeight={'700'} color="#767474">
             {DebtInfor[0].balance}
@@ -161,8 +130,7 @@ const DebtReminder = () => {
           width={'100%'}
           fontSize="1.2rem"
           sx={{
-            boxShadow:
-              '1px 4px 6px -5px #222, 1px -4px 6px -5px #BFBFB6',
+            boxShadow: '1px 4px 6px -5px #222, 1px -4px 6px -5px #BFBFB6',
 
             '&:hover': {
               color: '#56408a',
@@ -190,37 +158,18 @@ const DebtReminder = () => {
           }}
         >
           {DebtInfor.map((infor, index) => (
-            <Box
-              display={'flex'}
-              flexDirection="column"
-              gap="0.2rem"
-              alignItems="center"
-              key={index}
-            >
+            <Box display={'flex'} flexDirection="column" gap="0.2rem" alignItems="center" key={index}>
               <Box fontWeight={'400'} fontSize="1.2rem">
                 {infor.title}
               </Box>
-              <Box
-                fontWeight={'600'}
-                fontSize="1.5rem"
-                color={
-                  DebtInfor.length === index + 1
-                    ? 'red'
-                    : ''
-                }
-              >
+              <Box fontWeight={'600'} fontSize="1.5rem" color={DebtInfor.length === index + 1 ? 'red' : ''}>
                 {infor.balance}
               </Box>
             </Box>
           ))}
         </Box>
 
-        <Box
-          display={'flex'}
-          flexDirection="row"
-          justifyContent={'flex-end'}
-          width="40%"
-        >
+        <Box display={'flex'} flexDirection="row" justifyContent={'flex-end'} width="40%">
           <Box
             borderRadius={'5px'}
             bgcolor="#ffffff"
@@ -245,98 +194,34 @@ const DebtReminder = () => {
         </Box>
 
         {/* -----------------------Nhắc nợ của mình---------------------- */}
-        <Box
-          display={'flex'}
-          flexDirection="column"
-          width={'40%'}
-          borderRadius={'10px'}
-          bgcolor="#ffffff"
-          boxShadow="0px 0px 5px #C3C3C3"
-          m="2rem"
-        >
-          <Box
-            display={'flex'}
-            flexDirection="row"
-            justifyContent="space-between"
-            margin="1rem"
-          >
-            <Box
-              fontWeight={'600'}
-              fontSize="1.2rem"
-              color={'#56408a'}
-            >
+        <Box display={'flex'} flexDirection="column" width={'40%'} borderRadius={'10px'} bgcolor="#ffffff" boxShadow="0px 0px 5px #C3C3C3" m="2rem">
+          <Box display={'flex'} flexDirection="row" justifyContent="space-between" margin="1rem">
+            <Box fontWeight={'600'} fontSize="1.2rem" color={'#56408a'}>
               Cần xử lý
             </Box>
-            <Box
-              fontWeight={'600'}
-              fontSize="1.2rem"
-              color={'#56408a'}
-            >
+            <Box fontWeight={'600'} fontSize="1.2rem" color={'#56408a'}>
               Thu gọn
             </Box>
           </Box>
           <Divider />
-          <Box
-            display={'flex'}
-            flexDirection="column"
-            margin="1rem"
-            gap={'10px'}
-          >
-            {ownDebt.length === 0 ? (
-              <Box>Chưa có nhắc nợ</Box>
-            ) : (
-              ownDebt.map((debt, index) => (
-                <OwnDebt key={index} debt={debt} />
-              ))
-            )}
+          <Box display={'flex'} flexDirection="column" margin="1rem" gap={'10px'}>
+            {ownDebt.length === 0 ? <Box>Chưa có nhắc nợ</Box> : ownDebt.map((debt, index) => <OwnDebt key={index} debt={debt} />)}
           </Box>
         </Box>
 
         {/* -----------------------Nợ đã trả---------------------- */}
-        <Box
-          display={'flex'}
-          flexDirection="column"
-          width={'40%'}
-          borderRadius={'10px'}
-          bgcolor="#ffffff"
-          boxShadow="0px 0px 5px #C3C3C3"
-          m="2rem"
-        >
-          <Box
-            display={'flex'}
-            flexDirection="row"
-            justifyContent="space-between"
-            margin="1rem"
-          >
-            <Box
-              fontWeight={'600'}
-              fontSize="1.2rem"
-              color={'#56408a'}
-            >
+        <Box display={'flex'} flexDirection="column" width={'40%'} borderRadius={'10px'} bgcolor="#ffffff" boxShadow="0px 0px 5px #C3C3C3" m="2rem">
+          <Box display={'flex'} flexDirection="row" justifyContent="space-between" margin="1rem">
+            <Box fontWeight={'600'} fontSize="1.2rem" color={'#56408a'}>
               Cần xử lý
             </Box>
-            <Box
-              fontWeight={'600'}
-              fontSize="1.2rem"
-              color={'#56408a'}
-            >
+            <Box fontWeight={'600'} fontSize="1.2rem" color={'#56408a'}>
               Thu gọn
             </Box>
           </Box>
           <Divider />
-          <Box
-            display={'flex'}
-            flexDirection="column"
-            margin="1rem"
-            gap={'10px'}
-          >
-            {debtList.length === 0 ? (
-              <Box>Bạn chưa có nhắc nợ ai</Box>
-            ) : (
-              debtList.map((debt, index) => (
-                <DebtList key={index} debt={debt} />
-              ))
-            )}
+          <Box display={'flex'} flexDirection="column" margin="1rem" gap={'10px'}>
+            {debtList.length === 0 ? <Box>Bạn chưa có nhắc nợ ai</Box> : debtList.map((debt, index) => <DebtList key={index} debt={debt} />)}
           </Box>
         </Box>
       </Box>
@@ -388,15 +273,8 @@ const DebtReminder = () => {
               id="bank-friends"
               options={bankFriends}
               fullWidth
-              getOptionLabel={(option) =>
-                option.label || ''
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Bạn muốn gửi nhắc nợ tới ai"
-                />
-              )}
+              getOptionLabel={(option) => option.label || ''}
+              renderInput={(params) => <TextField {...params} label="Bạn muốn gửi nhắc nợ tới ai" />}
               value={bankName}
               onChange={handleChooseBankName}
             />
@@ -416,16 +294,14 @@ const DebtReminder = () => {
                   '& input[type=number]': {
                     '-moz-appearance': 'textfield',
                   },
-                  '& input[type=number]::-webkit-outer-spin-button':
-                    {
-                      '-webkit-appearance': 'none',
-                      margin: 0,
-                    },
-                  '& input[type=number]::-webkit-inner-spin-button':
-                    {
-                      '-webkit-appearance': 'none',
-                      margin: 0,
-                    },
+                  '& input[type=number]::-webkit-outer-spin-button': {
+                    '-webkit-appearance': 'none',
+                    margin: 0,
+                  },
+                  '& input[type=number]::-webkit-inner-spin-button': {
+                    '-webkit-appearance': 'none',
+                    margin: 0,
+                  },
                 }}
               />
             </div>

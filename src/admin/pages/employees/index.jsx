@@ -1,11 +1,11 @@
-import { tokens } from '../../theme.js';
-import { mockDataTeam } from '../../mockData.js';
+import { tokens } from 'theme';
+import { mockDataTeam } from 'mockData';
 import { Box, Button, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import Header from '../../components/Header';
+import Header from 'components/Header';
 import { AddOutlined, DeleteOutline, EditOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
@@ -49,13 +49,7 @@ const Employees = () => {
             p="5px"
             display="flex"
             justifyContent="center"
-            backgroundColor={
-              access === 'admin'
-                ? colors.greenAccent[600]
-                : access === 'manager'
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
-            }
+            backgroundColor={access === 'admin' ? colors.greenAccent[600] : access === 'manager' ? colors.greenAccent[700] : colors.greenAccent[700]}
             borderRadius="4px"
           >
             {access === 'admin' && <AdminPanelSettingsOutlinedIcon />}

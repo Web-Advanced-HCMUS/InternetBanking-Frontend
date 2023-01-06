@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  Box,
-  Button,
-  Typography,
-  TextField,
-} from '@mui/material';
+import { Box, Typography, TextField } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,9 +9,6 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { ArrowBack } from '@mui/icons-material';
-
-import { styled } from '@mui/material/styles';
-
 import Paper from '@mui/material/Paper';
 
 import { visuallyHidden } from '@mui/utils';
@@ -24,7 +16,6 @@ import { visuallyHidden } from '@mui/utils';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function descendingComparator(a, b, orderBy) {
-
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -35,18 +26,13 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [
-    el,
-    index,
-  ]);
+  const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0])
+    const order = comparator(a[0], b[0]);
 
     if (order !== 0) {
       return order;
@@ -110,24 +96,18 @@ function EnhancedTableHead(props) {
             align={'left'}
             padding={'normal'}
             style={{ fontWeight: 'bold', fontSize: '1rem' }}
-            sortDirection={
-              orderBy === headCell.id ? order : false
-            }
+            sortDirection={orderBy === headCell.id ? order : false}
           >
             {headCell.sort ? (
               <TableSortLabel
                 active={orderBy === headCell.id}
-                direction={
-                  orderBy === headCell.id ? order : 'asc'
-                }
+                direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler(headCell.id)}
               >
                 {headCell.label}
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                   </Box>
                 ) : null}
               </TableSortLabel>
@@ -143,9 +123,8 @@ function EnhancedTableHead(props) {
 
 export default function UserTransaction() {
   const navigate = useNavigate();
-  const {state} = useLocation();
-  console.log(state)
-
+  const { state } = useLocation();
+  console.log(state);
 
   const data = [
     {
@@ -220,25 +199,12 @@ export default function UserTransaction() {
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0
-      ? Math.max(0, (1 + page) * rowsPerPage - data.length)
-      : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   return (
     <>
-      <Box
-        display={'flex'}
-        flexDirection="column"
-        alignItems="center"
-      >
-        <Box
-          display={'flex'}
-          flexDirection="row"
-          width={'80%'}
-          justifyContent="space-between"
-          alignItems="center"
-        >
+      <Box display={'flex'} flexDirection="column" alignItems="center">
+        <Box display={'flex'} flexDirection="row" width={'80%'} justifyContent="space-between" alignItems="center">
           <ArrowBack
             sx={{
               cursor: 'pointer',
@@ -246,91 +212,74 @@ export default function UserTransaction() {
             onClick={handleBack}
           />
           <Box>
-          <Typography variant="h5" color="#56408a">
-            {state.username}
-          </Typography>
-          <Typography>
-            Số tài khoản: {state.userid}
-          </Typography>
+            <Typography variant="h5" color="#56408a">
+              {state.username}
+            </Typography>
+            <Typography>Số tài khoản: {state.userid}</Typography>
           </Box>
-          <TextField
-            margin="normal"
-            width="30%"
-            name="searchInput"
-            label="Tìm kiếm"
-            id="reasonInput"
-            value={term}
-            onChange={changeTerm}
-          />
+          <TextField margin="normal" width="30%" name="searchInput" label="Tìm kiếm" id="reasonInput" value={term} onChange={changeTerm} />
         </Box>
 
         <Box sx={{ width: '80%' }}>
           <Paper sx={{ width: '100%', mb: 2 }}>
             <TableContainer>
-              <Table
-                sx={{ minWidth: 750 }}
-                aria-labelledby="tableTitle"
-                size={'medium'}
-              >
-                <EnhancedTableHead
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={handleRequestSort}
-                  rowCount={data.length}
-                />
+              <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
+                <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={data.length} />
                 <TableBody>
-                  {stableSort(
-                    data,
-                    getComparator(order, orderBy),
-                  )
+                  {stableSort(data, getComparator(order, orderBy))
                     .filter(function (item) {
                       return (
                         item.account.includes(term) ||
-                        item.bank.includes(term) || 
-                        item.date.includes(term) || 
-                        item.status.includes(term) || 
-                        item.type.includes(term) 
+                        item.bank.includes(term) ||
+                        item.date.includes(term) ||
+                        item.status.includes(term) ||
+                        item.type.includes(term)
                       );
                     })
-                    .slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage,
-                    )
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       return (
-                     
-                        (
-                          <TableRow key={index}>
-                            <TableCell align="left">
-                              {row.date}
-                            </TableCell>
-                            <TableCell align="left">
-                              {row.amount}
-                            </TableCell>
-                            <TableCell align="left">
-                                {row.type === "Chuyển khoản"
-                                ? <Typography color="orange" fontWeight={"bold"}> {row.type} </Typography>
-                                : <>
-                                    {row.type === "Nhận tiền"
-                                    ? <Typography color="lightgreen" fontWeight={"bold"}> {row.type} </Typography>
-                                : <Typography color="purple" fontWeight={"bold"}> {row.type} </Typography>}
-                                </>}
-                              
-                            </TableCell>
-                            <TableCell align="left">
-                              {row.account}
-                            </TableCell>
-                            <TableCell align="left">
-                              {row.bank}
-                            </TableCell>
-                            <TableCell align="left">
-                            {row.status === "success"
-                                ? <Typography color="#00cc00" fontWeight={"bold"}> {row.status} </Typography>
-                                : <Typography color="red" fontWeight={"bold"}> {row.status} </Typography>
-                            }
-                            </TableCell>
-                          </TableRow>
-                        )
+                        <TableRow key={index}>
+                          <TableCell align="left">{row.date}</TableCell>
+                          <TableCell align="left">{row.amount}</TableCell>
+                          <TableCell align="left">
+                            {row.type === 'Chuyển khoản' ? (
+                              <Typography color="orange" fontWeight={'bold'}>
+                                {' '}
+                                {row.type}{' '}
+                              </Typography>
+                            ) : (
+                              <>
+                                {row.type === 'Nhận tiền' ? (
+                                  <Typography color="lightgreen" fontWeight={'bold'}>
+                                    {' '}
+                                    {row.type}{' '}
+                                  </Typography>
+                                ) : (
+                                  <Typography color="purple" fontWeight={'bold'}>
+                                    {' '}
+                                    {row.type}{' '}
+                                  </Typography>
+                                )}
+                              </>
+                            )}
+                          </TableCell>
+                          <TableCell align="left">{row.account}</TableCell>
+                          <TableCell align="left">{row.bank}</TableCell>
+                          <TableCell align="left">
+                            {row.status === 'success' ? (
+                              <Typography color="#00cc00" fontWeight={'bold'}>
+                                {' '}
+                                {row.status}{' '}
+                              </Typography>
+                            ) : (
+                              <Typography color="red" fontWeight={'bold'}>
+                                {' '}
+                                {row.status}{' '}
+                              </Typography>
+                            )}
+                          </TableCell>
+                        </TableRow>
                       );
                     })}
                   {emptyRows > 0 && (

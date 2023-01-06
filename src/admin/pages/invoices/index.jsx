@@ -1,8 +1,8 @@
-import { tokens } from '../../theme.js';
-import { mockDataInvoices } from '../../mockData.js';
+import { tokens } from 'theme';
+import { mockDataInvoices } from 'mockData';
 import { Box, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import Header from '../../components/Header';
+import Header from 'components/Header/index.jsx';
 
 const Employees = () => {
   const theme = useTheme();
@@ -87,9 +87,7 @@ const Employees = () => {
             height: '40px',
             weight: '72px',
             padding: '8px 12px',
-            backgroundColor: `${
-              theme.palette.mode === 'dark' ? colors.grey[200] : colors.grey[700]
-            }`,
+            backgroundColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : colors.grey[700]}`,
             color: `${theme.palette.mode === 'light' && `#${colors.primary[400]}`}`,
             borderRadius: 0,
           },
@@ -97,19 +95,13 @@ const Employees = () => {
             height: '40px',
             weight: '72px',
             padding: '8px 12px',
-            backgroundColor: `${
-              theme.palette.mode === 'dark' ? colors.grey[200] : colors.grey[800]
-            }`,
+            backgroundColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : colors.grey[800]}`,
             color: `${theme.palette.mode === 'light' && `#${colors.primary[300]}`}`,
             borderRadius: 0,
           },
         }}
       >
-        <DataGrid
-          rows={mockDataInvoices}
-          columns={columns}
-          components={{ Toolbar: GridToolbar }}
-        />
+        <DataGrid rows={mockDataInvoices} columns={columns} components={{ Toolbar: GridToolbar }} />
       </Box>
     </Box>
   );

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import LineChart from 'admin/components/chart/LineChart';
-import Header from 'admin/components/Header';
+import Header from 'components/Header';
 
 const LineAnalyst = () => {
   return (

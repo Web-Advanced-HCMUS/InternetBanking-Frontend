@@ -1,6 +1,6 @@
-import Header from 'admin/components/Header';
-import { tokens } from '../../theme.js';
-import { mockDataTeam } from '../../mockData.js';
+import Header from 'components/Header';
+import { tokens } from 'theme';
+import { mockDataTeam } from 'mockData';
 import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { AddOutlined, LinkOffOutlined } from '@mui/icons-material';

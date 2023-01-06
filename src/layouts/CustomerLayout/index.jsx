@@ -1,36 +1,20 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@mui/styles';
-import { Box, useMediaQuery } from '@mui/material';
-import CustomerTopBar from './Topbar/CustomerTopBar';
-import CustomerSideBar from './Sidebar/CustomerSideBar';
-
-const useStyles = makeStyles((theme) => ({
-  root: { backgroundColor: '#f7fafe', height: '100%' },
-  content: {
-    height: '100%',
-  },
-}));
+import { Box } from '@mui/material';
+import TopBar from '../global/Topbar';
+import Sidebar from '../global/Sidebar';
 
 const CustomerLayout = (props) => {
   const { children } = props;
-  const classes = useStyles();
-  const [collapse, setCollapse] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div>
-      <CustomerTopBar collapse={collapse} setCollapse={setCollapse} />
-      <CustomerSideBar collapse={collapse} />
-      <Box
-        ml={!collapse ? 31 : 7}
-        height="calc(100vh - 71px)"
-        width={`calc(100% - ${!collapse ? '248px' : '56px'})`}
-        sx={{ backgroundColor: '#f7fafe' }}
-        className={classes.content}
-      >
+    <main className="content">
+      <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      <Box ml={`${!isCollapsed ? '248px' : '71px'}`} display="flex" flexDirection="column" flexGrow={1} height="100%">
+        <TopBar />
         {children}
       </Box>
-    </div>
+    </main>
   );
 };
 

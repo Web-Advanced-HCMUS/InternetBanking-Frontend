@@ -1,17 +1,28 @@
 import './App.css';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Routes, Route } from 'react-router-dom';
 import LoginForm from 'containers/LoginForm';
 import AuthLayout from 'layouts/AuthLayout';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import Homepage from 'pages/HomePage';
 import HomeLayout from 'layouts/HomeLayout';
-import DebtPage from 'pages/DebtPage';
+import Homepage from 'pages/HomePage';
+
+// customer
 import CustomerHome from 'pages/CustomerHome';
-import TransactionPage from 'pages/TransactionPage';
 import TransferPage from 'pages/TransferPage';
 import CardManagement from 'pages/CardManagement';
 import ProfilePage from 'pages/ProfilePage';
-import { useMode, ColorModeContext } from 'admin/theme';
+import DebtPage from 'pages/DebtPage';
+import EmployeeMainPage from 'pages/EmployeePage/EmployeeMainPage';
+import CreateUser from 'pages/EmployeePage/CreateUser';
+import TopUp from 'pages/EmployeePage/TopUp';
+import UserTransaction from 'pages/EmployeePage/UserTransaction';
+import CustomerLayout from 'layouts/CustomerLayout';
+import { default as CustomerDebtTransactions } from 'pages/transactions/DebtTransactions';
+import { default as CustomerReceiveTransactions } from 'pages/transactions/ReceiveTransactions';
+import { default as CustomerTransferTransactions } from 'pages/transactions/TransferTransactions';
+
+//  admin
+import { useMode, ColorModeContext } from './theme';
 import Employees from 'admin/pages/employees';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import AddEmployees from 'admin/pages/employees/add';
@@ -24,32 +35,31 @@ import AdminLayout from 'admin/layout';
 import LineAnalyst from 'admin/pages/chart/line';
 import PieAnalyst from 'admin/pages/chart/pie';
 import DashBoard from 'admin/pages/dashboard';
-import { default as EmployeeDashboard } from 'staff/pages/dashboard';
-import EmployeeMainPage from 'pages/EmployeePage/EmployeeMainPage'
-import CreateUser from 'pages/EmployeePage/CreateUser'
-import TopUp from 'pages/EmployeePage/TopUp'
-import UserTransaction from 'pages/EmployeePage/UserTransaction'
-import EmployeeLayout from 'staff/layout';
-import Profile from 'staff/pages/profile';
-import ChangePassword from 'staff/pages/password/change';
-import AddCustomer from 'staff/pages/customers/AddCustomers';
-import CustomerDeposit from 'staff/pages/customers/CustomerDeposit';
-import CustomerTransactions from 'staff/pages/customers/CustomerTransactions';
-import ReceiveTransactions from 'staff/pages/transactions/ReceiveTransactions';
-import TransferTransactions from 'staff/pages/transactions/TransferTransactions';
-import DebtTransactions from 'staff/pages/transactions/DebtTransactions';
+
+// employees
+import EmployeeLayout from 'employee/layout';
+import Profile from 'employee/pages/profile';
+import ChangePassword from 'employee/pages/password/change';
+import AddCustomer from 'employee/pages/customers/AddCustomers';
+import CustomerDeposit from 'employee/pages/customers/CustomerDeposit';
+import CustomerTransactions from 'employee/pages/customers/CustomerTransactions';
+import ReceiveTransactions from 'employee/pages/transactions/ReceiveTransactions';
+import TransferTransactions from 'employee/pages/transactions/TransferTransactions';
+import DebtTransactions from 'employee/pages/transactions/DebtTransactions';
+import { default as EmployeeDashboard } from 'employee/pages/dashboard';
+import TransferConfirmation from 'pages/TransferConfirmation.jsx';
+import ReceiverManagement from 'pages/ReceiverManagement';
+import Transactions from 'pages/transactions';
 
 function App() {
   const [theme, colorMode] = useMode();
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-
         <CssBaseline />
         <ProSidebarProvider>
           <div className="App">
             <Routes>
-              <Route path="/home" element={<CustomerHome />} />
               <Route
                 index
                 element={
@@ -58,17 +68,18 @@ function App() {
                   </HomeLayout>
                 }
               />
+
+              {/* common */}
               <Route
-                path="login"
+                path="/login"
                 element={
                   <AuthLayout>
                     <LoginForm />
                   </AuthLayout>
                 }
               />
-              <Route path="debt" element={<DebtPage />} />
+              <Route path="/forget-password" element={<AuthLayout>{/* Forget Password form */}</AuthLayout>} />
 
-              {/* common */}
               <Route
                 path="/profile"
                 element={
@@ -87,7 +98,83 @@ function App() {
               />
               {/* common */}
 
-              {/* staff */}
+              {/* customer */}
+              <Route
+                path="/home"
+                element={
+                  <CustomerLayout>
+                    <CustomerHome />
+                  </CustomerLayout>
+                }
+              />
+              <Route
+                path="/credits"
+                element={
+                  <CustomerLayout>
+                    <CardManagement />
+                  </CustomerLayout>
+                }
+              />
+              <Route
+                path="/transfer/internal"
+                element={
+                  <CustomerLayout>
+                    <TransferPage />
+                  </CustomerLayout>
+                }
+              />
+              <Route
+                path="/transfer/external"
+                element={
+                  <CustomerLayout>
+                    <TransferPage isExt />
+                  </CustomerLayout>
+                }
+              />
+              <Route
+                path="/transfer/confirm"
+                element={
+                  <CustomerLayout>
+                    <TransferConfirmation />
+                  </CustomerLayout>
+                }
+              />
+              <Route
+                path="/receiver"
+                element={
+                  <CustomerLayout>
+                    <ReceiverManagement />
+                  </CustomerLayout>
+                }
+              />
+              <Route
+                path="/debt"
+                element={
+                  <CustomerLayout>
+                    <DebtPage />
+                  </CustomerLayout>
+                }
+              />
+              <Route
+                path="/transactions"
+                element={
+                  <CustomerLayout>
+                    <Transactions />
+                  </CustomerLayout>
+                }
+              />
+
+              <Route
+                path="/transactions/:idx"
+                element={
+                  <CustomerLayout>
+                    <Transactions />
+                  </CustomerLayout>
+                }
+              />
+              {/* customer */}
+
+              {/* employee */}
               <Route
                 path="/employee"
                 element={
@@ -144,8 +231,7 @@ function App() {
                   </EmployeeLayout>
                 }
               />
-              {/* staff */}
-
+              {/* employee */}
               {/* admin */}
               <Route
                 path="/admin"
@@ -229,76 +315,50 @@ function App() {
               />
               {/* admin */}
             </Routes>
+
+            {/* <Routes>
+              <Route path="/">
+                <Route
+                  index
+                  element={
+                    <HomeLayout>
+                      <Homepage />
+                    </HomeLayout>
+                  }
+                />
+                <Route
+                  path="login"
+                  element={
+                    <AuthLayout>
+                      <LoginForm />
+                    </AuthLayout>
+                  }
+                />
+
+                 <Route
+                  path="/home"
+                  element={
+                    <CustomerLayout>
+                      <CustomerHome />
+                    </CustomerLayout>
+                  }
+                /> 
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/card-management" element={<CardManagement />} />
+               
+                <Route path="/transaction" element={<TransactionPage />} />
+                <Route path="debt" element={<DebtPage />} />
+              </Route>
+
+              <Route path="/employee">
+                <Route index element={<EmployeeMainPage />} />
+                <Route path="create" element={<CreateUser />} />
+                <Route path="topup" element={<TopUp />} />
+                <Route path="user-transaction" element={<UserTransaction />} />
+              </Route>
+            </Routes> */}
           </div>
         </ProSidebarProvider>
-        <Routes>
-          <Route path="/">
-            <Route
-              index
-              element={
-                <HomeLayout>
-                  <Homepage />
-                </HomeLayout>
-              }
-            />
-            <Route
-              path="login"
-              element={
-                <AuthLayout>
-                  <LoginForm />
-                </AuthLayout>
-              }
-            />
-
-            <Route path="/home" element={<CustomerHome />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/card-management" element={<CardManagement />} />
-            <Route path="/transfer/internal" element={<TransferPage />} />
-            <Route path="/transfer/external" element={<TransferPage isExt />} />
-            <Route path="/transaction" element={<TransactionPage />} />
-            <Route path="debt" element={<DebtPage />} />
-             <Route
-              path="debt"
-              element={
-                <DebtPage />
-              }
-            />
-            <Route
-              path="home"
-              element={
-                <CustomerHome />
-              }
-            />
-          </Route>
-          
-          <Route path="/employee">
-            <Route
-                index
-                element={
-                  <EmployeeMainPage />
-                }
-              />
-              <Route
-                path="create"
-                element={
-                  <CreateUser />
-                }
-              />
-              <Route
-                path="topup"
-                element={
-                  <TopUp />
-                }
-              />
-              <Route
-                path="user-transaction"
-                element={
-                  <UserTransaction />
-                }
-              />
-          </Route>
-          
-        </Routes>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

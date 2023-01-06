@@ -13,12 +13,7 @@ const ProfilePage = () => {
     <div style={{ height: '100%' }}>
       <CustomerTopBar setCollapse={setCollapse} collapse={collapse} />
       <CustomerSideBar collapse={collapse} />
-      <Box
-        ml={!collapse ? 31 : 7}
-        width={`calc(100% - ${!collapse ? '250px' : '56px'})`}
-        mt="71px"
-        overflow="hidden"
-      >
+      <Box ml={!collapse ? 31 : 7} width={`calc(100% - ${!collapse ? '250px' : '56px'})`} mt="71px" overflow="hidden">
         <TrackRouteBar />
         <ScreenTitle title="Thông tin chi tiết" />
 
@@ -46,13 +41,7 @@ const ProfilePage = () => {
           border={3}
           borderRadius={5}
         >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            width="100%"
-            my={1}
-          >
+          <Box display="flex" alignItems="center" justifyContent="space-between" width="100%" my={1}>
             <Typography variant="h5">Chi tiết tài khoản</Typography>
             <Button>Chỉnh sửa</Button>
           </Box>
@@ -87,22 +76,14 @@ const ProfilePage = () => {
           border={3}
           borderRadius={5}
         >
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            width="100%"
-            my={1}
-          >
+          <Box display="flex" alignItems="center" justifyContent="space-between" width="100%" my={1}>
             <Typography variant="h5">Thông tin cá nhân</Typography>
             <Button>Chỉnh sửa</Button>
           </Box>
           <Divider light />
           <Box display="flex" width="100%" my={1}>
             <Typography>Địa chỉ:</Typography>
-            <Typography ml={1}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, illum.
-            </Typography>
+            <Typography ml={1}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, illum.</Typography>
           </Box>
           <Box display="flex" width="100%" my={1}>
             <Typography>Tình trạng hôn nhân:</Typography>

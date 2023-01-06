@@ -1,26 +1,15 @@
-import {
-  Box,
-  Button,
-  Typography,
-  TextField,
-  FormControl,
-} from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 const CreateUser = (props) => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm();
-  const handleBack = () => {navigate('/employee')};
+  const { handleSubmit, control } = useForm();
+  const handleBack = () => {
+    navigate('/employee');
+  };
 
   const onSubmit = (data) => {
     console.log(data);
@@ -56,75 +45,32 @@ const CreateUser = (props) => {
           <Controller
             name={'username'}
             control={control}
-            render={({ field }) => (
-              <TextField
-                margin="normal"
-                fullWidth
-                required
-                label="Username"
-                {...field}
-              />
-            )}
+            render={({ field }) => <TextField margin="normal" fullWidth required label="Username" {...field} />}
           />
         </div>
 
         <Controller
           name={'password'}
           control={control}
-          render={({ field }) => (
-            <TextField
-              margin="normal"
-              fullWidth
-              required
-              label="Password"
-              {...field}
-            />
-          )}
+          render={({ field }) => <TextField margin="normal" fullWidth required label="Password" {...field} />}
         />
 
         <Controller
           name={'name'}
           control={control}
-          render={({ field }) => (
-            <TextField
-              margin="normal"
-              fullWidth
-              required
-              label="Họ và tên"
-              {...field}
-            />
-          )}
+          render={({ field }) => <TextField margin="normal" fullWidth required label="Họ và tên" {...field} />}
         />
-
 
         <Controller
           name={'phone'}
           control={control}
-          render={({ field }) => (
-            <TextField
-              margin="normal"
-              type="cel"
-              fullWidth
-              required
-              label="Số điện thoại"
-              {...field}
-            />
-          )}
+          render={({ field }) => <TextField margin="normal" type="cel" fullWidth required label="Số điện thoại" {...field} />}
         />
 
         <Controller
           name={'email'}
           control={control}
-          render={({ field }) => (
-            <TextField
-              margin="normal"
-              type={"email"}
-              fullWidth
-              required
-              label="Email"
-              {...field}
-            />
-          )}
+          render={({ field }) => <TextField margin="normal" type={'email'} fullWidth required label="Email" {...field} />}
         />
 
         <Button

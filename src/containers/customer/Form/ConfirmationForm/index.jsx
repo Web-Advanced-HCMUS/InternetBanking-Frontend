@@ -1,17 +1,10 @@
 import { ArrowBack, SendOutlined } from '@mui/icons-material';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import CountDown from 'containers/customer/CountDown';
 import { Link } from 'react-router-dom';
 
 const ConfirmationForm = ({ email, showModal, setShowModal }) => {
   return (
-    <Box
-      component="form"
-      my={1}
-      width="60%"
-      mx="auto"
-      sx={{ '& .MuiTextField-root': { m: 1 } }}
-    >
+    <Box component="form" my={1} width="60%" mx="auto" sx={{ '& .MuiTextField-root': { m: 1 } }}>
       <Typography my={3} fontWeight={550} variant="h5">
         OTP Confirmation
       </Typography>
@@ -26,46 +19,22 @@ const ConfirmationForm = ({ email, showModal, setShowModal }) => {
             huynhkha2601@gmail.com
           </Typography>
         </Typography>
-        <Typography>
-          Please enter the OTP below to confirm the payment. Thank you!
-        </Typography>
+        <Typography>Please enter the OTP below to confirm the payment. Thank you!</Typography>
         <Box display={'flex'} alignItems="center">
-          <TextField
-            variant="outlined"
-            type="number"
-            sx={{ '& .MuiOutlinedInput-root': { borderRadius: `0` } }}
-            placeholder="######"
-            size="small"
-          />
+          <TextField variant="outlined" type="number" sx={{ '& .MuiOutlinedInput-root': { borderRadius: `0` } }} placeholder="######" size="small" />
           <Button sx={{ p: 1 }} variant="contained" endIcon={<SendOutlined />}>
             Confirm
           </Button>
         </Box>
         <Box display={'flex'} alignItems="center">
-          {/* Clock */}
           <Typography>Have you receive a confirmation email?</Typography>
-          <Typography
-            ml={1}
-            size="small"
-            sx={{
-              color: '#1976d2',
-              textTransform: 'none',
-              cursor: 'pointer',
-              textDecoration: 'underline',
-            }}
-          >
+          <Typography ml={1} size="small" sx={{ color: '#1976d2', textTransform: 'none', cursor: 'pointer', textDecoration: 'underline' }}>
             Resend OTP
-            {/* ( */}
-            {/* Timer */}
-            {/* <CountDown totalSeconds={61000} />) */}
           </Typography>
         </Box>
       </Box>
       <Box mt={0.5}>
-        <Link
-          style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-          onClick={() => setShowModal(!showModal)}
-        >
+        <Link style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setShowModal(!showModal)}>
           <ArrowBack fontSize="14" />
           <Typography ml={1}>Back</Typography>
         </Link>
