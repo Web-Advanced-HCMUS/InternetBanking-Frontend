@@ -2,13 +2,16 @@ import React from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-const authBg = '/img/30719.jpg';
+import Footer from 'layouts/HomeLayout/Footer';
+import { Box, Container } from '@mui/system';
+import { CssBaseline, Link, Typography, Grid, Paper } from '@mui/material';
+
+const authBg = '/img/00.jpeg';
 
 const useStyles = makeStyles((theme) => ({
   backgroundImage: {
-    width: '100vw',
     height: '100vh',
-    backgroundImage: `url(${authBg})`,
+    backgroundColor: '#F4F5F6',
     backgroundSize: 'contain',
     backgroundPosition: 'center',
     display: 'flex',
@@ -16,34 +19,38 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   bgWhiteColor: {
-    backgroundImage:
-      'linear-gradient(to bottom,#FFFFFF, #FFFFFF)',
-    width: 500,
+    backgroundColor: '#FFFFFF',
+    width: 450,
+    height: 'fit-content',
+    
+    borderRadius: 8,
+    boxShadow:
+      '0px 3px 4px rgb(0 0 0 / 4%), 0px 3px 1px rgb(0 0 0 / 2%), 0px 1px 8px rgb(0 0 0 / 10%)',
+    position: 'relative',
+    zIndex: 1000,
+  },
+
+  bgLeft: {
+    backgroundColor: '#FFFFFF',
+    width: 260,
+    marginTop: '36px',
+    textAlign: 'center',
+    paddingTop: '44px',
+    paddingLeft: '24px',
+    paddingRight: '24px',
+    paddingBottom: '44px',
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: '8px',
+    borderBottomLeftRadius: '8px',
     height: 'fit-content',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       height: '100%',
     },
-    borderRadius: 10,
-    boxShadow: '5px 10px 18px #888888',
+    boxShadow:
+      '0px 1px 1px rgb(0 0 0 / 4%), 0px 2px 1px rgb(0 0 0 / 2%), 0px 1px 3px rgb(0 0 0 / 10%)',
     position: 'relative',
-    zIndex: 1000,
-  },
-  backButton: {
-    position: 'absolute',
-
-    border: '2px solid #660099',
-    boxShadow: '5px 10px 18px #888888',
-    [theme.breakpoints.down('sm')]: {
-      border: 'none',
-      top: 19,
-      right: 24,
-    },
-    '&:focus': {
-      outline: 'none',
-    },
-    '&:hover': { opacity: 0.5 },
-    transition: 'all .2s',
+    zIndex: 500,
   },
 }));
 
@@ -58,10 +65,11 @@ export default function AuthLayout(props) {
   };
 
   return (
-    <div className={classes.backgroundImage}>
-      <div className={classes.bgWhiteColor}>
-        {props.children}
+    <div>
+      <div className={classes.backgroundImage}>
+        <div className={classes.bgWhiteColor}>{props.children}</div>
       </div>
+      <Footer />
     </div>
   );
 }

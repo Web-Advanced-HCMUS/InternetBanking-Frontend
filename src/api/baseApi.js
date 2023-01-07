@@ -1,7 +1,4 @@
-import {
-  createApi,
-  fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import config from 'config/config';
 import { logout } from 'redux/slices/authSlice';
 
@@ -31,6 +28,5 @@ const RTKQueryExpired = async (args, api, extraOptions) => {
 
 export const baseApi = createApi({
   baseQuery: RTKQueryExpired,
-  tagTypes: [],
   endpoints: (builder) => ({}),
 });
