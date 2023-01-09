@@ -1,14 +1,33 @@
+<<<<<<< HEAD
 import { Box, TextField, CssBaseline, Typography, Container, Link, FormControlLabel, Checkbox, Grid, IconButton } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Link as RLink } from 'react-router-dom';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useContext, useEffect, useState, useRef } from 'react';
+=======
+import {
+  Box,
+  TextField,
+  CssBaseline,
+  Typography,
+  Container,
+  Link,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+} from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Link as RLink } from 'react-router-dom';
+import { Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useLoginMutation } from 'api/authApi';
 import Toastify from 'components/Toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import useStylesLogin from './styles';
 import logoTimo from '../LoginForm/Logo-timo-V.png';
+<<<<<<< HEAD
 import { LightModeOutlined, DarkModeOutlined } from '@mui/icons-material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -24,6 +43,16 @@ function LoginForm(props) {
   const [login, { isLoading }] = useLoginMutation();
   const { isLogged } = useSelector((state) => state.auth);
   const role = useSelector((state) => state.auth.loggedInUser.role);
+=======
+import { styled } from '@mui/material/styles';
+import { display } from '@mui/system';
+
+function LoginForm(props) {
+  const classes = useStylesLogin();
+  const [login, { isLoading }] = useLoginMutation();
+  const { isLogged } = useSelector((state) => state.auth);
+  const { loggedInUser } = useSelector((state) => state.auth);
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [checked, setChecked] = useState(false);
@@ -105,7 +134,13 @@ function LoginForm(props) {
   };
   return (
     <>
+<<<<<<< HEAD
       {!isLogged && error.length !== 0 && <Toastify message={error} hidden={isLogged} severity="error"></Toastify>}
+=======
+      {!isLogged && error.length !== 0 && (
+        <Toastify message={error} hidden={isLogged} severity="error"></Toastify>
+      )}
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
 
       <div>
         <Box
@@ -119,9 +154,12 @@ function LoginForm(props) {
         >
           <Container component="main" maxWidth="xs">
             <CssBaseline />
+<<<<<<< HEAD
             <IconButton onClick={colorMode.toggleColorMode} className={classes.buttonChangeBg}>
               {theme.palette.mode === 'light' ? <LightModeOutlined /> : <DarkModeOutlined />}
             </IconButton>
+=======
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
             <Box
               sx={{
                 marginTop: 4,
@@ -145,7 +183,11 @@ function LoginForm(props) {
                   autoComplete="username"
                   autoFocus
                   color="primary"
+<<<<<<< HEAD
                   variant="filled"
+=======
+                  variant="outlined"
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
                   value={username}
                   onChange={handleUsername}
                 />
@@ -158,12 +200,17 @@ function LoginForm(props) {
                     label="Mật khẩu"
                     type={typePassword}
                     color="primary"
+<<<<<<< HEAD
                     variant="filled"
+=======
+                    variant="outlined"
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
                     id="password"
                     autoComplete="password"
                     value={password}
                     onChange={handlePassword}
                   />
+<<<<<<< HEAD
                   <IconButton className={classes.eye} onClick={handleShowHidePassword}>
                     {(() => {
                       if (typePassword === 'password') {
@@ -185,6 +232,23 @@ function LoginForm(props) {
 
                 <div className={classes.captcha}>
                   <ReCAPTCHA sitekey="6LfJ04QjAAAAAE6C34ISGnVr6y16H5qkjKxDrIqz" onChange={handleReCaptcha} ref={captchaRef} />
+=======
+                  <div className={classes.eye} onClick={handleShowHidePassword}>
+                    {typePassword === 'password' ? (
+                      <i className="fa fa-eye-slash"></i>
+                    ) : (
+                      <i className="fa fa-eye"></i>
+                    )}
+                  </div>
+                </div>
+
+                <div className={classes.captcha}>
+                  <ReCAPTCHA
+                    sitekey="6LfJ04QjAAAAAE6C34ISGnVr6y16H5qkjKxDrIqz"
+                    onChange={handleReCaptcha}
+                    ref={captchaRef}
+                  />
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
                 </div>
 
                 <LoadingButton
