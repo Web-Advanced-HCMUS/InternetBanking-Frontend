@@ -6,7 +6,8 @@ import config from 'config/config';
 import { logout } from 'redux/slices/authSlice';
 
 const RTKQuery = fetchBaseQuery({
-  baseUrl: config.path.REACT_APP_SERVER_PATH,
+  // baseUrl: config.path.REACT_APP_SERVER_PATH,
+  baseUrl: "http://localhost:3000",
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const accessToken = getState().auth.accessToken;
