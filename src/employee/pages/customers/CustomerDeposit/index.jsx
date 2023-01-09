@@ -5,19 +5,42 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { PersonAddOutlined } from '@mui/icons-material';
 
+import { useState } from 'react';
+import { useAccountRechargeMutation } from 'api/employeeApi';
+
 const initialValues = {
-  accountNo: '',
-  phone: '',
+  userInfo: '',
+  amount: '',
 };
-const username = /(^0(\d{9})$)|(^\d{16}$)/;
+//const username = /(^0(\d{9})$)|(^\d{16}$)/;
+const username = /[\S\s]+[\S]+/;
 const checkoutSchema = yup.object().shape({
-  accountNo: yup.string().matches(username, 'username is not valid').required('required'),
+  userInfo: yup.string().matches(username, 'username is not valid').required('required'),
   amount: yup.number().moreThan(0).required('required'),
 });
 const CustomerDeposit = () => {
   const isNonMobile = useMediaQuery('(min-width:600px)');
-  const handleFormSubmit = (values) => {
+  const [error, setError] = useState('');
+  const [accountRecharge] = useAccountRechargeMutation();
+
+
+
+
+  const handleFormSubmit = async (values) => {
     console.log(values);
+    try {
+      const result = await accountRecharge(values)
+        .unwrap()
+        .then((data) => console.log({ data }))
+        .catch((error) => console.log(error));
+      console.log(result)
+    } catch (err) {
+      if (!err?.status) {
+        setError('Interval Server Error');
+      } else {
+        setError('Failed Authentication');
+      }
+    }
   };
   const name = 'Huynh Tuan Kha';
 
@@ -47,10 +70,10 @@ const CustomerDeposit = () => {
                 label="Account Number or Username"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.accountNo}
-                name="accountNo"
-                error={!!touched.accountNo && !!errors.accountNo}
-                helperText={touched.accountNo && errors.accountNo ? errors.accountNo : name && `${name}`}
+                value={values.userInfo}
+                name="userInfo"
+                error={!!touched.userInfo && !!errors.userInfo}
+                helperText={touched.userInfo && errors.userInfo ? errors.userInfo : name && `${name}`}
                 sx={{ gridColumn: 'span 4' }}
                 autoFocus
               />
