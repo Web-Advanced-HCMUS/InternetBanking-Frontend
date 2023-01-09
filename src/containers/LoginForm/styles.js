@@ -34,7 +34,7 @@ const useStylesLogin = makeStyles((theme) => ({
 
   eye: {
     position: 'absolute',
-    top: 32,
+    top: 25,
     right: 9,
     cursor: 'pointer',
     color: '#000',
@@ -46,6 +46,12 @@ const useStylesLogin = makeStyles((theme) => ({
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  buttonChangeBg: {
+    top: '20px',
+    right: '16px',
+    cursor: 'pointer',
+    position: 'absolute',
   },
 }));
 

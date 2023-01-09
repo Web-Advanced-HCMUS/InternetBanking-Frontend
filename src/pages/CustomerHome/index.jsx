@@ -1,20 +1,16 @@
-import CustomerSideBar from 'layouts/HomeLayout/Sidebar/CustomerSideBar';
-import CustomerTopBar from 'layouts/HomeLayout/Topbar/CustomerTopBar';
-import UserAccount from 'containers/UserAccount'
-import { useProSidebar } from 'react-pro-sidebar';
-
+import { Box } from '@mui/system';
+import Header from 'components/Header';
+import UserAccount from 'containers/UserAccount';
 
 const CustomerHome = () => {
-  const { collapseSidebar } = useProSidebar();
-
   return (
-    <div style={{ height: '100%' }}>
-      <div>
-      <CustomerTopBar collapseSidebar={collapseSidebar} />
-      <CustomerSideBar />
-      </div>
-      <UserAccount/>
-    </div>
+    <Box m="20px">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="CUSTOMER HOMEPAGE" subtitle="Landing page of customer after logging in" />
+      </Box>
+
+      <UserAccount />
+    </Box>
   );
 };
 

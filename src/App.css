@@ -40,9 +40,45 @@
 }
 
 html,
-body {
+body,
+#root,
+.App,
+.content {
   height: 100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica', 'Arial',
     sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.slick-track {
+  margin-left: 0 !important;
 }
