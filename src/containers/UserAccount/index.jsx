@@ -20,7 +20,7 @@ function UserAccount() {
   const ButtonList = [
     { title: 'Internal Transfer', icon: CompareArrowsIcon, url: '/transfer/internal' },
     { title: 'External Transfer', icon: CurrencyExchangeOutlined, url: '/transfer/external' },
-    { title: 'Debt Reminder', icon: BackpackIcon, url: '/home' },
+    { title: 'Debt Reminder', icon: BackpackIcon, url: '/debt' },
     { title: 'Debt Payment', icon: AssignmentIcon, url: '/home' },
   ];
 

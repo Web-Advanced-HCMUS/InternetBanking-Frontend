@@ -5,6 +5,9 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { PersonAddOutlined } from '@mui/icons-material';
 
+import { useState } from 'react';
+import { useCreateAccountMutation } from 'api/employeeApi';
+
 const generateAccountNo = () => {
   return Math.floor(Math.random() * (9999999999999999 - 1000000000000000) + 1000000000000000, 1).toString();
 };
@@ -16,10 +19,12 @@ const initialValues = {
   dateOfBirth: '',
   email: '',
   address: '',
-  balance: 50000,
+  balance: 0,
   username: '',
   accountNo: generateAccountNo(),
   password: '',
+  role: 'CLIENT',
+  accountType: 'USER'
 };
 const phoneRegExp = /^0(\d{9})$/;
 const identityCardRegExp = /^(\d{9})$|^(\d{11})$/;
@@ -33,10 +38,28 @@ const checkoutSchema = yup.object().shape({
   dateOfBirth: yup.string().required('required'),
 });
 const AddCustomer = () => {
+  const [error, setError] = useState('');
+  const [createAccount] = useCreateAccountMutation();
+
   const isNonMobile = useMediaQuery('(min-width:600px)');
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = async (values) => {
     console.log(values);
+    const upperCaseGender = values.gender.toUpperCase();
+    const dataUpload = {...values, gender: upperCaseGender};
+    try {
+      await createAccount(dataUpload)
+        .unwrap()
+        .then((data) => console.log({ data }))
+        .catch((error) => console.log(error));
+    } catch (err) {
+      if (!err?.status) {
+        setError('Interval Server Error');
+      } else {
+        setError('Failed Authentication');
+      }
+    }
   };
+    
 
   return (
     <Box m="20px">
@@ -180,7 +203,7 @@ const AddCustomer = () => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.username}
-                name="address"
+                name="username"
                 error={!!touched.username && !!errors.username}
                 helperText={touched.username && errors.username}
                 sx={{ gridColumn: 'span 2' }}
