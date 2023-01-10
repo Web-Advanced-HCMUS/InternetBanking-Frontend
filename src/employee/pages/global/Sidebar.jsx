@@ -76,7 +76,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
           >
             {!isCollapsed && (
               <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Typography variant="h3">EMPLOYEE</Typography>
+                <Typography variant="h5">EMPLOYEE</Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
                 </IconButton>
@@ -99,7 +99,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
                 />
               </Box>
               <Box textAlign="center">
-                <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: '5px 0 0 0' }}>
+                <Typography variant="h5" color={colors.grey[100]} fontWeight="bold" sx={{ m: '5px 0 0 0' }}>
                   Ed Roh
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>

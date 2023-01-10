@@ -8,13 +8,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const CustomerTopBar = ({ collapse, collapseSidebar }) => {
   return (
-    <Box
-      display={'flex'}
-      justifyContent="space-between"
-      alignItems={'center'}
-      bgcolor={'#5A519E'}
-      p={1.25}
-    >
+    <Box display={'flex'} justifyContent="space-between" alignItems={'center'} bgcolor={'#5A519E'} p={1.25}>
       <Box>
         <IconButton onClick={() => collapseSidebar(!collapse)}>
           <MenuIcon sx={{ color: '#f3f3f3', cursor: 'pointer' }} fontSize="large" />
@@ -39,10 +33,7 @@ const CustomerTopBar = ({ collapse, collapseSidebar }) => {
           <DarkModeIcon sx={{ color: '#f3f3f3', cursor: 'pointer' }} fontSize="large" />
         </IconButton> */}
         <IconButton>
-          <NotificationsIcon
-            sx={{ color: '#f3f3f3', cursor: 'pointer' }}
-            fontSize="large"
-          />
+          <NotificationsIcon sx={{ color: '#f3f3f3', cursor: 'pointer' }} fontSize="large" />
         </IconButton>
         <IconButton sx={{ height: 30, width: 30 }}>
           <Avatar src="" />

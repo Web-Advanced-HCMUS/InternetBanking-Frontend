@@ -100,7 +100,7 @@ export const tokens = (mode) => ({
           200: '#080b12',
           300: '#0c101b',
           400: '#f2f0f0', // manually changed
-          500: '#141b2d',
+          500: '#77639b',
           600: '#1F2A40',
           700: '#727681',
           800: '#a1a4ab',
@@ -207,31 +207,75 @@ export const themeSettings = (mode) => {
           }),
     },
     typography: {
-      fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-      fontSize: 12,
       h1: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-        fontSize: 40,
+        fontFamily: "'Open Sans', sans-serif",
+        fontWeight: 700,
+        fontSize: '6rem',
+        lineHeight: 1.167,
+        letterSpacing: '-0.01562em',
       },
       h2: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-        fontSize: 32,
+        fontFamily: "'Open Sans',sans-serif",
+        fontWeight: 700,
+        fontSize: '3.75rem',
+        lineHeight: 1.2,
+        letterSpacing: '-0.00833em',
       },
       h3: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-        fontSize: 24,
+        fontFamily: "'Open Sans', sans-serif",
+        fontWeight: 700,
+        fontSize: '3rem',
+        lineHeight: 1.167,
+        letterSpacing: '0em',
       },
       h4: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-        fontSize: 20,
+        fontFamily: "'Open Sans',sans-serif",
+        fontWeight: 700,
+        fontSize: '2.125rem',
+        lineHeight: 1.235,
+        letterSpacing: '0.00735em',
       },
       h5: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-        fontSize: 16,
+        fontFamily: "'Open Sans',sans-serif",
+        fontWeight: 600,
+        fontSize: '1.5rem',
+        lineHeight: 1.43,
+        letterSpacing: '0em',
       },
       h6: {
-        fontFamily: ['Source Sans Pro', 'sans-serif'].join(','),
-        fontSize: 14,
+        fontFamily: "'Open Sans',sans-serif",
+        fontWeight: 400,
+        fontSize: '0.9rem',
+        lineHeight: 1.43,
+        letterSpacing: '0.0075em',
+      },
+      subtitle1: {
+        fontFamily: "'Open Sans',sans-serif",
+        fontWeight: 600,
+        fontSize: '1.0rem',
+        lineHeight: 1.75,
+        letterSpacing: '0.00938em',
+      },
+      subtitle2: {
+        fontFamily: "'Open Sans', sans-serif",
+        fontWeight: 600,
+        fontSize: '0.875rem',
+        lineHeight: 1.57,
+        letterSpacing: '0.00714em',
+      },
+      body1: {
+        fontFamily: "'Open Sans', sans-serif",
+        fontWeight: 400,
+        fontSize: '1rem',
+        lineHeight: 1.5,
+        letterSpacing: '0.00938em',
+      },
+      body2: {
+        fontFamily: "'Open Sans',sans-serif",
+        fontWeight: 600,
+        fontSize: '1rem',
+        lineHeight: 1.43,
+        letterSpacing: '0.01071em',
       },
     },
   };
@@ -253,5 +297,5 @@ export const useMode = () => {
   );
 
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  return [theme, colorMode];
+  return [theme, colorMode, mode];
 };

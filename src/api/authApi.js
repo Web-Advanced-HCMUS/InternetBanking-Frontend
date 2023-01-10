@@ -3,13 +3,29 @@ import { baseApi } from './baseApi';
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
-      query: (credentials) => ({
+      query: (body) => ({
         url: 'user/login',
         method: 'POST',
-        body: { ...credentials },
+        body: { ...body },
+        providesTags: ['AUTH'],
+      }),
+    }),
+    refresh: builder.mutation({
+      query: (params) => ({
+        url: 'user/refresh-token',
+        method: 'POST',
+        params: { params },
+        providesTags: ['AUTH'],
+      }),
+    }),
+    logout: builder.mutation({
+      query: () => ({
+        url: 'user/logout',
+        method: 'GET',
+        providesTags: ['AUTH'],
       }),
     }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useRefreshMutation, useLogoutMutation } = authApi;

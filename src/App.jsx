@@ -3,8 +3,9 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Routes, Route } from 'react-router-dom';
 import LoginForm from 'containers/LoginForm';
 import AuthLayout from 'layouts/AuthLayout';
-import HomeLayout from 'layouts/HomeLayout';
 import Homepage from 'pages/HomePage';
+import HomeLayout from 'layouts/HomeLayout';
+import ForgotPasswordForm from 'containers/ForgotPasswordForm';
 
 // customer
 import CustomerHome from 'pages/CustomerHome';
@@ -51,6 +52,8 @@ import TransferConfirmation from 'pages/TransferConfirmation.jsx';
 import ReceiverManagement from 'pages/ReceiverManagement';
 import Transactions from 'pages/transactions';
 
+import ProtectedRoute from 'components/ProtectedRoute';
+import config from 'config/config';
 function App() {
   const [theme, colorMode] = useMode();
   return (
@@ -61,16 +64,7 @@ function App() {
           <div className="App">
             <Routes>
               <Route
-                index
-                element={
-                  <HomeLayout>
-                    <Homepage />
-                  </HomeLayout>
-                }
-              />
-
-              {/* common */}
-              <Route
+                exact
                 path="/login"
                 element={
                   <AuthLayout>
@@ -78,245 +72,16 @@ function App() {
                   </AuthLayout>
                 }
               />
-              <Route path="/forget-password" element={<AuthLayout>{/* Forget Password form */}</AuthLayout>} />
-
               <Route
-                path="/profile"
+                exact
+                path="/forgot-pass"
                 element={
-                  <EmployeeLayout>
-                    <Profile />
-                  </EmployeeLayout>
-                }
-              />
-              <Route
-                path="/change-password"
-                element={
-                  <EmployeeLayout>
-                    <ChangePassword />
-                  </EmployeeLayout>
-                }
-              />
-              {/* common */}
-
-              {/* customer */}
-              <Route
-                path="/home"
-                element={
-                  <CustomerLayout>
-                    <CustomerHome />
-                  </CustomerLayout>
-                }
-              />
-              <Route
-                path="/credits"
-                element={
-                  <CustomerLayout>
-                    <CardManagement />
-                  </CustomerLayout>
-                }
-              />
-              <Route
-                path="/transfer/internal"
-                element={
-                  <CustomerLayout>
-                    <TransferPage />
-                  </CustomerLayout>
-                }
-              />
-              <Route
-                path="/transfer/external"
-                element={
-                  <CustomerLayout>
-                    <TransferPage isExt />
-                  </CustomerLayout>
-                }
-              />
-              <Route
-                path="/transfer/confirm"
-                element={
-                  <CustomerLayout>
-                    <TransferConfirmation />
-                  </CustomerLayout>
-                }
-              />
-              <Route
-                path="/receiver"
-                element={
-                  <CustomerLayout>
-                    <ReceiverManagement />
-                  </CustomerLayout>
-                }
-              />
-              <Route
-                path="/debt"
-                element={
-                  <CustomerLayout>
-                    <DebtPage />
-                  </CustomerLayout>
-                }
-              />
-              <Route
-                path="/transactions"
-                element={
-                  <CustomerLayout>
-                    <Transactions />
-                  </CustomerLayout>
+                  <AuthLayout>
+                    <ForgotPasswordForm />
+                  </AuthLayout>
                 }
               />
 
-              <Route
-                path="/transactions/:idx"
-                element={
-                  <CustomerLayout>
-                    <Transactions />
-                  </CustomerLayout>
-                }
-              />
-              {/* customer */}
-
-              {/* employee */}
-              <Route
-                path="/employee"
-                element={
-                  <EmployeeLayout>
-                    <EmployeeDashboard />
-                  </EmployeeLayout>
-                }
-              />
-              <Route
-                path="/employee/customers/add"
-                element={
-                  <EmployeeLayout>
-                    <AddCustomer />
-                  </EmployeeLayout>
-                }
-              />
-              <Route
-                path="/employee/customers/deposit"
-                element={
-                  <EmployeeLayout>
-                    <CustomerDeposit />
-                  </EmployeeLayout>
-                }
-              />
-              <Route
-                path="/employee/customers/transactions"
-                element={
-                  <EmployeeLayout>
-                    <CustomerTransactions />
-                  </EmployeeLayout>
-                }
-              />
-              <Route
-                path="/employee/transactions/receive"
-                element={
-                  <EmployeeLayout>
-                    <ReceiveTransactions />
-                  </EmployeeLayout>
-                }
-              />
-              <Route
-                path="/employee/transactions/transfer"
-                element={
-                  <EmployeeLayout>
-                    <TransferTransactions />
-                  </EmployeeLayout>
-                }
-              />
-              <Route
-                path="/employee/transactions/debt"
-                element={
-                  <EmployeeLayout>
-                    <DebtTransactions />
-                  </EmployeeLayout>
-                }
-              />
-              {/* employee */}
-              {/* admin */}
-              <Route
-                path="/admin"
-                element={
-                  <AdminLayout>
-                    <DashBoard />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/employees"
-                element={
-                  <AdminLayout>
-                    <Employees />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/employees/add"
-                element={
-                  <AdminLayout>
-                    <AddEmployees />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/banks"
-                element={
-                  <AdminLayout>
-                    <BankDetails />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/banks/add"
-                element={
-                  <AdminLayout>
-                    <AddBank />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/invoices"
-                element={
-                  <AdminLayout>
-                    <Invoices />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/faq"
-                element={
-                  <AdminLayout>
-                    <FAQ />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/analyst/bar"
-                element={
-                  <AdminLayout>
-                    <BarAnalyst />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/analyst/line"
-                element={
-                  <AdminLayout>
-                    <LineAnalyst />
-                  </AdminLayout>
-                }
-              />
-              <Route
-                path="/admin/analyst/pie"
-                element={
-                  <AdminLayout>
-                    <PieAnalyst />
-                  </AdminLayout>
-                }
-              />
-              {/* admin */}
-            </Routes>
-
-            {/* <Routes>
               <Route path="/">
                 <Route
                   index
@@ -326,37 +91,247 @@ function App() {
                     </HomeLayout>
                   }
                 />
-                <Route
-                  path="login"
-                  element={
-                    <AuthLayout>
-                      <LoginForm />
-                    </AuthLayout>
-                  }
-                />
+                <Route element={<ProtectedRoute userRole={config.USER_ROLE.CLIENT} redirectTo="/login" />}>
+                  <Route
+                    path="/profile"
+                    element={
+                      <EmployeeLayout>
+                        <Profile />
+                      </EmployeeLayout>
+                    }
+                  />
+                  <Route
+                    path="/change-password"
+                    element={
+                      <EmployeeLayout>
+                        <ChangePassword />
+                      </EmployeeLayout>
+                    }
+                  />
+                  {/* common */}
 
-                 <Route
-                  path="/home"
-                  element={
-                    <CustomerLayout>
-                      <CustomerHome />
-                    </CustomerLayout>
-                  }
-                /> 
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/card-management" element={<CardManagement />} />
-               
-                <Route path="/transaction" element={<TransactionPage />} />
-                <Route path="debt" element={<DebtPage />} />
-              </Route>
+                  {/* customer */}
+                  <Route
+                    path="/home"
+                    element={
+                      <CustomerLayout>
+                        <CustomerHome />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/credits"
+                    element={
+                      <CustomerLayout>
+                        <CardManagement />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/transfer/internal"
+                    element={
+                      <CustomerLayout>
+                        <TransferPage />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/transfer/external"
+                    element={
+                      <CustomerLayout>
+                        <TransferPage isExt />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/transfer/confirm"
+                    element={
+                      <CustomerLayout>
+                        <TransferConfirmation />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/receiver"
+                    element={
+                      <CustomerLayout>
+                        <ReceiverManagement />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/debt"
+                    element={
+                      <CustomerLayout>
+                        <DebtPage />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/transactions"
+                    element={
+                      <CustomerLayout>
+                        <Transactions />
+                      </CustomerLayout>
+                    }
+                  />
 
-              <Route path="/employee">
-                <Route index element={<EmployeeMainPage />} />
-                <Route path="create" element={<CreateUser />} />
-                <Route path="topup" element={<TopUp />} />
-                <Route path="user-transaction" element={<UserTransaction />} />
+                  <Route
+                    path="/transactions/:idx"
+                    element={
+                      <CustomerLayout>
+                        <Transactions />
+                      </CustomerLayout>
+                    }
+                  />
+                  {/* customer */}
+                </Route>
+                <Route element={<ProtectedRoute userRole={config.USER_ROLE.EMPLOYEE} redirectTo="/login" />}>
+                  {/* employee */}
+                  <Route
+                    path="/employee"
+                    element={
+                      <EmployeeLayout>
+                        <EmployeeDashboard />
+                      </EmployeeLayout>
+                    }
+                  />
+                  <Route
+                    path="/employee/customers/add"
+                    element={
+                      <EmployeeLayout>
+                        <AddCustomer />
+                      </EmployeeLayout>
+                    }
+                  />
+                  <Route
+                    path="/employee/customers/deposit"
+                    element={
+                      <EmployeeLayout>
+                        <CustomerDeposit />
+                      </EmployeeLayout>
+                    }
+                  />
+                  <Route
+                    path="/employee/customers/transactions"
+                    element={
+                      <EmployeeLayout>
+                        <CustomerTransactions />
+                      </EmployeeLayout>
+                    }
+                  />
+                  <Route
+                    path="/employee/transactions/receive"
+                    element={
+                      <EmployeeLayout>
+                        <ReceiveTransactions />
+                      </EmployeeLayout>
+                    }
+                  />
+                  <Route
+                    path="/employee/transactions/transfer"
+                    element={
+                      <EmployeeLayout>
+                        <TransferTransactions />
+                      </EmployeeLayout>
+                    }
+                  />
+                  <Route
+                    path="/employee/transactions/debt"
+                    element={
+                      <EmployeeLayout>
+                        <DebtTransactions />
+                      </EmployeeLayout>
+                    }
+                  />
+                  {/* employee */}
+                </Route>
+                <Route element={<ProtectedRoute userRole={config.USER_ROLE.ADMIN} redirectTo="/login" />}>
+                  {/* admin */}
+                  <Route
+                    path="/admin"
+                    element={
+                      <AdminLayout>
+                        <DashBoard />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/employees"
+                    element={
+                      <AdminLayout>
+                        <Employees />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/employees/add"
+                    element={
+                      <AdminLayout>
+                        <AddEmployees />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/banks"
+                    element={
+                      <AdminLayout>
+                        <BankDetails />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/banks/add"
+                    element={
+                      <AdminLayout>
+                        <AddBank />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/invoices"
+                    element={
+                      <AdminLayout>
+                        <Invoices />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/faq"
+                    element={
+                      <AdminLayout>
+                        <FAQ />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/analyst/bar"
+                    element={
+                      <AdminLayout>
+                        <BarAnalyst />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/analyst/line"
+                    element={
+                      <AdminLayout>
+                        <LineAnalyst />
+                      </AdminLayout>
+                    }
+                  />
+                  <Route
+                    path="/admin/analyst/pie"
+                    element={
+                      <AdminLayout>
+                        <PieAnalyst />
+                      </AdminLayout>
+                    }
+                  />
+                  {/* admin */}
+                </Route>
               </Route>
-            </Routes> */}
+            </Routes>
           </div>
         </ProSidebarProvider>
       </ThemeProvider>

@@ -46,6 +46,9 @@ body,
 .content {
   height: 100%;
   margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica', 'Arial',
+    sans-serif;
+<<<<<<< HEAD
 }
 
 ::-webkit-scrollbar {
@@ -79,4 +82,6 @@ input[type='number']::-webkit-outer-spin-button {
 
 .slick-track {
   margin-left: 0 !important;
+=======
+>>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
 }

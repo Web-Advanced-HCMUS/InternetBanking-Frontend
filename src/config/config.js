@@ -6,8 +6,13 @@ const config = {
 
   path: {
     REACT_APP_BASE_URL: process.env.REACT_APP_BASE_URL,
-    REACT_APP_SERVER_PATH:
-      process.env.REACT_APP_SERVER_PATH,
+    REACT_APP_SERVER_PATH: process.env.REACT_APP_SERVER_PATH,
+    client: '/home',
+  },
+  USER_ROLE: {
+    CLIENT: 'CLIENT',
+    EMPLOYEE: 'EMPLOYEE',
+    ADMIN: 'ADMIN',
   },
 };
 

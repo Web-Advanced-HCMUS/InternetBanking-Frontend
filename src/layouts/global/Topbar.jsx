@@ -16,7 +16,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext, useState, useEffect } from 'react';
 import { ColorModeContext, tokens } from '../../theme';
 import { InputBase } from '@mui/material';
 import {
@@ -30,13 +30,33 @@ import {
   Logout,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useLogoutMutation } from 'api/authApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const TopBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+  const [logout] = useLogoutMutation();
+  const { isLogged } = useSelector((state) => state.auth);
+
   const colorMode = useContext(ColorModeContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState('');
+  useEffect(() => {
+    if (!isLogged) {
+      navigate('/login');
+    }
+  }, [isLogged]);
+
+  const handleSignOut = async () => {
+    await logout()
+      .unwrap()
+      .then()
+      .catch((error) => console.log(error));
+  };
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
     setOpen(!open);
@@ -128,6 +148,7 @@ const TopBar = () => {
               Profile
             </MenuItem>
           </Link>
+
           <Link to="/change-password">
             <MenuItem sx={{ cursor: 'pointer' }}>
               <ListItemIcon>
@@ -137,14 +158,13 @@ const TopBar = () => {
             </MenuItem>
           </Link>
           <Divider />
-          <Link to="/logout">
-            <MenuItem sx={{ cursor: 'pointer' }}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
-          </Link>
+
+          <MenuItem sx={{ cursor: 'pointer' }} onClick={handleSignOut}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
         </Menu>
       )}
 
