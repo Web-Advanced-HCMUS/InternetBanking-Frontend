@@ -4,7 +4,6 @@ import { logout, setAccessToken, setRefreshToken } from 'redux/slices/authSlice'
 
 const RTKQuery = fetchBaseQuery({
   baseUrl: config.path.REACT_APP_SERVER_PATH,
-
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const accessToken = getState().auth.accessToken;

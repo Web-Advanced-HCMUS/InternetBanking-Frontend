@@ -16,8 +16,7 @@ function ForgotPasswordForm(props) {
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState('');
 
-  const [sendEmailRecovery, { isLoading, isSuccess, isError }] =
-    useSendEmailRecoveryMutation();
+  const [sendEmailRecovery, { isLoading, isSuccess, isError }] = useSendEmailRecoveryMutation();
 
   const usernameSchema = yup.object().shape({
     username: yup.string().required('* Không được bỏ trống username!.'),
@@ -46,13 +45,7 @@ function ForgotPasswordForm(props) {
 
   return (
     <>
-      {(isError || errMsg.length !== 0) && (
-        <Toastify
-          message={errMsg ? errMsg : 'Đã có lỗi!.'}
-          hidden={false}
-          severity="error"
-        ></Toastify>
-      )}
+      {(isError || errMsg.length !== 0) && <Toastify message={errMsg ? errMsg : 'Đã có lỗi!.'} hidden={false} severity="error"></Toastify>}
       <Box
         sx={{
           display: 'flex',
@@ -75,22 +68,10 @@ function ForgotPasswordForm(props) {
               paddingRight: '32px',
             }}
           >
-            <Typography
-              component="h1"
-              variant="h5"
-              color="primary"
-              align="center"
-              marginBottom="20px"
-            >
+            <Typography component="h1" variant="h5" color="primary" align="center" marginBottom="20px">
               QUÊN MẬT KHẨU
             </Typography>
-            <Typography
-              component="h2"
-              align="left"
-              textAlign="center"
-              color="#757575"
-              marginBottom="20px"
-            >
+            <Typography component="h2" align="left" textAlign="center" color="#757575" marginBottom="20px">
               Hãy nhập username của bạn để chúng tôi gửi mail đặt lại mật khẩu.
             </Typography>
             <Formik
@@ -103,25 +84,10 @@ function ForgotPasswordForm(props) {
               {() => (
                 <Form className="col-sm-10 mx-auto">
                   <div className="form-group position-relative">
-                    <ErrorMessage
-                      name="username"
-                      render={(msg) => <small className="text-danger">{msg}</small>}
-                    />
-                    <Field
-                      type="text"
-                      placeholder="Username"
-                      className="form-control"
-                      name="username"
-                      la
-                    />
+                    <ErrorMessage name="username" render={(msg) => <small className="text-danger">{msg}</small>} />
+                    <Field type="text" placeholder="Username" className="form-control" name="username" la />
                   </div>
-                  <LoadingButton
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    loading={isLoading}
-                  >
+                  <LoadingButton type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} loading={isLoading}>
                     Tiếp theo
                   </LoadingButton>
                   <Link

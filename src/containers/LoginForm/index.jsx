@@ -77,21 +77,17 @@ function LoginForm(props) {
 
     try {
       const body = { username, password };
-
-      await login(body)
-        .unwrap()
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error));
+      setError('');
+      await login(body).unwrap();
     } catch (err) {
       setUsername('');
       setPassword('');
-      setError('');
       setChecked(false);
       captchaRef.current.reset();
       if (!err?.status) {
         setError('Interval Server Error');
       } else {
-        setError('Failed Authentication');
+        setError('Unvalid  username or password');
       }
     }
   };

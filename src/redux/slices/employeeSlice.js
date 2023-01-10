@@ -7,8 +7,8 @@ const initialState = {
   isVerify: false,
 };
 
-const forgotSlice = createSlice({
-  name: 'forgot',
+const employeeSlice = createSlice({
+  name: 'employee',
   initialState,
   reducers: {
     setUsernameForgot: (state, action) => {
@@ -26,5 +26,6 @@ const forgotSlice = createSlice({
   },
 });
 
-export const { setUsernameForgot, setOTPForgot, setIsForgot, setIsVerify } = forgotSlice.actions;
-export default forgotSlice.reducer;
+export const { setUsernameForgot, setOTPForgot, setIsForgot, setIsVerify } =
+  employeeSlice.actions;
+export default employeeSlice.reducer;

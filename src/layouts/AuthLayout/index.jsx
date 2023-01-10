@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
   bgWhiteColor: {
     width: 450,
     height: 'fit-content',
-
     borderRadius: 8,
     boxShadow: '0px 3px 4px rgb(0 0 0 / 4%), 0px 3px 1px rgb(0 0 0 / 2%), 0px 1px 8px rgb(0 0 0 / 10%)',
     position: 'relative',
@@ -37,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '24px',
     paddingRight: '24px',
     paddingBottom: '44px',
-    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: '8px',
     borderBottomLeftRadius: '8px',
     height: 'fit-content',
@@ -56,14 +54,14 @@ export default function AuthLayout(props) {
   const colors = tokens(theme.palette.mode);
 
   const classes = useStyles();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleBacktoHome = () => {
-    // nhấn nút X
-    setTimeout(() => {
-      navigate('/');
-    }, 50);
-  };
+  // const handleBacktoHome = () => {
+  //   // nhấn nút X
+  //   setTimeout(() => {
+  //     navigate('/');
+  //   }, 50);
+  // };
 
   return (
     <div>

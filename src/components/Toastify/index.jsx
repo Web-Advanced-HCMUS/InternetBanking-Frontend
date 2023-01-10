@@ -15,19 +15,14 @@ function Toastify({ message, hidden, severity }) {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'right',
       }}
       onClose={handleClose}
     >
-      <Alert
-        onClose={handleClose}
-        variant="filled"
-        severity={severity}
-        sx={{ width: '100%' }}
-      >
+      <Alert onClose={handleClose} variant="filled" severity={severity} sx={{ width: '100%' }}>
         {message}
       </Alert>
     </Snackbar>

@@ -4,11 +4,15 @@ import { ColorModeContext, tokens } from '../../../theme';
 import { InputBase } from '@mui/material';
 import { LightModeOutlined, DarkModeOutlined, PersonOutlined, Search, Logout, LockOutlined, InfoOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useLogoutMutation } from 'api/authApi';
+import { useSelector } from 'react-redux';
 
 const TopBar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const [logout] = useLogoutMutation();
+  const { isLogged } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const handleClick = (e) => {
@@ -17,6 +21,16 @@ const TopBar = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleSignOut = async () => {
+    try {
+      await logout()
+        .unwrap()
+        .then()
+        .catch((error) => console.log(error));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -95,14 +109,13 @@ const TopBar = () => {
               </MenuItem>
             </Link>
             <Divider />
-            <Link to="/logout">
-              <MenuItem sx={{ cursor: 'pointer' }}>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                Logout
-              </MenuItem>
-            </Link>
+
+            <MenuItem sx={{ cursor: 'pointer' }} onClick={handleSignOut}>
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
           </Menu>
         </IconButton>
       </Box>
