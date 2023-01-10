@@ -52,10 +52,14 @@ const TopBar = () => {
   }, [isLogged]);
 
   const handleSignOut = async () => {
-    await logout()
-      .unwrap()
-      .then()
-      .catch((error) => console.log(error));
+    try {
+      await logout()
+        .unwrap()
+        .then()
+        .catch((error) => console.log(error));
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);

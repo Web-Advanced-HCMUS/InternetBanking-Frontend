@@ -7,13 +7,13 @@ const RTKQuery = fetchBaseQuery({
 
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
-    const refreshToken = getState().auth.refreshToken;
+    const accessToken = getState().auth.accessToken;
     headers.set('Access-Control-Allow-Headers', '*');
     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', '*');
     headers.set('Access-Control-Allow-Credentials', 'true');
-    if (refreshToken) {
-      headers.set('Authorization', `Bearer ${refreshToken}`);
+    if (accessToken) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
     }
     return headers;
   },
@@ -25,7 +25,7 @@ const RTKQueryExpired = async (args, api, extraOptions) => {
   if (result?.error?.status === 401) {
     const refreshResult = await RTKQuery({ url: 'user/refresh-token', method: 'POST' }, api, extraOptions);
     if (refreshResult?.data) {
-      api.dispatch(setAccessToken(refreshResult.data.result));
+      api.dispatch(setRefreshToken(refreshResult.data.result));
       result = await RTKQuery(args, api, extraOptions);
     } else {
       api.dispatch(logout());

@@ -33,11 +33,7 @@ function ForgotPasswordForm(props) {
       if (!err.success) {
         setErrMsg(err.data.errors);
       } else {
-<<<<<<< HEAD
-        setErrMsg('Có lỗi xảy ra!');
-=======
         setErrMsg('Không thể thực hiện.');
->>>>>>> 9c02c053acaf2510fe9e711adea9a4cdb85f2a0d
       }
     }
   };
