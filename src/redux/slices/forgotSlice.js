@@ -26,6 +26,5 @@ const forgotSlice = createSlice({
   },
 });
 
-export const { setUsernameForgot, setOTPForgot, setIsForgot, setIsVerify } =
-  forgotSlice.actions;
+export const { setUsernameForgot, setOTPForgot, setIsForgot, setIsVerify } = forgotSlice.actions;
 export default forgotSlice.reducer;
