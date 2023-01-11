@@ -7,6 +7,11 @@ import { tokens } from 'theme';
 import DebtList from 'containers/DebtReminder/DebtList';
 import OwnDebt from 'containers/DebtReminder/OwnDebt';
 
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+
+import { useGetAccountInforByIdMutation, useGetAccountInforMutation, useGetDebtListMutation } from 'api/debtApi';
+
 const debtList = [
   {
     bankID: '89119021012',
@@ -24,6 +29,61 @@ const debtList = [
 const CustomerHome = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const [myDebt, setMyDebt] = useState([]);
+  const [debtPaid, setDebtPaid] = useState([]);
+  const [getDebtList] = useGetDebtListMutation();
+  const [getAccountInfor] = useGetAccountInforMutation();
+  const [getAccountInforById] = useGetAccountInforByIdMutation();
+
+  const { accountNumber, currentBalance } = useSelector((state) => state.debt);
+
+  async function getAccountName(id) {
+    return await getAccountInforById(id);
+  }
+
+  async function getDebtData() {
+    const info = await getAccountInfor().unwrap();
+   
+    const accountNum = info.payload.accounts[0].accountNumber;
+
+    const [debtPaid, myDebt] = await Promise.all([
+      getDebtList({ accountNumber: accountNum, debtType: 'creditor' }),
+      getDebtList({ accountNumber: accountNum, debtType: 'debtor' }),
+    ]);
+
+    const debtP = debtPaid.data.payload.map((item, index) => {
+      // const infor  = await getAccountName(item.debtorAccountNumber);
+      // console.log(infor)
+      // const name = infor.data.payload.accountOwnerName
+      // console.log(name);
+      return { ...item, endDate: new Date(item.endDate).toLocaleDateString() };
+    });
+    const debt = myDebt.data.payload.map((item, index) => {
+      // const infor  =  getAccountName(item.creditorAccountNumber);
+      // const name = infor.data.payload.accountOwnerName
+      return { ...item, endDate: new Date(item.endDate).toLocaleDateString() };
+    });
+
+    setMyDebt(debt);
+    setDebtPaid(debtP);
+  }
+
+  useEffect(() => {
+    getDebtData();
+  }, []);
+
+  async function getFunc(item) {
+    const infor = await getAccountName(item);
+    console.log(infor);
+    const name = infor.data.payload.accountOwnerName;
+    console.log(name);
+    return { ...item, bankName: name };
+  }
+
+   //console.log(myDebt);
+  // console.log(debtPaid);
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -48,12 +108,12 @@ const CustomerHome = () => {
       </Box>
 
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={12}>
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
-            <DebtBox colors={colors} title="MY BALANCE" amount="30.000" />
+            <DebtBox colors={colors} title="MY BALANCE" amount={currentBalance} />
           </Box>
         </Grid>
-        <Grid item xs={12} md={4}>
+        {/* <Grid item xs={12} md={4}>
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
             <DebtBox colors={colors} title="TOTAL RECEIVE" amount="10.000.000" />
           </Box>
@@ -62,8 +122,9 @@ const CustomerHome = () => {
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
             <DebtBox colors={colors} title="TOTAL PAYMENT" amount="30.000.000.000" />
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
+
       {/* <DebtPage /> */}
 
       <Grid container spacing={6}>
@@ -82,7 +143,7 @@ const CustomerHome = () => {
             </Box>
             <Divider />
             <Box display={'flex'} flexDirection="column" p="1rem" gap={'10px'} maxHeight="325px" sx={{ overflowY: 'scroll' }}>
-              {debtList.length === 0 ? <Box>Bạn chưa có nhắc nợ ai</Box> : debtList.map((debt, index) => <OwnDebt key={index} debt={debt} />)}
+              {myDebt.length === 0 ? <Box>Bạn chưa có nhắc nợ ai</Box> : myDebt.map((debt, index) => <OwnDebt key={index} debt={debt} />)}
             </Box>
           </Box>
         </Grid>
@@ -101,7 +162,7 @@ const CustomerHome = () => {
             </Box>
             <Divider />
             <Box display={'flex'} flexDirection="column" p="1rem" gap={'10px'} maxHeight="325px" sx={{ overflowY: 'scroll' }}>
-              {debtList.length === 0 ? <Box>Bạn chưa có nhắc nợ ai</Box> : debtList.map((debt, index) => <DebtList key={index} debt={debt} />)}
+              {debtPaid.length === 0 ? <Box>Bạn chưa có nhắc nợ ai</Box> : debtPaid.map((debt, index) => <DebtList key={index} debt={debt} />)}
             </Box>
           </Box>
         </Grid>
