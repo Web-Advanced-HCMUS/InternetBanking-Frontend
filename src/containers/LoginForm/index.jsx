@@ -77,7 +77,6 @@ function LoginForm(props) {
 
     try {
       const body = { username, password };
-      setError('');
       await login(body).unwrap();
     } catch (err) {
       setUsername('');
