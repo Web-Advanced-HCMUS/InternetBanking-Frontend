@@ -1,4 +1,4 @@
-import { AddOutlined } from '@mui/icons-material';
+import { AddOutlined, SettingsInputComponentOutlined } from '@mui/icons-material';
 import { Box, Button, Divider, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import DebtBox from 'components/DebtBox';
 import Header from 'components/Header';
@@ -6,41 +6,32 @@ import DebtPage from 'containers/DebtReminder';
 import { tokens } from 'theme';
 import DebtList from 'containers/DebtReminder/DebtList';
 import OwnDebt from 'containers/DebtReminder/OwnDebt';
+import AddDebt from 'containers/DebtReminder/AddDebt'
+
 
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import { useGetAccountInforByIdMutation, useGetAccountInforMutation, useGetDebtListMutation } from 'api/debtApi';
 
-const debtList = [
-  {
-    bankID: '89119021012',
-    bankName: 'Toan Minh Phan',
-    amount: '200,000',
-    descript: 'Trả tiền trước 15/1',
-  },
-  {
-    bankID: '939103010030',
-    bankName: 'Kha Huynh',
-    amount: '500,000',
-    descript: 'Đi trả tiền đi',
-  },
-];
 const CustomerHome = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const [myDebt, setMyDebt] = useState([]);
   const [debtPaid, setDebtPaid] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+
   const [getDebtList] = useGetDebtListMutation();
   const [getAccountInfor] = useGetAccountInforMutation();
   const [getAccountInforById] = useGetAccountInforByIdMutation();
 
   const { accountNumber, currentBalance } = useSelector((state) => state.debt);
 
-  async function getAccountName(id) {
-    return await getAccountInforById(id);
-  }
+
+  // async function getAccountName(id) {
+  //   return await getAccountInforById(id);
+  // }
 
   async function getDebtData() {
     const info = await getAccountInfor().unwrap();
@@ -53,15 +44,11 @@ const CustomerHome = () => {
     ]);
 
     const debtP = debtPaid.data.payload.map((item, index) => {
-      // const infor  = await getAccountName(item.debtorAccountNumber);
-      // console.log(infor)
-      // const name = infor.data.payload.accountOwnerName
-      // console.log(name);
+    
       return { ...item, endDate: new Date(item.endDate).toLocaleDateString() };
     });
     const debt = myDebt.data.payload.map((item, index) => {
-      // const infor  =  getAccountName(item.creditorAccountNumber);
-      // const name = infor.data.payload.accountOwnerName
+   
       return { ...item, endDate: new Date(item.endDate).toLocaleDateString() };
     });
 
@@ -73,19 +60,14 @@ const CustomerHome = () => {
     getDebtData();
   }, []);
 
-  async function getFunc(item) {
-    const infor = await getAccountName(item);
-    console.log(infor);
-    const name = infor.data.payload.accountOwnerName;
-    console.log(name);
-    return { ...item, bankName: name };
-  }
+  const handleOpenAddModal = () => {setOpenModal(!openModal)}
 
-   //console.log(myDebt);
-  // console.log(debtPaid);
 
   return (
     <Box m="20px">
+
+      {openModal && <AddDebt open={openModal} accountNumber={accountNumber}/>}
+
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="DEBT MANAGEMENT" subtitle="Manage debt transactions and create a debt" />
 
@@ -101,6 +83,7 @@ const CustomerHome = () => {
               color: colors.grey[100],
             },
           }}
+          onClick={handleOpenAddModal}
         >
           <AddOutlined sx={{ mr: '10px' }} />
           Add Debt

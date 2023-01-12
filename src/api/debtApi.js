@@ -16,6 +16,14 @@ export const debtApi = baseApi.injectEndpoints({
       }),
     }),
 
+    getOtp: builder.mutation({
+      query: (body) => ({
+        url: `api/otp/get-transaction-otp`,
+        method: 'POST',
+        body: {...body}
+      }),
+    }),
+
     getDebtList: builder.mutation({
       query: ({ accountNumber, debtType }) => ({
         url: `api/debt/debt-list/${accountNumber}?debtType=${debtType}`,

@@ -23,13 +23,23 @@ const OwnDebt = (props) => {
   const [cancelDebt] = useCancelDebtMutation();
 
   const [openModal, setOpenModal] = useState(false);
+  const [openModal2, setOpenModal2] = useState(false);
+
   const [reason, setReason] = useState('');
+  const [otp, setOtp] = useState('');
+
   const [cancelStatus, setCancelStatus] = useState({ message: '', severity: '' });
 
   const handleReason = (e) => setReason(e.target.value);
+  const handleOtp = (e) => setOtp(e.target.value);
+
 
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
+
+  const handleOpen2 = () => setOpenModal(true);
+  const handleClose2 = () => setOpenModal(false);
+  
   const handleDeleteDebt = async () => {
     //console.log(reason + '  ' + props.debt._id + ' ' + props.debt.debtorAccountNumber);
 
@@ -55,6 +65,8 @@ const OwnDebt = (props) => {
       }
     }
   };
+
+  const handlePayDebt = () => {}
   return (
     <Box>
       <Divider light />
@@ -92,7 +104,7 @@ const OwnDebt = (props) => {
             sx={{
               '&:hover': { color: '#090316', bgcolor: `${colors.grey[100]}`, transition: '0.5s', cursor: 'pointer' },
             }}
-            onClick={handleOpen}
+            onClick={handleOpen2}
           >
             Thanh toán
           </Box>
@@ -145,6 +157,40 @@ const OwnDebt = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+        open={openModal2}
+        onClose={handleClose2}
+        sx={{
+          '& label.Mui-focused': { color: `${colors.grey[100]}` },
+          '& .MuiInput-underline:after': { borderBottomColor: `${colors.grey[100]}` },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': { borderColor: `${colors.grey[100]}` },
+            '&:hover fieldset': { borderColor: `${colors.grey[100]}` },
+            '&.Mui-focused fieldset': { borderColor: `${colors.grey[100]}` },
+          },
+        }}
+      >
+        <DialogTitle>CANCEL DEBT OF</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Delete debt from account: {props.debt.debtorAccountNumber} <br></br>
+            Amount is: {props.debt.amountOwed} <br></br>
+          </DialogContentText>
+          <Button>Get OTP</Button>
+          <TextField autoFocus id="content" value={otp} onChange={handleOtp} label="Cancel Content" type="text" fullWidth variant="standard" />
+          <TextField autoFocus id="content" value={reason} onChange={handleReason} label="Cancel Content" type="text" fullWidth variant="standard" />
+        </DialogContent>
+        <DialogActions>
+          <Button sx={{ px: 4, backgroundColor: `${colors.grey[400]}`, fontSize: 15, color: 'white' }} onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button sx={{ px: 4, backgroundColor: `${colors.blue[500]}`, fontSize: 15, color: 'white' }} onClick={handlePayDebt}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </Box>
   );
 };

@@ -32,7 +32,7 @@ function UserAccount() {
       await getAccountInfor().unwrap();
     }
     getInfor();
-  });
+  },[]);
 
   return (
     <Box color={'black'} display="flex" gap={1.25} flexDirection="column" alignItems="center" width="100%">
