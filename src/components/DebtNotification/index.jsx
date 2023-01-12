@@ -1,31 +1,61 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import { SnackbarProvider, VariantType, useSnackbar } from 'notistack';
+import { Snackbar, Alert } from '@mui/material';
+import { useState } from 'react';
+import { io } from 'socket.io-client';
+import config from 'config/config';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
-function MyApp() {
-  const { enqueueSnackbar } = useSnackbar();
+function DebtNotification({ message, hidden, severity }) {
+  const { userId } = useSelector((state) => state.auth.loggedInUser);
+  const { accountNumber } = useSelector((state) => state.debt);
 
-  const handleClick = () => {
-    enqueueSnackbar('I love snacks.');
+  
+  const [open, setOpen] = useState(!hidden);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
   };
 
-  const handleClickVariant = (variant) => () => {
-    // variant could be success, error, warning, info, or default
-    enqueueSnackbar('This is a success message!', { variant });
-  };
+  console.log("Number"+ accountNumber)
+  const socket = io.connect("http://localhost:3000");
+  socket.emit('online', { accountNumber: accountNumber, userId: userId }); // check lại coi có account Number không ?, n1o đang null nên lỗi
+
+  socket.on("pay_debt",(msg)=>{
+    console.log(msg);
+  })
+
+  useEffect(()=>{
+    socket.on("create_debt",(msg)=>{
+      console.log(msg);
+    });
+    socket.on("cancel_debt_from_debtor",(msg)=>{
+      console.log(msg);
+    });
+    socket.on("cancel_debt_from_creditor",(msg)=>{
+      console.log(msg);
+    })
+  }, [socket])
+
 
   return (
-    <React.Fragment>
-      <Button onClick={handleClick}>Show snackbar</Button>
-      <Button onClick={handleClickVariant('success')}>Show success snackbar</Button>
-    </React.Fragment>
+    <Snackbar
+      open={open}
+      // autoHideDuration={100000}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      onClose={handleClose}
+    >
+      <Alert onClose={handleClose} variant="filled" severity={severity} width="100%" sx={{ width: '100%' }}>
+        {message}
+      </Alert>
+    </Snackbar>
   );
 }
 
-export default function IntegrationNotistack() {
-  return (
-    <SnackbarProvider maxSnack={5}>
-      <MyApp />
-    </SnackbarProvider>
-  );
-}
+export default DebtNotification;

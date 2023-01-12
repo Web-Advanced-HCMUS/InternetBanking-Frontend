@@ -32,7 +32,7 @@ const OwnDebt = (props) => {
   const handleClose = () => setOpenModal(false);
   const handleReason = (e) => setReason(e.target.value);
   const handleDeleteDebt = async () => {
-    //console.log(reason + '  ' + props.debt._id + ' ' + props.debt.debtorAccountNumber);
+    console.log({ debtID: props.debt._id, fromAccountNumber: props.debt.creditorAccountNumber, content: reason });
 
     setCancelStatus({ message: '', severity: '' });
     try {
@@ -41,6 +41,8 @@ const OwnDebt = (props) => {
         .then((data) => {
           console.log({ data });
           setCancelStatus({ message: 'Cancel success', severity: 'success' });
+          console.log("Ok")
+          props.handleCancelDebt({data});
         })
         .catch((error) => {
           console.log(error.data.errors.message);

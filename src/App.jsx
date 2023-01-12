@@ -65,8 +65,8 @@ function App() {
         <CssBaseline />
         <ProSidebarProvider>
           <div className="App">
-          <DebtNotification message="hello" hidden={false} severity="info"></DebtNotification>
-
+          {/* <DebtNotification message="hello" hidden={false} severity="info"></DebtNotification> */}
+          {/* <DebtNotification/> */}
             <Routes>
               <Route
                 exact

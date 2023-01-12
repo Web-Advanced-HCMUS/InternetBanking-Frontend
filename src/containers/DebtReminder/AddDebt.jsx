@@ -51,6 +51,7 @@ const AddDebt = (props) => {
           .then((data) => {
             console.log({ data });
             setInputStatus({ message: 'Add new Debt success', severity: 'success' });
+            props.handleAddDebt({data})
           })
           .catch((error) => {
             console.log(error.data.errors.message);

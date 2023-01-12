@@ -55,8 +55,9 @@ const OwnDebt = (props) => {
       await cancelDebt({ debtID: props.debt._id, fromAccountNumber: props.debt.creditorAccountNumber, content: reason })
         .unwrap()
         .then((data) => {
-          console.log({ data });
+          console.log({ data });          
           setCancelStatus({ message: 'Cancel success', severity: 'success' });
+          props.handleCancelDebt({data});
         })
         .catch((error) => {
           console.log(error.data.errors.message);
@@ -104,15 +105,16 @@ const OwnDebt = (props) => {
     try {
       await payDebt({ fromAccountNumber: accountNumber, content: payContent, userId: userId, otp: otp, debtId: props.debt._id })
         .unwrap()
-        .then((data) => {
+        .then(async(data) => {
           console.log({ data });
-          setCancelStatus({ message: 'Pay Debt success', severity: 'success' });
+          await setCancelStatus({ message: 'Pay Debt success', severity: 'success' });
+          props.handlePayForDebt({data});
+
         })
         .catch((error) => {
           console.log(error.data.errors.message);
           setCancelStatus({ message: error.data.errors.message, severity: 'error' });
         });
-
       handleClose2();
     } catch (err) {
       if (!err?.status) {
@@ -123,6 +125,7 @@ const OwnDebt = (props) => {
     }
   };
 
+  
   return (
     <>
       {cancelStatus.message.length !== 0 && <Toastify message={cancelStatus.message} hidden={false} severity={cancelStatus.severity}></Toastify>}
@@ -185,7 +188,7 @@ const OwnDebt = (props) => {
                 </Box>
               </Box>
             </Box>
-            <Divider light />
+            {/* <Divider light /> */}
           </>
         ) : (
           <></>
