@@ -48,13 +48,13 @@ export const debtApi = baseApi.injectEndpoints({
     }),
 
     payDebt: builder.mutation({
-      query: ({ body, debtID }) => ({
-        url: `emp/single-transfer-history/${debtID}`,
+      query: ({ fromAccountNumber, content, userId, otp, debtId }) => ({
+        url: `api/debt/pay-debt/${debtId}`,
         method: 'POST',
-        body: { ...body },
+        body: { fromAccountNumber, content, userId, otp },
       }),
     }),
   }),
 });
 
-export const { useGetAccountInforMutation, useGetAccountInforByIdMutation, useGetDebtListMutation, useCreateDebtMutation, useCancelDebtMutation, usePayDebtMutation } = debtApi;
+export const { useGetAccountInforMutation, useGetAccountInforByIdMutation, useGetOtpMutation, useGetDebtListMutation, useCreateDebtMutation, useCancelDebtMutation, usePayDebtMutation } = debtApi;

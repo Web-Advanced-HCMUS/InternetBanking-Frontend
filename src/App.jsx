@@ -52,7 +52,10 @@ import TransferConfirmation from 'pages/TransferConfirmation.jsx';
 import ReceiverManagement from 'pages/ReceiverManagement';
 import Transactions from 'pages/transactions';
 
+import DebtNotification from 'components/DebtNotification';
 import ProtectedRoute from 'components/ProtectedRoute';
+
+
 import config from 'config/config';
 function App() {
   const [theme, colorMode] = useMode();
@@ -62,6 +65,8 @@ function App() {
         <CssBaseline />
         <ProSidebarProvider>
           <div className="App">
+          <DebtNotification message="hello" hidden={false} severity="info"></DebtNotification>
+
             <Routes>
               <Route
                 exact
