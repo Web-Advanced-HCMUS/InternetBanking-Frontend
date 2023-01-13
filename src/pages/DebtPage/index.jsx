@@ -167,7 +167,7 @@ const CustomerHome = () => {
             mx="3.5rem"
           >
             <Box fontWeight={'600'} fontSize="1.2rem" color={colors.greenAccent[500]} my={1} mx={2}>
-              Your Debt
+              Debt Wait to Pay
             </Box>
             <Divider />
             <Box display={'flex'} flexDirection="column" p="1rem" gap={'10px'} maxHeight="325px" sx={{ overflowY: 'scroll' }}>
@@ -192,7 +192,7 @@ const CustomerHome = () => {
             mx="3.5rem"
           >
             <Box fontWeight={'600'} fontSize="1.2rem" color={colors.greenAccent[500]} my={1} mx={2}>
-              Debt Paid
+              Your Debtors 
             </Box>
             <Divider />
             <Box display={'flex'} flexDirection="column" p="1rem" gap={'10px'} maxHeight="325px" sx={{ overflowY: 'scroll' }}>

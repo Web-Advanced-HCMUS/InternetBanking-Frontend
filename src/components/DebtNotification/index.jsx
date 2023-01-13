@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { io } from 'socket.io-client';
 import config from 'config/config';
 import { useSelector } from 'react-redux';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,7 +53,11 @@ function DebtNotification({ socket }) {
 
   const handleToDebt = () => {
     handleClose();
-    navigate('/debt');
+    console.log(window.location.pathname)
+    if(window.location.pathname === '/debt')
+      navigate('/home');
+    else
+      navigate('/debt');
   };
 
   return (
@@ -71,9 +77,14 @@ function DebtNotification({ socket }) {
         width="100%"
         sx={{ width: '100%' }}
         action={
-          <Button color="inherit" size="small" onClick={handleToDebt}>
-            To Debt
-          </Button>
+          <>
+            <Button color="primary" size="small" onClick={handleToDebt}>
+              To Debt
+            </Button>
+            <IconButton aria-label="close" color="inherit" sx={{ p: 0.5 }} onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </>
         }
       >
         {message.message}

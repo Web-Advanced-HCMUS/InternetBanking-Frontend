@@ -78,23 +78,6 @@ function App() {
     //console.log(accountNumber)
   }, [accountNumber]);
 
-//   useEffect(()=>{
-
-//     console.log("Socket nhan")
-//     socket?.on("pay_debt",(msg)=>{
-//       console.log(msg);
-
-//     socket?.on("create_debt",(msg)=>{
-//       console.log(msg);
-//     });
-//     socket?.on("cancel_debt_from_debtor",(msg)=>{
-//       console.log(msg);
-//     });
-//     socket?.on("cancel_debt_from_creditor",(msg)=>{
-//       console.log(msg);
-//     })
-//   }, [socket])
-// })
 
   return (
     <ColorModeContext.Provider value={colorMode}>
