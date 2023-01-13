@@ -52,16 +52,56 @@ import TransferConfirmation from 'pages/TransferConfirmation.jsx';
 import ReceiverManagement from 'pages/ReceiverManagement';
 import Transactions from 'pages/transactions';
 
+import DebtNotification from 'components/DebtNotification';
 import ProtectedRoute from 'components/ProtectedRoute';
+import { io } from "socket.io-client";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+
+
 import config from 'config/config';
+import { Handshake } from '@mui/icons-material';
 function App() {
   const [theme, colorMode] = useMode();
+  const [socket, setSocket] = useState(null);
+  const { userId } = useSelector((state) => state.auth.loggedInUser);
+  const { accountNumber } = useSelector((state) => state.debt);
+  useEffect(() => {
+    setSocket(io(config.path.REACT_APP_SERVER_PATH));
+  }, []);
+
+  useEffect(() => {
+    socket?.emit('online', { accountNumber: accountNumber, userId: userId });
+    //console.log(accountNumber)
+  }, [accountNumber]);
+
+//   useEffect(()=>{
+
+//     console.log("Socket nhan")
+//     socket?.on("pay_debt",(msg)=>{
+//       console.log(msg);
+
+//     socket?.on("create_debt",(msg)=>{
+//       console.log(msg);
+//     });
+//     socket?.on("cancel_debt_from_debtor",(msg)=>{
+//       console.log(msg);
+//     });
+//     socket?.on("cancel_debt_from_creditor",(msg)=>{
+//       console.log(msg);
+//     })
+//   }, [socket])
+// })
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ProSidebarProvider>
           <div className="App">
+          {/* <DebtNotification message="hello" hidden={false} severity="info"></DebtNotification> */}
+          <DebtNotification socket={socket}/>
             <Routes>
               <Route
                 exact
