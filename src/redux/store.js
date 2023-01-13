@@ -11,7 +11,7 @@ const reducers = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
   auth: authReducer,
   forgot: forgotReducer,
-  debt: debtReducer
+  debt: debtReducer,
   admin: adminReducer,
 });
 
