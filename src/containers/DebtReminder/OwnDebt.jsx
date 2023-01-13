@@ -50,14 +50,14 @@ const OwnDebt = (props) => {
 
   const handleDeleteDebt = async () => {
     //console.log(reason + '  ' + props.debt._id + ' ' + props.debt.debtorAccountNumber);
-    setCancelStatus({ message: '', severity: '' });
     try {
-      await cancelDebt({ debtID: props.debt._id, fromAccountNumber: props.debt.creditorAccountNumber, content: reason })
+      setCancelStatus({ message: '', severity: '' });
+      await cancelDebt({ debtID: props.debt._id, fromAccountNumber: props.debt.debtorAccountNumber, content: reason })
         .unwrap()
         .then((data) => {
           console.log({ data });          
-          setCancelStatus({ message: 'Cancel success', severity: 'success' });
-          props.handleCancelDebt({data});
+          setCancelStatus({ message: 'Send cancle success', severity: 'success' });
+          //props.handleCancelDebt({data});
         })
         .catch((error) => {
           console.log(error.data.errors.message);
@@ -105,10 +105,11 @@ const OwnDebt = (props) => {
     try {
       await payDebt({ fromAccountNumber: accountNumber, content: payContent, userId: userId, otp: otp, debtId: props.debt._id })
         .unwrap()
-        .then(async(data) => {
+        .then((data) => {
           console.log({ data });
-          await setCancelStatus({ message: 'Pay Debt success', severity: 'success' });
-          props.handlePayForDebt({data});
+          setCancelStatus({ message: 'Pay Debt success', severity: 'success' });
+          setTimeout(
+            props.handlePayForDebt({data}), 5000);
 
         })
         .catch((error) => {

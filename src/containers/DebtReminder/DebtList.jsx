@@ -38,11 +38,11 @@ const OwnDebt = (props) => {
     try {
       await cancelDebt({ debtID: props.debt._id, fromAccountNumber: props.debt.creditorAccountNumber, content: reason })
         .unwrap()
-        .then((data) => {
+        .then(async(data) => {
           console.log({ data });
           setCancelStatus({ message: 'Cancel success', severity: 'success' });
-          console.log("Ok")
-          props.handleCancelDebt({data});
+          setTimeout(
+          props.handleCancelDebt({data}),5000);
         })
         .catch((error) => {
           console.log(error.data.errors.message);

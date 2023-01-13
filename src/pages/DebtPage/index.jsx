@@ -6,13 +6,11 @@ import DebtPage from 'containers/DebtReminder';
 import { tokens } from 'theme';
 import DebtList from 'containers/DebtReminder/DebtList';
 import OwnDebt from 'containers/DebtReminder/OwnDebt';
-import AddDebt from 'containers/DebtReminder/AddDebt'
-
+import AddDebt from 'containers/DebtReminder/AddDebt';
 
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import DebtNotification from 'components/DebtNotification';
-
 
 import { useGetAccountInforByIdMutation, useGetAccountInforMutation, useGetDebtListMutation } from 'api/debtApi';
 
@@ -30,14 +28,13 @@ const CustomerHome = () => {
 
   const { accountNumber, currentBalance } = useSelector((state) => state.debt);
 
-
   // async function getAccountName(id) {
   //   return await getAccountInforById(id);
   // }
 
   async function getDebtData() {
     const info = await getAccountInfor().unwrap();
-   
+
     const accountNum = info.payload.accounts[0].accountNumber;
 
     const [debtPaid, myDebt] = await Promise.all([
@@ -46,75 +43,78 @@ const CustomerHome = () => {
     ]);
 
     const debtP = debtPaid.data.payload.map((item, index) => {
-    
       return { ...item, endDate: new Date(item.endDate).toLocaleDateString() };
     });
     const debt = myDebt.data.payload.map((item, index) => {
-   
-      return { ...item, endDate: new Date(item.endDate).toLocaleDateString() };
+       return { ...item, endDate: new Date(item.endDate).toLocaleDateString() };
     });
 
-    setMyDebt(debt);
-    setDebtPaid(debtP);
+    const newdebtP = debtP.filter((item)=> item.status === 'incomplete')
+    const newdebt = debt.filter((item)=> item.status === 'incomplete')
+
+
+
+    setMyDebt(newdebt);
+    setDebtPaid(newdebtP);
   }
 
   useEffect(() => {
     getDebtData();
   }, []);
 
-  const handleOpenAddModal = () => {setOpenModal(!openModal)}
+  const handleOpenAddModal = () => {
+    setOpenModal(!openModal);
+  };
 
   const handleAddDebt = (newItem) => {
-    const newData = newItem.data.payload.data
-    console.log(newData)
-    const newDebt = [newData].concat(debtPaid)
-    setDebtPaid(newDebt)
-
-  }
+    const newData = newItem.data.payload.data;
+    //console.log(newData);
+    const newDebt = [newData].concat(debtPaid);
+    setDebtPaid(newDebt);
+  };
 
   const handleCancelDebt = (newItem) => {
     //setDebtPaid(prevState => ({arr: [...prevState, ...newItem]}))
-    console.log(newItem.data.payload.debt)
-    const outData = newItem.data.payload.debt
+    //console.log(newItem.data.payload.debt);
+    const outData = newItem.data.payload.debt;
 
-    const newMyDebt = myDebt.filter((item)=>item._id !== outData._id)
-    console.log(newMyDebt)
+    const newMyDebt = myDebt.filter((item) => item._id !== outData._id);
+    //console.log(newMyDebt);
 
-    setMyDebt(newMyDebt);
-  }
+    setTimeout(setMyDebt(newMyDebt),100000);
+  };
 
   const handleCancelDebt2 = (newItem) => {
     //setDebtPaid(prevState => ({arr: [...prevState, ...newItem]}))
-    console.log(newItem.data.payload.debt)
-    const outData = newItem.data.payload.debt
+    //console.log(newItem.data.payload.debt);
+    const outData = newItem.data.payload.debt;
 
-    const newDebtPaid = debtPaid.filter((item)=>item._id !== outData._id)
-    console.log(newDebtPaid)
+    const newDebtPaid = debtPaid.filter((item) => item._id !== outData._id);
+    //console.log(newDebtPaid);
 
     setDebtPaid(newDebtPaid);
-  }
+  };
 
   const handleCancelDebt3 = (newItem) => {
     //setDebtPaid(prevState => ({arr: [...prevState, ...newItem]}))
-    console.log(newItem.data.payload.data)
-    const outData = newItem.data.payload.data
+    //console.log(newItem.data.payload.data);
+    const outData = newItem.data.payload.data;
 
-    const newMyDebt = myDebt.filter((item)=>item._id !== outData._id)
-    console.log(newMyDebt)
+    const newMyDebt = myDebt.filter((item) => item._id !== outData._id);
+    //console.log(newMyDebt);
 
     setMyDebt(newMyDebt);
-  }
+  };
 
-  useEffect(()=>{
-    console.log(debtPaid)
-  }, [debtPaid])
+  useEffect(() => {
+    //console.log(debtPaid);
+  }, [debtPaid]);
 
-  console.log(myDebt)
+  //console.log(accountNumber + ' ' + currentBalance);
 
   return (
     <Box m="20px">
-
-      {openModal && <AddDebt open={openModal} accountNumber={accountNumber} handleAddDebt={handleAddDebt}/>}
+      {openModal && <AddDebt open={openModal} accountNumber={accountNumber} handleAddDebt={handleAddDebt} />}
       {/* <DebtNotification/> */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="DEBT MANAGEMENT" subtitle="Manage debt transactions and create a debt" />
@@ -139,17 +139,17 @@ const CustomerHome = () => {
       </Box>
 
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={12}>
+        <Grid item xs={6} md={12}>
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
             <DebtBox colors={colors} title="MY BALANCE" amount={currentBalance} />
           </Box>
         </Grid>
-        {/* <Grid item xs={12} md={4}>
+        <Grid item xs={6} md={4}>
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
-            <DebtBox colors={colors} title="TOTAL RECEIVE" amount="10.000.000" />
+            <DebtBox colors={colors} title="ACCOUNT NUMBER" amount={accountNumber} />
           </Box>
         </Grid>
-        <Grid item xs={12} md={4}>
+        {/* <Grid item xs={12} md={4}>
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
             <DebtBox colors={colors} title="TOTAL PAYMENT" amount="30.000.000.000" />
           </Box>
@@ -174,7 +174,13 @@ const CustomerHome = () => {
             </Box>
             <Divider />
             <Box display={'flex'} flexDirection="column" p="1rem" gap={'10px'} maxHeight="325px" sx={{ overflowY: 'scroll' }}>
-              {myDebt.length === 0 ? <Box>Bạn chưa có nhắc nợ ai</Box> : myDebt.map((debt, index) => <OwnDebt key={index} debt={debt} handleCancelDebt={handleCancelDebt} handlePayForDebt={handleCancelDebt3}/>)}
+              {myDebt.length === 0 ? (
+                <Box>Bạn chưa có nhắc nợ ai</Box>
+              ) : (
+                myDebt.map((debt, index) => (
+                  <OwnDebt key={index} debt={debt} handleCancelDebt={handleCancelDebt} handlePayForDebt={handleCancelDebt3} />
+                ))
+              )}
             </Box>
           </Box>
         </Grid>
@@ -193,7 +199,11 @@ const CustomerHome = () => {
             </Box>
             <Divider />
             <Box display={'flex'} flexDirection="column" p="1rem" gap={'10px'} maxHeight="325px" sx={{ overflowY: 'scroll' }}>
-              {debtPaid.length === 0 ? <Box>Bạn chưa có nhắc nợ ai</Box> : debtPaid.map((debt, index) => <DebtList key={index} debt={debt} handleCancelDebt={handleCancelDebt2}/>)}
+              {debtPaid.length === 0 ? (
+                <Box>Bạn chưa có nhắc nợ ai</Box>
+              ) : (
+                debtPaid.map((debt, index) => <DebtList key={index} debt={debt} handleCancelDebt={handleCancelDebt2} />)
+              )}
             </Box>
           </Box>
         </Grid>

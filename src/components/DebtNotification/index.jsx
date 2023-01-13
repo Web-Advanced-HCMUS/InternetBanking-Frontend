@@ -5,54 +5,64 @@ import config from 'config/config';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
-function DebtNotification({ message, hidden, severity }) {
-  const { userId } = useSelector((state) => state.auth.loggedInUser);
-  const { accountNumber } = useSelector((state) => state.debt);
-
+function DebtNotification({socket}) {
+  // const { userId } = useSelector((state) => state.auth.loggedInUser);
+  // const { accountNumber } = useSelector((state) => state.debt);
+  const [message, setMessage] = useState({message:'', status: false, severity:''});
   
-  const [open, setOpen] = useState(!hidden);
+  //const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
-    setOpen(false);
+    setMessage({message:'', status: false, severity:''});
   };
 
-  console.log("Number"+ accountNumber)
-  const socket = io.connect("http://localhost:3000");
-  socket.emit('online', { accountNumber: accountNumber, userId: userId }); // check lại coi có account Number không ?, n1o đang null nên lỗi
-
-  socket.on("pay_debt",(msg)=>{
-    console.log(msg);
-  })
-
   useEffect(()=>{
-    socket.on("create_debt",(msg)=>{
+    console.log(socket)
+    socket?.on("pay_debt",(msg)=>{
       console.log(msg);
+      const newMessage = `Debtor: ${msg.debtorAccountNumber} has paid a debt for you`
+      setMessage({message:'', status: false, severity:''})
+      setMessage({message: newMessage, status: true, severity:'success'});
     });
-    socket.on("cancel_debt_from_debtor",(msg)=>{
-      console.log(msg);
+    socket?.on("create_debt",(msg)=>{
+      const response = {msg}
+      const getData = response.msg
+      const newMessage = `Creditor: ${getData.creditorAccountNumber} has create a debt for you \n------ Content: ${getData.content}`
+      setMessage({message:'', status: false, severity:''})
+      setMessage({message: newMessage, status: true, severity:'warning'});
     });
-    socket.on("cancel_debt_from_creditor",(msg)=>{
+    socket?.on("cancel_debt_from_debtor",(msg)=>{
       console.log(msg);
+      const newMessage = `Debtor: ${msg.debtorAccountNumber} wants you to delete debt \n------ Content: ${msg.content}`
+      setMessage({message:'', status: false, severity:''})
+      setMessage({message: newMessage, status: true, severity:'error'});
+
+    });
+    socket?.on("cancel_debt_from_creditor",(msg)=>{
+      console.log(msg);
+      const newMessage = `Creditor: ${msg.creditorAccountNumber} has delete your debt \n------ Content: ${msg.content}`
+      setMessage({message:'', status: false, severity:''})
+      setMessage({message: newMessage, status: true, severity:'success'});
     })
   }, [socket])
 
 
   return (
     <Snackbar
-      open={open}
-      // autoHideDuration={100000}
+      open={message.status}
+      autoHideDuration={50000}
       anchorOrigin={{
         vertical: 'top',
         horizontal: 'center',
       }}
       onClose={handleClose}
     >
-      <Alert onClose={handleClose} variant="filled" severity={severity} width="100%" sx={{ width: '100%' }}>
-        {message}
+      <Alert onClose={handleClose} variant="filled" severity={message.severity} width="100%" sx={{ width: '100%' }}>
+        {message.message}
       </Alert>
     </Snackbar>
   );
