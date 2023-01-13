@@ -55,7 +55,7 @@ const OwnDebt = (props) => {
       await cancelDebt({ debtID: props.debt._id, fromAccountNumber: props.debt.debtorAccountNumber, content: reason })
         .unwrap()
         .then((data) => {
-          console.log({ data });          
+          console.log({ data });
           setCancelStatus({ message: 'Send cancle success', severity: 'success' });
           //props.handleCancelDebt({data});
         })
@@ -108,9 +108,7 @@ const OwnDebt = (props) => {
         .then((data) => {
           console.log({ data });
           setCancelStatus({ message: 'Pay Debt success', severity: 'success' });
-          setTimeout(
-            props.handlePayForDebt({data}), 5000);
-
+          setTimeout(props.handlePayForDebt({ data }), 5000);
         })
         .catch((error) => {
           console.log(error.data.errors.message);
@@ -126,74 +124,66 @@ const OwnDebt = (props) => {
     }
   };
 
-  
   return (
     <>
       {cancelStatus.message.length !== 0 && <Toastify message={cancelStatus.message} hidden={false} severity={cancelStatus.severity}></Toastify>}
       <Box>
-        {props.debt.status === 'incomplete' ? (
-          <>
-            <Divider light />
-            <Box display={'flex'} flexDirection={'column'} mt={1}>
-              <Box display={'flex'} justifyContent={'space-between'} alignItems="center">
-                <Box display={'flex'} flexDirection={'column'} gap={1}>
-                  <Typography fontWeight={'bold'} fontSize="1.2em" color={colors.red[500]}>
-                    {props.debt.bankName}
-                  </Typography>
-                  <Typography fontWeight={'300'} color={colors.grey[200]}>
-                    BID: {props.debt.creditorAccountNumber}
-                  </Typography>
-                </Box>
-                <Typography fontWeight={'bold'} fontSize="1.5rem" color={colors.blue[200]}>
-                  {props.debt.amountOwed}
-                </Typography>
-              </Box>
-
-              <Typography variant="h6" color={colors.grey[200]}>
-                Date: {props.debt.endDate}
+        <Divider light />
+        <Box display={'flex'} flexDirection={'column'} mt={1}>
+          <Box display={'flex'} justifyContent={'space-between'} alignItems="center">
+            <Box display={'flex'} flexDirection={'column'} gap={1}>
+              <Typography fontWeight={'bold'} fontSize="1.2em" color={colors.red[500]}>
+                {props.debt.bankName}
               </Typography>
-              <Typography variant="h6" color={colors.grey[200]}>
-                Content: {props.debt.content}
+              <Typography fontWeight={'300'} color={colors.grey[200]}>
+                BID: {props.debt.creditorAccountNumber}
               </Typography>
-
-              <Box display={'flex'} justifyContent={'space-between'} mt={1} mb={2}>
-                <Box
-                  borderRadius={'5px'}
-                  boxShadow="0px 0px 3px #C3C3C3"
-                  fontWeight={700}
-                  fontSize="large"
-                  bgcolor={colors.red[800]}
-                  px={4}
-                  py={0.5}
-                  sx={{
-                    '&:hover': { color: '#090316', bgcolor: `${colors.grey[100]}`, transition: '0.5s', cursor: 'pointer' },
-                  }}
-                  onClick={handleOpen2}
-                >
-                  Thanh toán
-                </Box>
-
-                <Box
-                  borderRadius={'5px'}
-                  bgcolor={colors.grey[200]}
-                  boxShadow="0px 0px 3px #C3C3C3"
-                  fontWeight={700}
-                  fontSize="large"
-                  color={colors.red[700]}
-                  px={4}
-                  py={0.5}
-                  sx={{ '&:hover': { color: '#6f6092', bgcolor: `${colors.grey[100]}`, transition: '0.5s', cursor: 'pointer' } }}
-                  onClick={handleOpen}
-                >
-                  Cancel
-                </Box>
-              </Box>
             </Box>
-            {/* <Divider light /> */}
-          </>
-        ) : (
-          <></>
-        )}
+            <Typography fontWeight={'bold'} fontSize="1.5rem" color={colors.blue[200]}>
+              {props.debt.amountOwed}
+            </Typography>
+          </Box>
+
+          <Typography variant="h6" color={colors.grey[200]}>
+            Date: {props.debt.endDate}
+          </Typography>
+          <Typography variant="h6" color={colors.grey[200]}>
+            Content: {props.debt.content}
+          </Typography>
+
+          <Box display={'flex'} justifyContent={'space-between'} mt={1} mb={2}>
+            <Box
+              borderRadius={'5px'}
+              boxShadow="0px 0px 3px #C3C3C3"
+              fontWeight={700}
+              fontSize="large"
+              bgcolor={colors.red[800]}
+              px={4}
+              py={0.5}
+              sx={{
+                '&:hover': { color: '#090316', bgcolor: `${colors.grey[100]}`, transition: '0.5s', cursor: 'pointer' },
+              }}
+              onClick={handleOpen2}
+            >
+              Thanh toán
+            </Box>
+
+            <Box
+              borderRadius={'5px'}
+              bgcolor={colors.grey[200]}
+              boxShadow="0px 0px 3px #C3C3C3"
+              fontWeight={700}
+              fontSize="large"
+              color={colors.red[700]}
+              px={4}
+              py={0.5}
+              sx={{ '&:hover': { color: '#6f6092', bgcolor: `${colors.grey[100]}`, transition: '0.5s', cursor: 'pointer' } }}
+              onClick={handleOpen}
+            >
+              Cancel
+            </Box>
+          </Box>
+        </Box>
 
         <Dialog
           open={openModal}
