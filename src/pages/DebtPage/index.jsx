@@ -28,9 +28,6 @@ const CustomerHome = () => {
 
   const { accountNumber, currentBalance } = useSelector((state) => state.debt);
 
-  // async function getAccountName(id) {
-  //   return await getAccountInforById(id);
-  // }
 
   async function getDebtData() {
     const info = await getAccountInfor().unwrap();
@@ -139,12 +136,12 @@ const CustomerHome = () => {
       </Box>
 
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={6} md={12}>
+        <Grid item xs={6} md={6}>
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
             <DebtBox colors={colors} title="MY BALANCE" amount={currentBalance} />
           </Box>
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={6} md={6}>
           <Box backgroundColor={colors.primary[400]} display="flex" alignItems="center" justifyContent="center">
             <DebtBox colors={colors} title="ACCOUNT NUMBER" amount={accountNumber} />
           </Box>

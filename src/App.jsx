@@ -13,6 +13,8 @@ import TransferPage from 'pages/TransferPage';
 import CardManagement from 'pages/CardManagement';
 import ProfilePage from 'pages/ProfilePage';
 import DebtPage from 'pages/DebtPage';
+import DebtList from 'pages/DebtListPage';
+
 import EmployeeMainPage from 'pages/EmployeePage/EmployeeMainPage';
 import CreateUser from 'pages/EmployeePage/CreateUser';
 import TopUp from 'pages/EmployeePage/TopUp';
@@ -204,6 +206,14 @@ function App() {
                     element={
                       <CustomerLayout>
                         <DebtPage />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/debt/list"
+                    element={
+                      <CustomerLayout>
+                        <DebtList />
                       </CustomerLayout>
                     }
                   />
