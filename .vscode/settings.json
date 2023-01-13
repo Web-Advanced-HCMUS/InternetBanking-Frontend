@@ -2,5 +2,5 @@
   "liveServer.settings.port": 5501,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["Swiper", "Formik"]
+  "cSpell.words": ["buider", "Formik", "Swiper"]
 }
