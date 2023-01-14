@@ -4,11 +4,11 @@ import { logout, setAccessToken, setRefreshToken } from 'redux/slices/authSlice'
 
 const RTKQuery = fetchBaseQuery({
   baseUrl: config.path.REACT_APP_SERVER_PATH,
-  credentials: 'include',
+//   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const accessToken = getState().auth.accessToken;
     headers.set('Access-Control-Allow-Headers', '*');
-    headers.set('Access-Control-Allow-Origin', '*');
+//     headers.set('Access-Control-Allow-Origin', '*');
     headers.set('Access-Control-Allow-Methods', '*');
     headers.set('Access-Control-Allow-Credentials', 'true');
     if (accessToken) {
