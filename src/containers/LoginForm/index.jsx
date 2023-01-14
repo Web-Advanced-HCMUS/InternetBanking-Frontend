@@ -179,7 +179,7 @@ function LoginForm(props) {
                 </div>
 
                 <div className={classes.captcha}>
-                  <ReCAPTCHA sitekey="6LcpcfYjAAAAANIAKyEZQ9OJN9-yH0BRXqja4ucV" onChange={handleReCaptcha} ref={captchaRef} />
+                  <ReCAPTCHA sitekey={config.siteKey.toString()} onChange={handleReCaptcha} ref={captchaRef} />
                 </div>
 
                 <LoadingButton
