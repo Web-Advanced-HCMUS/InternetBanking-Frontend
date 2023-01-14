@@ -145,7 +145,7 @@ function OTPModal({ open, onClose }) {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         helperText={errors.otp && touched.otp && errors.otp}
-                        margin="nomal"
+                        margin="normal"
                       />
                     </div>
                     <div className="position-relative" style={{ marginTop: '20px' }}>
@@ -162,7 +162,7 @@ function OTPModal({ open, onClose }) {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         helperText={errors.newPass && touched.newPass && errors.newPass}
-                        margin="nomal"
+                        margin="normal"
                         sx={{
                           input: {
                             color: 'black',

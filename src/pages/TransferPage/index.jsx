@@ -10,7 +10,7 @@ const TransferPage = ({ isExt }) => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="TRANSFER MONEY" subtitle="Transfer money to your partners" />
       </Box>
-      <ReceiverList />
+      {/* <ReceiverList /> */}
       {isExt ? <ExtTransferForm /> : <TransferForm />}
     </Box>
   );

@@ -49,16 +49,16 @@ function UserAccount() {
         <Box fontSize="1.25rem" fontWeight="400" color={colors.grey[100]}>
           Welcome to banking application,
         </Box>
-        <Box fontSize="1.25rem" fontWeight="bold" color={colors.grey[100]}>
+        {/* <Box fontSize="1.25rem" fontWeight="bold" color={colors.grey[100]}>
           {AccountInfor.username}
         </Box>
-        <Avatar src={AccountInfor.avatarImage} alt="account-avatar" sx={{ width: 64, height: 64 }} />
+        <Avatar src={AccountInfor.avatarImage} alt="account-avatar" sx={{ width: 64, height: 64 }} /> */}
       </Box>
 
       <Box display="flex" width="70%" justifyContent={'center'}>
         <Grid container spacing={6} rowSpacing={3}>
           {ButtonList.map((button) => (
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
               <Button
                 fullWidth
                 sx={{
@@ -120,7 +120,7 @@ function UserAccount() {
           </Button>
         ))}
       </Box> */}
-
+{/* 
       <Box
         mt={2}
         display={'flex'}
@@ -164,7 +164,7 @@ function UserAccount() {
           <AccountBalanceWalletIcon />
           300,000,000 VND
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 }

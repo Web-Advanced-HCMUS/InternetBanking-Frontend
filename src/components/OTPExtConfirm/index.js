@@ -152,7 +152,7 @@ function OTPExtConfirm({ open, onClose }) {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={errors.otp && touched.otp && errors.otp}
-                  margin="nomal"
+                  margin="normal"
                 />
               </Box>
               <LoadingButton
