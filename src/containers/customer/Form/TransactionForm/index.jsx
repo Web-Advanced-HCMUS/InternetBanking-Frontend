@@ -3,6 +3,8 @@ import { Alert, AlertTitle, Box, Button, Grid, TextField, Typography, useMediaQu
 import { tokens } from 'theme';
 import * as yup from 'yup';
 import { Formik } from 'formik';
+import { useSelector } from 'react-redux';
+import { ReadingConfig, parseNumberData, readNumber } from 'read-vietnamese-number';
 
 const initialValues = {
   otp: '',
@@ -15,11 +17,21 @@ const TransactionForm = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery('(min-width:600px)');
+  const fromAccount = localStorage.getItem('from_account');
+  const fromAccountName = localStorage.getItem('from_account_name');
+  const toAccount = localStorage.getItem('account_number');
+  const toAccountName = localStorage.getItem('account_name');
+  const amount = localStorage.getItem('amount');
+  const config = new ReadingConfig();
+  config.unit = ['đồng'];
+  const numberData = parseNumberData(config, amount);
+  const amountText = readNumber(config, numberData);
+  const fee = localStorage.getItem('fee');
   const handleFormSubmit = (values) => {
     console.log(values);
   };
   return (
-    <Box width="54%" mx="auto">
+    <Box width="84%" mx="auto">
       <Box display="flex" flexDirection="column">
         <Typography fontWeight={550} variant="h6" color={colors.greenAccent[500]}>
           Your information
@@ -32,15 +44,15 @@ const TransactionForm = () => {
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">1855-3253-2535-2332</Typography>
+              <Typography variant="h6">{fromAccount}</Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography textAlign="right" variant="h6">
-                Balance:
+                Account Name:
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">13,550,350,000 VNĐ</Typography>
+              <Typography variant="h6">{fromAccountName}</Typography>
             </Grid>
           </Grid>
         </Box>
@@ -57,7 +69,7 @@ const TransactionForm = () => {
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">SCB - Ngân hàng thương mại cổ phần Sài Gòn Thương Tín</Typography>
+              <Typography variant="h6">Timo bank - Ngân hàng thương mại số </Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography textAlign="right" variant="h6">
@@ -65,7 +77,7 @@ const TransactionForm = () => {
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">1855-3253-2535-2332</Typography>
+              <Typography variant="h6">{toAccount}</Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography textAlign="right" variant="h6">
@@ -73,7 +85,7 @@ const TransactionForm = () => {
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">Nguyễn Văn A</Typography>
+              <Typography variant="h6">{toAccountName}</Typography>
             </Grid>
           </Grid>
         </Box>
@@ -90,7 +102,7 @@ const TransactionForm = () => {
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">180,000,000 VNĐ</Typography>
+              <Typography variant="h6">{amount} VNĐ</Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography textAlign="right" variant="h6">
@@ -98,7 +110,7 @@ const TransactionForm = () => {
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">Một trăm tám mươi triệu đồng</Typography>
+              <Typography variant="h6">{amountText}</Typography>
             </Grid>
             <Grid item xs={3}>
               <Typography textAlign="right" variant="h6">
@@ -106,23 +118,16 @@ const TransactionForm = () => {
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">3,300 VNĐ</Typography>
+              <Typography variant="h6">{fee} VNĐ</Typography>
             </Grid>
-            <Grid item xs={3}>
-              <Typography textAlign="right" variant="h6">
-                Transaction Code:
-              </Typography>
-            </Grid>
-            <Grid item xs={9}>
-              <Typography variant="h6">343043024343240</Typography>
-            </Grid>
+
             <Grid item xs={3}>
               <Typography textAlign="right" variant="h6">
                 Receiver Name:
               </Typography>
             </Grid>
             <Grid item xs={9}>
-              <Typography variant="h6">Nguyễn Văn A</Typography>
+              <Typography variant="h6">{fromAccountName}</Typography>
             </Grid>
             <Grid item xs={12} mx={6}>
               <Alert severity="info" sx={{ mt: 1 }}>
@@ -145,32 +150,7 @@ const TransactionForm = () => {
                       justifyContent="center"
                       gap={2}
                       sx={{ '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' } }}
-                    >
-                      <Typography textAlign="right" fontWeight={550} color={colors.grey[100]}>
-                        Nhập mã OTP
-                      </Typography>
-                      <TextField
-                        variant="standard"
-                        type="text"
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        value={values.otp}
-                        name="otp"
-                        error={!!touched.otp && !!errors.otp}
-                        helperText={touched.otp && errors.otp}
-                        sx={{ gridColumn: 'span 4' }}
-                      />
-                    </Box>
-                    <Box mx="auto" width={`${isNonMobile ? '53%' : '82%'}`} display="flex" justifyContent="center">
-                      <Box flexGrow={1} my={2} display="flex" justifyContent="space-around" gap={2}>
-                        <Button sx={{ py: 1, px: 2, bgcolor: `${colors.red[800]}` }} variant="contained" startIcon={<ArrowBackOutlined />}>
-                          Quay lại
-                        </Button>
-                        <Button sx={{ py: 1, px: 3, bgcolor: `${colors.greenAccent[800]}` }} variant="contained" endIcon={<SendOutlined />}>
-                          Xác nhận giao dịch
-                        </Button>
-                      </Box>
-                    </Box>
+                    ></Box>
                   </form>
                 )}
               </Formik>

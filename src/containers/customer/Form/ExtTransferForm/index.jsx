@@ -21,25 +21,35 @@ import { useSelector } from 'react-redux';
 import config from 'config/config';
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import OTPConfirm from 'components/OTPConfirm';
-// import { useGetAccountByAccountNumberQuery } from 'api/accountApi';
-import { useLazyGetAccountByAccountNumberQuery } from 'api/accountApi';
-
+import OTPExtConfirm from 'components/OTPExtConfirm';
+import { useLazyGetExtAccountByAccountNumberQuery } from 'api/accountApi';
 import { useInsertRecipientMutation } from 'api/recipientApi';
 import { useConfirmTransOtpMutation } from 'api/transactionApi';
 
-function TransferForm(props) {
+const bankList = [
+  {
+    id: 1,
+    bankCode: 'SWEN',
+    bankName: 'SWEN Banking',
+  },
+  {
+    id: 2,
+    bankCode: 'TIMO',
+    bankName: 'TIMO Digital Bank',
+  },
+];
+function ExtTransferForm(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { userId } = useSelector((state) => state.auth.loggedInUser);
   const accountPay = useSelector((state) => state.account.payment.payload);
+  let recipientList = useSelector((state) => state.recipient.list.payload);
 
-  const recipientList = useSelector((state) => state.recipient.list.payload);
-
-  const [getAccountByAccountNumber, { isFetching: accountLoading }] = useLazyGetAccountByAccountNumberQuery();
+  const [getExtAccountByAccountNumber, { isFetching: accountLoading }] = useLazyGetExtAccountByAccountNumberQuery();
 
   const [insertRecipient, { isLoading: insertRecipientLoading, isSuccess: insertRecipientSuccess }] = useInsertRecipientMutation();
   const [confirmTransOtp, { isLoading, isError, isSuccess }] = useConfirmTransOtpMutation();
+  const [bankCode, setBankCode] = useState('');
   const [toAccountNumber, setToAccountNumber] = useState('');
   const [toAccountName, setToAccountName] = useState('');
   const [amount, setAmount] = useState('');
@@ -49,9 +59,11 @@ function TransferForm(props) {
   const [msg, setMsg] = useState('');
   const [otpDialogOpen, setOtpDialogOpen] = useState(false);
   const [saveRecipientChecked, setSaveRecipientChecked] = useState(false);
-
   const isNewRecipient = !recipientList?.some((recipient) => recipient.accountNumber === toAccountNumber);
 
+  const handleBankCode = (event) => {
+    setBankCode(event.target.value);
+  };
   const handleOtpDialogClose = (event, reason) => {
     if (reason && reason === 'backdropClick') return;
     setOtpDialogOpen(false);
@@ -74,16 +86,16 @@ function TransferForm(props) {
     setToAccountName('');
     if (toAccountNumber) {
       try {
-        const response = await getAccountByAccountNumber(toAccountNumber).unwrap();
-        const accountName = response.payload.accountOwnerName;
+        const response = await getExtAccountByAccountNumber(toAccountNumber).unwrap();
+        const accountName = response.payload.name;
         console.log(response);
         setToAccountName(accountName ? accountName : '');
         setToAccountErrMsg('');
       } catch (err) {
         if (!err.success) {
-          setToAccountErrMsg(err.data.error?.join('</br>'));
+          setToAccountErrMsg(err.data.error);
         } else {
-          setToAccountErrMsg('Không thể thực hiện.');
+          setToAccountErrMsg('Internal Server Error.');
         }
       }
     }
@@ -92,16 +104,11 @@ function TransferForm(props) {
     setSaveRecipientChecked(!saveRecipientChecked);
   };
 
-  const createTransactionSchema = Yup.object().shape({
-    toAccountNumber: Yup.string().required('Bạn phải nhập số tài khoản người nhận.'),
-    amount: Yup.number('Số tiền phải là số.').min(0, 'Số tiền không được nhỏ hơn 0'),
-    feeMethod: Yup.number().required('Hình thức thanh toán phí là bắt buộc.'),
-  });
-
-  const canSubmit = accountPay && toAccountName && toAccountNumber && amount;
-  const setToAccount = (toAccountNumber, toAccountName) => {
+  const canSubmit = accountPay && toAccountName && toAccountNumber && amount && bankCode;
+  const setToAccount = (toAccountNumber, toAccountName, bankCode) => {
     setToAccountName(toAccountName);
     setToAccountNumber(toAccountNumber);
+    setBankCode(bankCode);
     setToAccountErrMsg('');
   };
   const handleSubmit = async (event) => {
@@ -109,18 +116,19 @@ function TransferForm(props) {
     localStorage.setItem('account_number', toAccountNumber);
     localStorage.setItem('account_name', toAccountName);
     localStorage.setItem('amount', amount);
-
+    localStorage.setItem('bank_code', bankCode);
     localStorage.setItem('method', feeMethod);
     localStorage.setItem('content', messageTransfer);
-    const { accountNumber } = accountPay;
-    localStorage.setItem('from-account', accountNumber);
+    const { accountNumber, accountOwnerName } = accountPay;
+    localStorage.setItem('from_account', accountNumber);
+    localStorage.setItem('from_account_name', accountOwnerName);
     try {
       if (saveRecipientChecked) {
         await insertRecipient({
           userId,
           reminiscentName: toAccountName,
           accountNumber: toAccountNumber,
-          type: 'internal',
+          type: 'interbank',
         }).unwrap();
       }
       await confirmTransOtp({
@@ -133,6 +141,7 @@ function TransferForm(props) {
       setToAccountNumber('');
       setAmount('');
       setMessageTransfer('');
+      setBankCode('');
     } catch (err) {
       setMsg('');
       if (err.message) {
@@ -140,12 +149,13 @@ function TransferForm(props) {
       } else if (!err.success && err.data) {
         setMsg(err.data.errors.message);
       } else {
-        setMsg('Lỗi hệ thống!.');
+        setMsg('Lỗi hệ thống !');
       }
       console.log(msg);
     }
   };
 
+  recipientList = recipientList.filter((r) => r.bankCode === bankCode);
   return (
     <Box
       sx={{
@@ -155,7 +165,7 @@ function TransferForm(props) {
       }}
     >
       {isError && <Toastify message={msg} hidden={false} severity={'error'}></Toastify>}
-      <OTPConfirm open={otpDialogOpen} onClose={handleOtpDialogClose}></OTPConfirm>
+      <OTPExtConfirm open={otpDialogOpen} onClose={handleOtpDialogClose}></OTPExtConfirm>
 
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, maxWidth: '50%' }}>
         <FormControl fullWidth required>
@@ -175,8 +185,30 @@ function TransferForm(props) {
             )}
           </Box>
         </FormControl>
+
         <Typography sx={{ textAlign: 'left', marginTop: 2, marginBottom: 2 }}>Chuyển đến</Typography>
         <AccountList onSetAccount={setToAccount} accountList={recipientList}></AccountList>
+        <FormControl fullWidth required sx={{ textAlign: 'left', marginTop: 2 }}>
+          <InputLabel id="ext-bank-label">Chọn ngân hàng liên kết:</InputLabel>
+          <Select
+            fullWidth
+            labelId="ext-bank-select-label"
+            id="bank"
+            label="Chọn ngân hàng"
+            name="bank"
+            value={bankCode}
+            onChange={handleBankCode}
+            sx={{
+              textAlign: 'left',
+            }}
+          >
+            {bankList?.map((b, id) => (
+              <MenuItem key={id} value={b.bankCode}>
+                {b.bankName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           fullWidth
           required
@@ -268,4 +300,4 @@ function TransferForm(props) {
   );
 }
 
-export default TransferForm;
+export default ExtTransferForm;

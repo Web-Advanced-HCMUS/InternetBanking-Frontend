@@ -1,184 +1,212 @@
-import Header from 'components/Header';
-import { Box, Button, Grid, MenuItem, TextField, useMediaQuery, useTheme } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from 'theme';
-import { mockDataInvoices } from 'mockData';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import { useState } from 'react';
-
-const initialValues = {
-  bankName: '',
-  accountNo: '',
-  amount: 0,
-  content: 'Transfer Money',
-};
-const phoneRegExp = /^0(\d{9})$/;
-const checkoutSchema = yup.object().shape({
-  content: yup.string().required('required'),
-  bankName: yup.string().required('Select a bank!'),
-  accountNo: yup.string().matches(phoneRegExp, 'Phone number is not valid').required('required'),
-  amount: yup.number().moreThan(0, 'Amount cannot less than 0').required('required'),
-});
-const ReceiverManagement = () => {
+import { Box, Button, Stack, Typography, useTheme } from '@mui/material';
+import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
+import Header from 'components/Header';
+import { AddOutlined, CancelOutlined, ContactlessOutlined, DeleteOutline, EditOutlined, SaveOutlined, UpdateRounded } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Toastify from 'components/Toastify';
+import { Navigate, useNavigate } from 'react-router';
+import { useGetRecipientListQuery, useInsertRecipientMutation, useUpdateRecipientMutation, useDeleteRecipientMutation } from 'api/recipientApi';
+import { useSelector } from 'react-redux';
+import AddRecipientDialog from './add';
+const Employees = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const isNonMobile = useMediaQuery('(min-width:600px)');
-  const [name, setName] = useState('');
+  const { userId } = useSelector((state) => state.auth.loggedInUser);
+  const { data: recipients, isLoading, refetch } = useGetRecipientListQuery(userId, { refetchOnMountOrArgChange: true });
+  const [deleteRecipient, { isLoading: deleteRecipientLoading }] = useDeleteRecipientMutation({}, { refetchOnMountOrArgChange: true });
+  const [updateRecipient, { isLoading: updateRecipientLoading }] = useUpdateRecipientMutation({}, { refetchOnMountOrArgChange: true });
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [rows, setRows] = useState(recipients?.payload || []);
+  const [rowModesModel, setRowModesModel] = useState({});
+  const [error, setError] = useState({ message: '', severity: '' });
+  const [addStatus, setAddStatus] = useState({ message: '', severity: '' });
+  const navigate = useNavigate();
+  const handleRowEditStart = (params, event) => {
+    event.defaultMuiPrevented = true;
+  };
+  const handleDialogClose = (event, reason) => {
+    if (reason && reason === 'backdropClick') return;
+    setDialogOpen(false);
+  };
+
+  const handleRowEditStop = async (params, event) => {
+    event.defaultMuiPrevented = true;
+    const { _id } = params;
+    console.log(event, _id);
+  };
+
+  const handleEditClick = (_id) => () => {
+    setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (_id) => async () => {
+    setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.View } });
+    console.log(_id, { ...recipients?.payload.filter((item) => item._id === _id) });
+  };
+
+  const handleDeleteClick = (_id) => async () => {
+    setAddStatus({ message: '', severity: '' });
+
+    try {
+      await deleteRecipient(_id)
+        .unwrap()
+        .then((data) => {
+          console.log({ data });
+          setAddStatus({ message: 'Delete successfully', severity: 'success' });
+        })
+        .catch((error) => {
+          console.log(error.data.errors.message);
+          setAddStatus({ message: error.data.errors.message, severity: 'error' });
+        });
+    } catch (err) {
+      if (!err?.status) {
+        setError('Interval Server Error');
+      } else {
+        console.log(err);
+        setError('Failed to delete employee!');
+      }
+    }
+    refetch();
+  };
+
+  const handleCancelClick = (_id) => () => {
+    setRowModesModel({ ...rowModesModel, [_id]: { mode: GridRowModes.View, ignoreModifications: true } });
+
+    const editedRow = rows.find((row) => row._id === _id);
+    if (editedRow && editedRow.isNew) {
+      setRows(rows.filter((row) => row.id !== _id));
+    }
+  };
+
+  const processRowUpdate = async (newRow) => {
+    const updatedRow = { ...newRow, isNew: false };
+    console.log(updatedRow);
+    try {
+      const { _id, reminiscentName } = updatedRow;
+      setAddStatus({ message: '', severity: '' });
+      await updateRecipient({ id: _id, body: reminiscentName })
+        .unwrap()
+        .then((data) => {
+          console.log({ data });
+          setAddStatus({ message: 'Update successfully', severity: 'success' });
+        })
+        .catch((error) => {
+          console.log(error);
+          setAddStatus({ message: error.data.errors.message, severity: 'error' });
+        });
+    } catch (err) {
+      if (!err?.status) {
+        setError('Interval Server Error');
+      } else {
+        console.log(err);
+        setError('Failed to update employee!');
+      }
+    }
+    refetch();
+    return updatedRow;
+  };
+
   const columns = [
-    { field: 'id', headerName: 'ID', flex: 0.5 },
+    // { field: 'userId._id', headerName: 'ID', flex: 1, valueGetter: (params) => params.row?.userId?._id },
+    { field: '_id', headerName: 'ID Recipient', flex: 1, cellClassName: 'name-column--cell' },
+    { field: 'accountNumber', headerName: 'Account Number', flex: 1, valueGetter: (params) => params.row?.accountNumber, editable: false },
+    { field: 'reminiscentName', headerName: 'Reminiscent name', flex: 2, valueGetter: (params) => params.row?.reminiscentName, editable: true },
+    { field: 'type', headerName: 'Type User', flex: 0.5, valueGetter: (params) => params.row?.type, editable: false },
     {
-      field: 'name',
-      headerName: 'Name',
-      flex: 1,
-      cellClassName: 'name-column--cell',
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      headerAlign: 'left',
-      align: 'left',
-      flex: 1,
-    },
-    {
-      field: 'cost',
-      headerName: 'Cost',
-      flex: 1,
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      cellClassName: 'actions',
+      getActions: ({ row: { _id } }) => {
+        const isInEditMode = rowModesModel[_id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem icon={<SaveOutlined />} label="Save" onClick={handleSaveClick(_id)} />,
+            <GridActionsCellItem icon={<CancelOutlined />} label="Cancel" className="textPrimary" onClick={handleCancelClick(_id)} color="inherit" />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem icon={<EditOutlined />} label="Edit" className="textPrimary" onClick={handleEditClick(_id)} color="inherit" />,
+          <GridActionsCellItem icon={<DeleteOutline />} label="Delete" onClick={handleDeleteClick(_id)} color="inherit" />,
+        ];
+      },
     },
   ];
-  const handleFormSubmit = (values) => {
-    console.log(values);
+
+  const handleAdd = (e) => {
+    setDialogOpen(true);
+    console.log(dialogOpen);
   };
+  // console.log(employees);
   return (
-    <Box m="20px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="RECEIVER MANAGEMENT" subtitle="Manage receiver and adding new receiver" />
-      </Box>
-      <Grid container>
-        <Grid item xs={5}>
-          <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-              <form onSubmit={handleSubmit}>
-                <Box
-                  mx={'auto'}
-                  display="grid"
-                  width={'80%'}
-                  gap="15px"
-                  gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                  sx={{ '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' } }}
-                >
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    select
-                    label="Bank Name"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.bankName}
-                    name="bankName"
-                    error={!!touched.bankName && !!errors.bankName}
-                    helperText={touched.bankName && errors.bankName}
-                    sx={{ gridColumn: 'span 4' }}
-                  >
-                    <MenuItem key="1" value="Ngân hàng A">
-                      Ngân hàng A
-                    </MenuItem>
-                    <MenuItem key="2" value="Ngân hàng B">
-                      Ngân hàng B
-                    </MenuItem>
-                  </TextField>
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    type="text"
-                    label="Account No"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.accountNo}
-                    name="accountNo"
-                    error={!!touched.accountNo && !!errors.accountNo}
-                    helperText={
-                      !touched.accountNo ? '' : errors.accountNo ? errors.accountNo : name ? `Receiver: ${name}` : `Not found the receiver!`
-                    }
-                    sx={{ gridColumn: 'span 4' }}
-                  />
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    type="number"
-                    label="Amount"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.amount}
-                    name="amount"
-                    error={!!touched.amount && !!errors.amount}
-                    helperText={touched.amount && errors.amount}
-                    sx={{ gridColumn: 'span 4' }}
-                    autoFocus
-                  />
-                  <TextField
-                    fullWidth
-                    variant="filled"
-                    type="text"
-                    multiline
-                    rows={3}
-                    label="Content"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.content}
-                    name="content"
-                    error={!!touched.content && !!errors.content}
-                    helperText={touched.content && errors.content}
-                    sx={{ gridColumn: 'span 4' }}
-                  />
-                </Box>
-                <Box mx="auto" width="80%" display="flex" justifyContent={`${isNonMobile ? 'end' : 'center'}`} my="20px">
-                  <Button type="submit" color="secondary" variant="contained" size="large" onClick={handleFormSubmit}>
-                    Add Receiver
-                  </Button>
-                </Box>
-              </form>
-            )}
-          </Formik>
-        </Grid>
-        <Grid item xs={7}>
-          <Box
-            height="65vh"
-            sx={{
-              '& .MuiDataGrid-root': { border: 'none' },
-              '& .MuiDataGrid-cell': { borderBottom: 'none' },
-              '& .name-column--cell': { color: colors.greenAccent[300] },
-              '& .MuiDataGrid-columnHeaders': { backgroundColor: colors.blueAccent[700], borderBottom: 'none' },
-              '& .MuiDataGrid-virtualScroller': { backgroundColor: colors.primary[400] },
-              '& .MuiDataGrid-footerContainer': { borderTop: 'none', backgroundColor: colors.blueAccent[700] },
-              '& .MuiCheckbox-root': { color: `${colors.greenAccent[200]} !important` },
-              '& .MuiTablePagination-selectLabel': { mb: '0 !important' },
-              '& .MuiTablePagination-displayedRows': { mb: '0 !important' },
-              '& .MuiDataGrid-toolbarContainer': { p: 0, gap: 0.5, m: '4px 0', borderRadius: 0 },
-              '& .MuiButton-root': {
-                height: '40px',
-                weight: '72px',
-                p: '8px 12px',
-                backgroundColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : colors.grey[700]}`,
-                color: `${theme.palette.mode === 'light' && `#${colors.primary[400]}`}`,
-                borderRadius: 0,
-              },
-              '& .MuiButton-root:hover': {
-                height: '40px',
-                weight: '72px',
-                p: '8px 12px',
-                backgroundColor: `${theme.palette.mode === 'dark' ? colors.grey[200] : colors.grey[800]}`,
-                color: `${theme.palette.mode === 'light' && `#${colors.primary[300]}`}`,
-                borderRadius: 0,
-              },
-            }}
-          >
-            <DataGrid rows={mockDataInvoices} columns={columns} />
+    <>
+      {addStatus.message.length !== 0 && <Toastify message={addStatus.message} hidden={false} severity={addStatus.severity}></Toastify>}
+
+      <Box m="20px">
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Header title="BENEFICIARIES" subtitle="Managing the Beneficiaries of you" />
+          {/* {JSON.stringify(employees?.payload)} */}
+          <Box>
+            <AddRecipientDialog sx={{ marginBottom: 3 }}></AddRecipientDialog>
           </Box>
-        </Grid>
-      </Grid>
-    </Box>
+        </Box>
+        <Box
+          m="1.5rem 0"
+          height="75vh"
+          sx={{
+            '& .MuiDataGrid-root': {
+              border: 'none',
+            },
+            '& .MuiDataGrid-cell': {
+              borderBottom: 'none',
+            },
+            '& .name-column--cell': {
+              color: colors.greenAccent[300],
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: colors.blueAccent[700],
+              borderBottom: 'none',
+            },
+            '& .MuiDataGrid-virtualScroller': {
+              backgroundColor: colors.primary[400],
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderTop: 'none',
+              backgroundColor: colors.blueAccent[700],
+            },
+            '& .MuiCheckbox-root': {
+              color: `${colors.greenAccent[200]} !important`,
+            },
+            '& .MuiTablePagination-selectLabel': {
+              marginBottom: '0 !important',
+            },
+            '& .MuiTablePagination-displayedRows': {
+              marginBottom: '0 !important',
+            },
+          }}
+        >
+          <DataGrid
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+            onRowEditStart={handleRowEditStart}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            experimentalFeatures={{ newEditingApi: true }}
+            // checkboxSelection
+            rows={recipients?.payload ? recipients.payload : []}
+            getRowId={(row) => row._id}
+            columns={columns}
+          />
+        </Box>
+      </Box>
+    </>
   );
 };
 
-export default ReceiverManagement;
+export default Employees;

@@ -6,17 +6,15 @@ export const forgotApi = baseApi.injectEndpoints({
       query: (body) => ({
         url: 'user/forgot-pass',
         method: 'POST',
-        body: { body },
+        body: body,
       }),
     }),
     sendEmailRecovery: builder.mutation({
       query: (username) => ({
-        url: 'user/send-mail-forgot-pass',
+        url: `user/send-mail-forgot-pass/${username}`,
         method: 'POST',
-        body: { ...username },
       }),
     }),
   }),
 });
-
 export const { useForgotPasswordMutation, useSendEmailRecoveryMutation } = forgotApi;

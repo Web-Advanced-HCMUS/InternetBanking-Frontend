@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AuthLayout(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
   const classes = useStyles();
   // const navigate = useNavigate();
 

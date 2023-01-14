@@ -1,4 +1,4 @@
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, Portal } from '@mui/material';
 import { useState } from 'react';
 
 function Toastify({ message, hidden, severity }) {
@@ -13,19 +13,21 @@ function Toastify({ message, hidden, severity }) {
   };
 
   return (
-    <Snackbar
-      open={open}
-      autoHideDuration={3000}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      onClose={handleClose}
-    >
-      <Alert onClose={handleClose} variant="filled" severity={severity} sx={{ width: '100%' }}>
-        {message}
-      </Alert>
-    </Snackbar>
+    <Portal>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} variant="filled" severity={severity} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
+    </Portal>
   );
 }
 

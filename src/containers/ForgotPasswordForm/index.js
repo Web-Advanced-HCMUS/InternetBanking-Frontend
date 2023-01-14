@@ -1,4 +1,4 @@
-import { Box, TextField, CssBaseline, Typography, Container, Link } from '@mui/material';
+import { Box, TextField, CssBaseline, Typography, Container, Link, ThemeProvider } from '@mui/material';
 import Footer from 'layouts/HomeLayout/Footer';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Link as RLink, useNavigate } from 'react-router-dom';
@@ -10,12 +10,15 @@ import * as yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import useStylesLogin from 'containers/LoginForm/styles';
+import OTPModal from 'components/OTPModal';
+import { useMode, ColorModeContext } from 'theme';
 
 function ForgotPasswordForm(props) {
+  const [theme, colorMode] = useMode('light');
   const classes = useStylesLogin();
   const navigate = useNavigate();
   const [errMsg, setErrMsg] = useState('');
-
+  const [otpDialogOpen, setOtpDialogOpen] = useState(false);
   const [sendEmailRecovery, { isLoading, isSuccess, isError }] = useSendEmailRecoveryMutation();
 
   const usernameSchema = yup.object().shape({
@@ -23,29 +26,36 @@ function ForgotPasswordForm(props) {
   });
 
   const dispatch = useDispatch();
-  const handleSubmit = async (username) => {
+  const handleSubmit = async (values) => {
+    const { username } = values;
     try {
       await sendEmailRecovery(username).unwrap();
       dispatch(setUsernameForgot(username));
+      // setOtpDialogOpen(true);
     } catch (err) {
       setErrMsg('');
       if (!err.success) {
-        setErrMsg(err.data.errors);
+        setErrMsg(err.data.errors.message);
       } else {
-        setErrMsg('Không thể thực hiện.');
+        setErrMsg('Lỗi hệ thống.');
       }
     }
+  };
+  const handleOtpDialogClose = (event, reason) => {
+    if (reason && reason === 'backdropClick') return;
+    setOtpDialogOpen(false);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/otp-forgot');
+      setOtpDialogOpen(true);
     }
   }, [isSuccess, navigate]);
 
   return (
     <>
       {(isError || errMsg.length !== 0) && <Toastify message={errMsg ? errMsg : 'Đã có lỗi!.'} hidden={false} severity="error"></Toastify>}
+      <OTPModal open={otpDialogOpen} onClose={handleOtpDialogClose} />
       <Box
         sx={{
           display: 'flex',
@@ -68,7 +78,7 @@ function ForgotPasswordForm(props) {
               paddingRight: '32px',
             }}
           >
-            <Typography component="h1" variant="h5" color="primary" align="center" marginBottom="20px">
+            <Typography component="h1" variant="h5" color="pri" align="center" marginBottom="20px">
               QUÊN MẬT KHẨU
             </Typography>
             <Typography component="h2" align="left" textAlign="center" color="#757575" marginBottom="20px">
@@ -81,13 +91,13 @@ function ForgotPasswordForm(props) {
               validationSchema={usernameSchema}
               onSubmit={handleSubmit}
             >
-              {() => (
+              {({ values, errors, touched, handleChange }) => (
                 <Form className="col-sm-10 mx-auto">
                   <div className="form-group position-relative">
                     <ErrorMessage name="username" render={(msg) => <small className="text-danger">{msg}</small>} />
-                    <Field type="text" placeholder="Username" className="form-control" name="username" la />
+                    <Field type="text" placeholder="Username" className="form-control" name="username" la onChange={handleChange} />
                   </div>
-                  <LoadingButton type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} loading={isLoading}>
+                  <LoadingButton type="submit" color="secondary" fullWidth variant="contained" sx={{ mt: 1, mb: 2 }} loading={isLoading}>
                     Tiếp theo
                   </LoadingButton>
                   <Link

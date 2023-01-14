@@ -1,97 +1,125 @@
-import { Box, Button, TextField, useMediaQuery } from '@mui/material';
-import Header from 'components/Header';
-import { Formik } from 'formik';
-import * as yup from 'yup';
+import { Button, Box, TextField, CssBaseline, Typography, Container } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useChangePasswordMutation } from 'api/accountApi';
+import Toastify from 'components/Toastify';
 
-const checkoutSchema = yup.object().shape({
-  oldPassword: yup.string().required('required'),
-  password: yup.string().required('required'),
-  confirmPassword: yup.string().required('required'),
-});
+function ChangePasswordPage(props) {
+  const [changePassword, { isLoading, isSuccess }] = useChangePasswordMutation();
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [msg, setMsg] = useState('');
 
-const initialValues = {
-  oldPassword: '',
-  password: '',
-  confirmPassword: '',
-};
+  const navigate = useNavigate();
 
-const ChangePassword = () => {
-  const isNonMobile = useMediaQuery('(min-width:600px)');
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const handleCurrentPasswordInput = (event) => {
+    setCurrentPassword(event.target.value);
+  };
+  const handleNewPasswordInput = (event) => {
+    setNewPassword(event.target.value);
   };
 
+  const canSubmit = currentPassword && newPassword;
+
+  const resetStates = () => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setMsg('');
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await changePassword({ oldPass: currentPassword, newPass: newPassword })
+        .unwrap()
+        .then((data) => {
+          console.log(data);
+          resetStates();
+          setMsg('Đổi mật khẩu thành công.');
+        })
+        .catch((error) => console.log(error));
+    } catch (err) {
+      console.log(err);
+      resetStates();
+      // if (!err?.status) {
+      //   setMsg('Lỗi máy chủ.');
+      // } else if (err?.status) {
+      //   setMsg(err.error.message);
+      // } else {
+      //   setMsg('Không thể thay đổi mật khẩu hiện tại.');
+      // }
+    }
+  };
+
+  const handleBackButton = (event) => {
+    navigate(-1);
+  };
   return (
-    <Box m="20px">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="CHANGE PASSWORD" subtitle="Allowing to change your password" />
-      </Box>
-
-      <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={checkoutSchema}>
-        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <Box
-              my="20px"
-              mx="auto"
-              width={`${isNonMobile ? '72%' : '100%'}`}
-              display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
-                '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
-              }}
-            >
+    <>
+      {msg.length !== 0 && <Toastify message={msg} hidden={false} severity={isSuccess ? 'success' : 'error'}></Toastify>}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          height: '100vh',
+        }}
+      >
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h4">
+              Thay đổi mật khẩu
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '100%' }}>
               <TextField
-                fullWidth
+                margin="normal"
                 variant="filled"
-                type="text"
-                label="Old Password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.oldPassword}
-                name="oldPassword"
-                error={!!touched.oldPassword && !!errors.oldPassword}
-                helperText={touched.oldPassword && errors.oldPassword}
-                sx={{ gridColumn: 'span 4' }}
+                required
+                fullWidth
+                name="current-password"
+                label="Mật khẩu hiện tại"
+                type="password"
+                id="current-password"
+                autoComplete="current-password"
                 autoFocus
+                value={currentPassword}
+                onChange={handleCurrentPasswordInput}
               />
               <TextField
-                fullWidth
+                margin="normal"
                 variant="filled"
-                type="text"
-                label="New password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.password}
-                name="password"
-                error={!!touched.password && !!errors.password}
-                helperText={touched.password && errors.password}
-                sx={{ gridColumn: 'span 4' }}
-              />
-              <TextField
+                required
                 fullWidth
-                variant="filled"
-                type="text"
-                label="Confirm Password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.confirmPassword}
-                name="confirmPassword"
-                error={!!touched.confirmPassword && !!errors.confirmPassword}
-                helperText={touched.confirmPassword && errors.confirmPassword}
-                sx={{ gridColumn: 'span 4' }}
+                name="new-password"
+                label="Mật khẩu mới"
+                type="password"
+                id="new-password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={handleNewPasswordInput}
               />
-            </Box>
-            <Box mx="auto" width={`${isNonMobile ? '72%' : '82%'}`} display="flex" justifyContent={`${isNonMobile ? 'end' : 'center'}`} mt="20px">
-              <Button type="submit" color="secondary" variant="contained" size="large">
-                Confirm changes
-              </Button>
-            </Box>
-          </form>
-        )}
-      </Formik>
-    </Box>
-  );
-};
 
-export default ChangePassword;
+              <LoadingButton type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} loading={isLoading} disabled={!canSubmit}>
+                Thay đổi
+              </LoadingButton>
+            </Box>
+            <Button fullWidth variant="contained" color="secondary" sx={{ mt: 3, mb: 2 }} onClick={handleBackButton}>
+              Trở về
+            </Button>
+          </Box>
+        </Container>
+      </Box>
+    </>
+  );
+}
+
+export default ChangePasswordPage;

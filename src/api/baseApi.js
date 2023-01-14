@@ -36,6 +36,6 @@ const RTKQueryExpired = async (args, api, extraOptions) => {
 
 export const baseApi = createApi({
   baseQuery: RTKQueryExpired,
-  tagTypes: ['AUTH'],
+  tagTypes: ['AUTH', 'Recipient', 'Accounts'],
   endpoints: (builder) => ({}),
 });

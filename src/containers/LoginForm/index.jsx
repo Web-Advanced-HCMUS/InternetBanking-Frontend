@@ -87,7 +87,7 @@ function LoginForm(props) {
       if (!err?.status) {
         setError('Interval Server Error');
       } else {
-        setError('Unvalid  username or password');
+        setError('Unvalid username or password');
       }
     }
   };

@@ -39,6 +39,7 @@ const useStylesLogin = makeStyles((theme) => ({
     cursor: 'pointer',
     color: '#000',
   },
+
   logoTimo: {
     width: '50%',
     marginBottom: '13px',

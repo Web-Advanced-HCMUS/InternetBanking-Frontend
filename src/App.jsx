@@ -1,6 +1,6 @@
 import './App.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import LoginForm from 'containers/LoginForm';
 import AuthLayout from 'layouts/AuthLayout';
 import Homepage from 'pages/HomePage';
@@ -22,11 +22,12 @@ import { default as CustomerDebtTransactions } from 'pages/transactions/DebtTran
 import { default as CustomerReceiveTransactions } from 'pages/transactions/ReceiveTransactions';
 import { default as CustomerTransferTransactions } from 'pages/transactions/TransferTransactions';
 
+import AddReceiver from 'pages/ReceiverManagement/add';
+
 //  admin
 import { useMode, ColorModeContext } from './theme';
 import Employees from 'admin/pages/employees';
 import { ProSidebarProvider } from 'react-pro-sidebar';
-import AddEmployees from 'admin/pages/employees/add';
 import BankDetails from 'admin/pages/banks';
 import AddBank from 'admin/pages/banks/add';
 import Invoices from 'admin/pages/invoices';
@@ -42,6 +43,7 @@ import EmployeeLayout from 'employee/layout';
 import Profile from 'employee/pages/profile';
 import ChangePassword from 'employee/pages/password/change';
 import AddCustomer from 'employee/pages/customers/AddCustomers';
+import AddEmployees from 'admin/pages/employees/add';
 import CustomerDeposit from 'employee/pages/customers/CustomerDeposit';
 import CustomerTransactions from 'employee/pages/customers/CustomerTransactions';
 import ReceiveTransactions from 'employee/pages/transactions/ReceiveTransactions';
@@ -51,11 +53,19 @@ import { default as EmployeeDashboard } from 'employee/pages/dashboard';
 import TransferConfirmation from 'pages/TransferConfirmation.jsx';
 import ReceiverManagement from 'pages/ReceiverManagement';
 import Transactions from 'pages/transactions';
-
+import { useGetAccountListQuery, useGetAccountPaymentQuery } from './api/accountApi';
 import ProtectedRoute from 'components/ProtectedRoute';
 import config from 'config/config';
+import { useSelector } from 'react-redux';
+import { useGetRecipientListQuery } from 'api/recipientApi';
 function App() {
   const [theme, colorMode] = useMode();
+  const { userId } = useSelector((state) => state.auth.loggedInUser);
+
+  useGetAccountListQuery(userId);
+  useGetAccountPaymentQuery(userId, { skip: userId ? false : true });
+  useGetRecipientListQuery(userId, { skip: userId ? false : true });
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -157,6 +167,14 @@ function App() {
                       <CustomerLayout>
                         <ReceiverManagement />
                       </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/add/recipient"
+                    element={
+                      <EmployeeLayout>
+                        <AddReceiver />
+                      </EmployeeLayout>
                     }
                   />
                   <Route

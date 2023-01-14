@@ -26,10 +26,10 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(authApi.endpoints.login.matchFulfilled, (state, action) => {
-      const { accessToken, refreshToken, userId, username, role } = action.payload.payload;
+      const { accessToken, refreshToken, _id, username, role } = action.payload.payload;
 
       state.loggedInUser = {
-        userId,
+        userId: _id,
         role,
         username,
       };
@@ -51,4 +51,5 @@ const authSlice = createSlice({
 });
 
 export const { logout, setAccessToken, setRefreshToken } = authSlice.actions;
+export const selectLoggedInUser = (state) => state.auth.loggedInUser;
 export default authSlice.reducer;

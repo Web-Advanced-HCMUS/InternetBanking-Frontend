@@ -1,39 +1,51 @@
 import { tokens } from 'theme.js';
 import { mockDataInvoices } from 'mockData.js';
-import { Box, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { useGetTransactionOfAccountReceiveQuery } from 'api/transactionApi';
+import { useSelector } from 'react-redux';
+import { useGetAccountPaymentQuery } from 'api/accountApi';
 
 const TransferTransactions = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { accountNumber } = useSelector((state) => state.account.payment.payload);
+  // console.log(accountNumber);
+  const {
+    data: transactions,
+    isLoading,
+    refetch,
+  } = useGetTransactionOfAccountReceiveQuery({ accountNumber, type: 'spend' }, { refetchOnMountOrArgChange: true });
+
   const columns = [
-    { field: 'id', headerName: 'ID', flex: 0.5 },
+    { field: '_id', headerName: 'ID', flex: 1 },
     {
-      field: 'name',
-      headerName: 'Name',
+      field: 'fromAccountNumber',
+      headerName: 'From Account Number',
       flex: 1,
       cellClassName: 'name-column--cell',
     },
     {
-      field: 'email',
-      headerName: 'Email',
+      field: 'fromAccountOwnerName',
+      headerName: 'From Account Name',
       headerAlign: 'left',
       align: 'left',
       flex: 1,
     },
     {
-      field: 'cost',
-      headerName: 'Cost',
+      field: 'toAccountNumber',
+      headerName: 'Account Bank Account',
       flex: 1,
     },
     {
-      field: 'phone',
-      headerName: 'Number Phone',
+      field: 'toAccountOwnerName',
+      headerName: 'To Account Name',
       flex: 1,
     },
     {
-      field: 'date',
-      headerName: 'Date',
+      field: 'amount',
+      headerName: 'Amount',
       flex: 1,
     },
   ];
@@ -95,7 +107,12 @@ const TransferTransactions = () => {
         },
       }}
     >
-      <DataGrid rows={mockDataInvoices} columns={columns} components={{ Toolbar: GridToolbar }} />
+      <DataGrid
+        rows={transactions?.payload ? transactions.payload : []}
+        getRowId={(row) => row._id}
+        columns={columns}
+        components={{ Toolbar: GridToolbar }}
+      />
     </Box>
   );
 };
