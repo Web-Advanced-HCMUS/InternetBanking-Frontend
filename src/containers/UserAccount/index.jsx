@@ -110,51 +110,6 @@ function UserAccount() {
           </Button>
         ))}
       </Box> */}
-
-      <Box
-        mt={2}
-        display={'flex'}
-        alignItems="center"
-        justifyContent={'space-between'}
-        width="60%"
-        bgcolor={'#2c3e50'}
-        boxShadow={'3px 3px 15px 3px #000'}
-        p={2}
-      >
-        <Box display={'flex'} flexDirection={'column'} color={colors.grey[100]}>
-          <Box fontWeight={'600'} fontSize="1.5em">
-            Tài khoản chính
-          </Box>
-          <Box color={colors.greenAccent[500]}>
-            Số tài khoản:
-            <Typography ml={0.5} component="span" fontWeight={'600'}>
-              888192938012
-            </Typography>
-          </Box>
-        </Box>
-        <Box display={'flex'} gap={1} alignItems="center" color={colors.red[700]} fontSize="1.75em" fontWeight="bold">
-          <AccountBalanceWalletIcon />
-          3,000,000 VND
-        </Box>
-      </Box>
-
-      <Box p={2} display={'flex'} justifyContent={'space-between'} width="60%" bgcolor={'#2c3e50'} boxShadow={'3px 3px 15px 3px #000'}>
-        <Box display={'flex'} flexDirection={'column'} alignItems="center" color={colors.grey[100]}>
-          <Box fontWeight={'600'} fontSize="1.5em">
-            Tài khoản tiết kiệm
-          </Box>
-          <Box color={colors.greenAccent[500]}>
-            Thời gian đáo hạn:
-            <Typography ml={0.5} component="span" fontWeight={'600'}>
-              25/12/2023
-            </Typography>
-          </Box>
-        </Box>
-        <Box display={'flex'} gap={1} alignItems="center" color={colors.red[700]} fontSize="1.75em" fontWeight="bold">
-          <AccountBalanceWalletIcon />
-          300,000,000 VND
-        </Box>
-      </Box>
     </Box>
   );
 }

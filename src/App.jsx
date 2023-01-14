@@ -105,17 +105,17 @@ function App() {
                   <Route
                     path="/profile"
                     element={
-                      <EmployeeLayout>
+                      <CustomerLayout>
                         <Profile />
-                      </EmployeeLayout>
+                      </CustomerLayout>
                     }
                   />
                   <Route
                     path="/change-password"
                     element={
-                      <EmployeeLayout>
+                      <CustomerLayout>
                         <ChangePassword />
-                      </EmployeeLayout>
+                      </CustomerLayout>
                     }
                   />
                   {/* common */}
@@ -172,9 +172,9 @@ function App() {
                   <Route
                     path="/add/recipient"
                     element={
-                      <EmployeeLayout>
+                      <CustomerLayout>
                         <AddReceiver />
-                      </EmployeeLayout>
+                      </CustomerLayout>
                     }
                   />
                   <Route
