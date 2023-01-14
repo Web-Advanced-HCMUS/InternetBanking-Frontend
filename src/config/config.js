@@ -62,6 +62,8 @@ const config = {
     MY_BANK: 'TIMO_CLONE',
     EXT_BANK: 'SWEN',
   },
+
+  siteKey: process.env.REACT_APP_SITE_KEY,
 };
 
 export default config;

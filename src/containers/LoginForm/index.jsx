@@ -77,7 +77,6 @@ function LoginForm(props) {
 
     try {
       const body = { username, password };
-      setError('');
       await login(body).unwrap();
     } catch (err) {
       setUsername('');
@@ -180,7 +179,7 @@ function LoginForm(props) {
                 </div>
 
                 <div className={classes.captcha}>
-                  <ReCAPTCHA sitekey="6LfJ04QjAAAAAE6C34ISGnVr6y16H5qkjKxDrIqz" onChange={handleReCaptcha} ref={captchaRef} />
+                  <ReCAPTCHA sitekey={config.siteKey.toString()} onChange={handleReCaptcha} ref={captchaRef} />
                 </div>
 
                 <LoadingButton

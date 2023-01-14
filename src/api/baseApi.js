@@ -9,6 +9,8 @@ const RTKQuery = fetchBaseQuery({
     const accessToken = getState().auth.accessToken;
     headers.set('Access-Control-Allow-Headers', '*');
     // headers.set('Access-Control-Allow-Origin', '*');
+
+
     headers.set('Access-Control-Allow-Methods', '*');
     headers.set('Access-Control-Allow-Credentials', 'true');
     if (accessToken) {

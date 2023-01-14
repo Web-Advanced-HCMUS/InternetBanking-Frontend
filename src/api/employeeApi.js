@@ -27,9 +27,10 @@ export const employeeApi = baseApi.injectEndpoints({
     }),
 
     transactionHistory: builder.mutation({
-        query: (type, order) => ({
+        query: ({type, order}) => ({
           url: `emp/single-transfer-history/${type}/${order}`,
           method: 'POST',
+          body: { },
         }),
     }),
   }),

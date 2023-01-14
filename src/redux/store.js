@@ -4,6 +4,8 @@ import forgotReducer from './slices/forgotSlice';
 import accountSlice from './slices/accountSlice';
 import recipientSlice from './slices/recipientSlice';
 import { transactionApi } from 'api/transactionApi';
+import debtReducer from './slices/debtSlice';
+import adminReducer from './slices/adminSlice';
 import { baseApi } from 'api/baseApi';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
@@ -14,6 +16,8 @@ const reducers = combineReducers({
   forgot: forgotReducer,
   account: accountSlice,
   recipient: recipientSlice,
+  debt: debtReducer,
+  admin: adminReducer,
 });
 
 const persistConfig = {

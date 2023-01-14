@@ -1,6 +1,6 @@
 import { tokens } from 'theme';
 import { Box, Grid, IconButton, InputBase, useTheme } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import Header from 'components/Header';
 import { Search } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
@@ -77,7 +77,18 @@ const CustomerTransactions = () => {
   console.log(myDebt);
 
   return (
-    <Box height="60vh">
+    <Box m="20px">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="CUSTOMER TRANSACTIONS" subtitle="Managing transactions of a customer" />
+      </Box>
+      <Box display="flex" alignItems="center" gap="10px">
+        <Box display="flex" bgcolor={colors.primary[400]} borderRadius="3px">
+          <InputBase sx={{ flex: 1, width: '450px', px: 2, py: 1 }} placeholder="Search by Username or Account No" />
+          <IconButton type="button" sx={{ p: 2, '&:hover': { borderRadius: 0 } }}>
+            <Search />
+          </IconButton>
+        </Box>
+      </Box>
       <Box>
         <Grid container spacing={2}>
           <Grid item md={12}>
@@ -138,8 +149,7 @@ const CustomerTransactions = () => {
                 },
               }}
             >
-              <DataGrid rows={myDebt} columns={debtColumns}   components={{ Toolbar: GridToolbar }}
-/>
+              <DataGrid rows={myDebt} columns={debtColumns} />
             </Box>
           </Grid>
         </Grid>

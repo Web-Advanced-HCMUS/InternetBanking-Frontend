@@ -7,6 +7,8 @@ import { Box, Button, Avatar, useTheme, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { tokens } from 'theme';
 import { CurrencyExchangeOutlined } from '@mui/icons-material';
+import { useGetAccountInforMutation } from 'api/debtApi';
+import { useEffect } from 'react';
 
 function UserAccount() {
   const theme = useTheme();
@@ -21,8 +23,16 @@ function UserAccount() {
     { title: 'Internal Transfer', icon: CompareArrowsIcon, url: '/transfer/internal' },
     { title: 'External Transfer', icon: CurrencyExchangeOutlined, url: '/transfer/external' },
     { title: 'Debt Reminder', icon: BackpackIcon, url: '/debt' },
-    { title: 'Debt Payment', icon: AssignmentIcon, url: '/home' },
+    { title: 'Debt List', icon: AssignmentIcon, url: '/debt/list' },
   ];
+
+  const [getAccountInfor] = useGetAccountInforMutation();
+  useEffect(() => {
+    async function getInfor() {
+      await getAccountInfor().unwrap();
+    }
+    getInfor();
+  },[]);
 
   return (
     <Box color={'black'} display="flex" gap={1.25} flexDirection="column" alignItems="center" width="100%">
@@ -39,16 +49,16 @@ function UserAccount() {
         <Box fontSize="1.25rem" fontWeight="400" color={colors.grey[100]}>
           Welcome to banking application,
         </Box>
-        <Box fontSize="1.25rem" fontWeight="bold" color={colors.grey[100]}>
+        {/* <Box fontSize="1.25rem" fontWeight="bold" color={colors.grey[100]}>
           {AccountInfor.username}
         </Box>
-        <Avatar src={AccountInfor.avatarImage} alt="account-avatar" sx={{ width: 64, height: 64 }} />
+        <Avatar src={AccountInfor.avatarImage} alt="account-avatar" sx={{ width: 64, height: 64 }} /> */}
       </Box>
 
       <Box display="flex" width="70%" justifyContent={'center'}>
         <Grid container spacing={6} rowSpacing={3}>
           {ButtonList.map((button) => (
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
               <Button
                 fullWidth
                 sx={{
@@ -109,6 +119,51 @@ function UserAccount() {
             </Typography>
           </Button>
         ))}
+      </Box> */}
+{/* 
+      <Box
+        mt={2}
+        display={'flex'}
+        alignItems="center"
+        justifyContent={'space-between'}
+        width="60%"
+        bgcolor={'#2c3e50'}
+        boxShadow={'3px 3px 15px 3px #000'}
+        p={2}
+      >
+        <Box display={'flex'} flexDirection={'column'} color={colors.grey[100]}>
+          <Box fontWeight={'600'} fontSize="1.5em">
+            Tài khoản chính
+          </Box>
+          <Box color={colors.greenAccent[500]}>
+            Số tài khoản:
+            <Typography ml={0.5} component="span" fontWeight={'600'}>
+              888192938012
+            </Typography>
+          </Box>
+        </Box>
+        <Box display={'flex'} gap={1} alignItems="center" color={colors.red[700]} fontSize="1.75em" fontWeight="bold">
+          <AccountBalanceWalletIcon />
+          3,000,000 VND
+        </Box>
+      </Box>
+
+      <Box p={2} display={'flex'} justifyContent={'space-between'} width="60%" bgcolor={'#2c3e50'} boxShadow={'3px 3px 15px 3px #000'}>
+        <Box display={'flex'} flexDirection={'column'} alignItems="center" color={colors.grey[100]}>
+          <Box fontWeight={'600'} fontSize="1.5em">
+            Tài khoản tiết kiệm
+          </Box>
+          <Box color={colors.greenAccent[500]}>
+            Thời gian đáo hạn:
+            <Typography ml={0.5} component="span" fontWeight={'600'}>
+              25/12/2023
+            </Typography>
+          </Box>
+        </Box>
+        <Box display={'flex'} gap={1} alignItems="center" color={colors.red[700]} fontSize="1.75em" fontWeight="bold">
+          <AccountBalanceWalletIcon />
+          300,000,000 VND
+        </Box>
       </Box> */}
     </Box>
   );

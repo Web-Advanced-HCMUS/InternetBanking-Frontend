@@ -2,6 +2,7 @@ import { Snackbar, Alert, Portal } from '@mui/material';
 import { useState } from 'react';
 
 function Toastify({ message, hidden, severity }) {
+
   const [open, setOpen] = useState(!hidden);
 
   const handleClose = (event, reason) => {
@@ -11,6 +12,7 @@ function Toastify({ message, hidden, severity }) {
 
     setOpen(false);
   };
+
 
   return (
     <Portal>
