@@ -20,8 +20,8 @@ const CustomerTransactions = () => {
   useEffect( ()=>{
     async function getTransactionData() {
      const [ getTrans, getDebt] = await Promise.all([
-      transactionHistory("SEND", "desc"),
-      transactionHistory("DEBT", "desc")
+      transactionHistory({type: "SEND", order: "desc"}),
+      transactionHistory({type: "DEBT", order: "desc"})
      ]);
 
      const list = getTrans.data.payload.map((item,index) => {return {...item, id: index }});
@@ -111,7 +111,7 @@ const CustomerTransactions = () => {
       </Box>
       <Box>
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid item md={12}>
             <Box
               m="1.5rem 0"
               height="60vh"
@@ -172,7 +172,7 @@ const CustomerTransactions = () => {
               <DataGrid rows={transactionsList} columns={columns} />
             </Box>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={12}>
             <Box
               m="1.5rem 0"
               height="60vh"

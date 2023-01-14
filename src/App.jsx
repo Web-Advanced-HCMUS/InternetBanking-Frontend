@@ -13,6 +13,8 @@ import TransferPage from 'pages/TransferPage';
 import CardManagement from 'pages/CardManagement';
 import ProfilePage from 'pages/ProfilePage';
 import DebtPage from 'pages/DebtPage';
+import DebtList from 'pages/DebtListPage';
+
 import EmployeeMainPage from 'pages/EmployeePage/EmployeeMainPage';
 import CreateUser from 'pages/EmployeePage/CreateUser';
 import TopUp from 'pages/EmployeePage/TopUp';
@@ -53,9 +55,21 @@ import { default as EmployeeDashboard } from 'employee/pages/dashboard';
 import TransferConfirmation from 'pages/TransferConfirmation.jsx';
 import ReceiverManagement from 'pages/ReceiverManagement';
 import Transactions from 'pages/transactions';
+<<<<<<< HEAD
 import { useGetAccountListQuery, useGetAccountPaymentQuery } from './api/accountApi';
+=======
+
+import DebtNotification from 'components/DebtNotification';
+>>>>>>> 41aad63f898db1da6e546fccb6dc20fe38dc5046
 import ProtectedRoute from 'components/ProtectedRoute';
+import { io } from "socket.io-client";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+
+
 import config from 'config/config';
+<<<<<<< HEAD
 import { useSelector } from 'react-redux';
 import { useGetRecipientListQuery } from 'api/recipientApi';
 function App() {
@@ -65,6 +79,23 @@ function App() {
   useGetAccountListQuery(userId);
   useGetAccountPaymentQuery(userId, { skip: userId ? false : true });
   useGetRecipientListQuery(userId, { skip: userId ? false : true });
+=======
+import { Handshake } from '@mui/icons-material';
+function App() {
+  const [theme, colorMode] = useMode();
+  const [socket, setSocket] = useState(null);
+  const { userId } = useSelector((state) => state.auth.loggedInUser);
+  const { accountNumber } = useSelector((state) => state.debt);
+  useEffect(() => {
+    setSocket(io(config.path.REACT_APP_SERVER_PATH));
+  }, []);
+
+  useEffect(() => {
+    socket?.emit('online', { accountNumber: accountNumber, userId: userId });
+    //console.log(accountNumber)
+  }, [accountNumber]);
+
+>>>>>>> 41aad63f898db1da6e546fccb6dc20fe38dc5046
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -72,6 +103,8 @@ function App() {
         <CssBaseline />
         <ProSidebarProvider>
           <div className="App">
+          {/* <DebtNotification message="hello" hidden={false} severity="info"></DebtNotification> */}
+          <DebtNotification socket={socket}/>
             <Routes>
               <Route
                 exact
@@ -182,6 +215,14 @@ function App() {
                     element={
                       <CustomerLayout>
                         <DebtPage />
+                      </CustomerLayout>
+                    }
+                  />
+                  <Route
+                    path="/debt/list"
+                    element={
+                      <CustomerLayout>
+                        <DebtList />
                       </CustomerLayout>
                     }
                   />

@@ -7,6 +7,8 @@ import { Box, Button, Avatar, useTheme, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { tokens } from 'theme';
 import { CurrencyExchangeOutlined } from '@mui/icons-material';
+import { useGetAccountInforMutation } from 'api/debtApi';
+import { useEffect } from 'react';
 
 function UserAccount() {
   const theme = useTheme();
@@ -21,8 +23,16 @@ function UserAccount() {
     { title: 'Internal Transfer', icon: CompareArrowsIcon, url: '/transfer/internal' },
     { title: 'External Transfer', icon: CurrencyExchangeOutlined, url: '/transfer/external' },
     { title: 'Debt Reminder', icon: BackpackIcon, url: '/debt' },
-    { title: 'Debt Payment', icon: AssignmentIcon, url: '/home' },
+    { title: 'Debt List', icon: AssignmentIcon, url: '/debt/list' },
   ];
+
+  const [getAccountInfor] = useGetAccountInforMutation();
+  useEffect(() => {
+    async function getInfor() {
+      await getAccountInfor().unwrap();
+    }
+    getInfor();
+  },[]);
 
   return (
     <Box color={'black'} display="flex" gap={1.25} flexDirection="column" alignItems="center" width="100%">
