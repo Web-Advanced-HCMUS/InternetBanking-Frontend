@@ -5,6 +5,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useGetTransactionOfAccountReceiveQuery } from 'api/transactionApi';
 import { useSelector } from 'react-redux';
 import { useGetAccountPaymentQuery } from 'api/accountApi';
+import Loading from 'containers/Loading';
 
 const TransferTransactions = () => {
   const theme = useTheme();
@@ -15,6 +16,7 @@ const TransferTransactions = () => {
   const {
     data: transactions,
     isLoading,
+    isSuccess,
     refetch,
   } = useGetTransactionOfAccountReceiveQuery({ accountNumber, type: 'spend' }, { refetchOnMountOrArgChange: true });
 
@@ -46,6 +48,11 @@ const TransferTransactions = () => {
     {
       field: 'amount',
       headerName: 'Amount',
+      flex: 1,
+    },
+    {
+      field: 'time',
+      headerName: 'At Time',
       flex: 1,
     },
   ];
@@ -107,12 +114,15 @@ const TransferTransactions = () => {
         },
       }}
     >
-      <DataGrid
-        rows={transactions?.payload ? transactions.payload : []}
-        getRowId={(row) => row._id}
-        columns={columns}
-        components={{ Toolbar: GridToolbar }}
-      />
+      <Loading open={isLoading} />
+      {isSuccess && (
+        <DataGrid
+          rows={transactions?.payload ? transactions.payload : []}
+          getRowId={(row) => row._id}
+          columns={columns}
+          components={{ Toolbar: GridToolbar }}
+        />
+      )}
     </Box>
   );
 };

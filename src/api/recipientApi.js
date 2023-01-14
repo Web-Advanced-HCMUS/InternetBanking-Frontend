@@ -32,7 +32,7 @@ export const recipientApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      providesTags: ['Recipient'],
+      invalidatesTags: ['Recipient'],
     }),
     updateRecipient: builder.mutation({
       query: ({ id, body }) => ({
@@ -40,14 +40,14 @@ export const recipientApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: body,
       }),
-      providesTags: ['Recipient'],
+      invalidatesTags: ['Recipient'],
     }),
     deleteRecipient: builder.mutation({
       query: (id) => ({
         url: `api/beneficiary/delete-one/${id}`,
         method: 'DELETE',
       }),
-      providesTags: ['Recipient'],
+      invalidatesTags: ['Recipient'],
     }),
   }),
 });

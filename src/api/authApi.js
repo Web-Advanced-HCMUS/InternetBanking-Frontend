@@ -25,7 +25,14 @@ export const authApi = baseApi.injectEndpoints({
         providesTags: ['AUTH'],
       }),
     }),
+
+    getUserInfo: builder.query({
+      query: () => ({
+        url: 'user/get-user-info-by-token',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useRefreshMutation, useLogoutMutation } = authApi;
+export const { useLoginMutation, useRefreshMutation, useLogoutMutation, useGetUserInfoQuery } = authApi;
